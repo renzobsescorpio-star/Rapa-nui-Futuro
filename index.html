@@ -2,1046 +2,2494 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>🗿 Rapa Nui Futuro</title>
+<meta charset="UTF-8">
 
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-    <!-- Three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<title>🗿 Rapa Nui Futuro</title>
 
-    <style>
+<!-- =====================================================
+     LIBRERÍAS
+===================================================== -->
 
-        * {
-            box-sizing: border-box;
-        }
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-        body {
-            margin: 0;
-            display: flex;
-            font-family: Arial, sans-serif;
-            background: #eef5ff;
-            color: #172033;
-        }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-        /* SIDEBAR */
 
-        #sidebar {
-            width: 280px;
-            min-height: 100vh;
-            background: #0f172a;
-            color: white;
-            padding: 20px;
-        }
+<style>
 
-        #sidebar h1 {
-            text-align: center;
-            margin-bottom: 25px;
-        }
+/* =====================================================
+   GENERAL
+===================================================== */
 
-        #sidebar button {
-            width: 100%;
-            padding: 13px;
-            margin-top: 10px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 15px;
-            background: #e2e8f0;
-            color: #0f172a;
-        }
+body {
 
-        #sidebar button:hover {
-            background: #bfdbfe;
-        }
+    margin: 0;
 
-        /* CONTENIDO */
+    display: flex;
 
-        #contenido {
-            flex: 1;
-            padding: 30px;
-            min-width: 0;
-        }
+    font-family: Arial, sans-serif;
 
-        /* PANELES */
+    background: #eef5ff;
 
-        .panel {
-            display: none;
-        }
+    color: #172033;
 
-        /* CARDS */
+}
 
-        .card {
-            background: white;
-            padding: 25px;
-            margin-bottom: 25px;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,.12);
-        }
 
-        .card h1 {
-            margin-top: 0;
-        }
+/* =====================================================
+   SIDEBAR
+===================================================== */
 
-        /* INTRO */
+#sidebar {
 
-        .intro {
-            display: flex;
-            gap: 30px;
-            align-items: center;
-        }
+    width: 280px;
 
-        /* BOTONES */
+    min-height: 100vh;
 
-        .simBtn {
-            background: #1565c0;
-            color: white;
-            border: none;
-            padding: 12px 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 10px;
-            font-size: 15px;
-        }
+    background: #0f172a;
 
-        .simBtn:hover {
-            opacity: .9;
-        }
+    color: white;
 
-        /* CONDICIONES */
+    padding: 20px;
 
-        .condiciones {
-            display: flex;
-            gap: 20px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
+    box-sizing: border-box;
 
-        .dato {
-            flex: 1;
-            min-width: 200px;
-            background: #eef6ff;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-        }
+}
 
-        .dato h3 {
-            margin-top: 0;
-        }
+#sidebar h1 {
 
-        .dato p {
-            font-size: 18px;
-            font-weight: bold;
-        }
+    text-align: center;
 
-        /* SELECT */
+}
 
-        #variableSelect,
-        #escenarioMar {
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 10px;
-            border: 1px solid #ccc;
-            font-size: 15px;
-        }
+#sidebar button {
 
-        /* GRAFICO */
+    width: 100%;
 
-        #grafico {
-            margin-top: 20px;
-            width: 100% !important;
-            max-width: 100%;
-        }
+    padding: 12px;
 
-        /* FACTORES */
+    margin-top: 10px;
 
-        .factoresBox {
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
+    border: none;
 
-        /* SIMULADOR */
+    border-radius: 10px;
 
-        #simuladorPage {
-            position: relative;
-            min-height: 800px;
-        }
+    cursor: pointer;
 
-        #escena3D {
-            height: 500px;
-            background: #dbeafe;
-            border-radius: 15px;
-            margin-top: 20px;
-            overflow: hidden;
-            position: relative;
-        }
+    font-size: 15px;
 
-        #escena3D canvas {
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
+}
 
-        #simuladorSlider {
-            width: 100%;
-            margin-top: 20px;
-        }
+#sidebar button:hover {
 
-        .datoSimulador {
-            margin-top: 15px;
-            padding: 15px;
-            background: #eef6ff;
-            border-radius: 12px;
-        }
+    opacity: .85;
 
-        /* IMPACTO */
+}
 
-        #impactoSlider {
-            width: 100%;
-            margin-top: 20px;
-        }
 
-        .impactoIndicador {
-            margin-top: 20px;
-            padding: 20px;
-            background: #eef6ff;
-            border-radius: 12px;
-            text-align: center;
-        }
+/* =====================================================
+   CONTENIDO
+===================================================== */
 
-        #impactoNivel {
-            margin-top: 0;
-        }
+#contenido {
 
-        /* LISTAS */
+    flex: 1;
 
-        ul {
-            line-height: 1.8;
-        }
+    padding: 30px;
 
-        /* FUENTES */
+    box-sizing: border-box;
 
-        .fuente {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f1f5f9;
-            border-radius: 12px;
-            font-size: 14px;
-        }
+}
 
-        /* MOVIL */
 
-        @media (max-width: 768px) {
+/* =====================================================
+   PANELES
+===================================================== */
 
-            body {
-                flex-direction: column;
-            }
+.panel {
 
-            #sidebar {
-                width: 100%;
-                min-height: auto;
-                padding: 15px;
-                text-align: center;
-            }
+    display: none;
 
-            #contenido {
-                padding: 15px;
-            }
+}
 
-            .intro {
-                flex-direction: column;
-                gap: 15px;
-            }
 
-            .condiciones {
-                flex-direction: column;
-            }
+/* =====================================================
+   CARDS
+===================================================== */
 
-            .dato {
-                min-width: 100%;
-            }
+.card {
 
-            #escena3D {
-                height: 350px;
-            }
+    background: white;
 
-            .card {
-                padding: 18px;
-            }
+    padding: 25px;
 
-            #sidebar button {
-                font-size: 14px;
-            }
-        }
+    margin-bottom: 25px;
 
-    </style>
+    border-radius: 15px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,.15);
+
+}
+
+
+/* =====================================================
+   CONDICIONES
+===================================================== */
+
+.condiciones {
+
+    display: flex;
+
+    gap: 20px;
+
+    margin-top: 20px;
+
+    flex-wrap: wrap;
+
+}
+
+.dato {
+
+    flex: 1;
+
+    min-width: 200px;
+
+    background: #eef6ff;
+
+    padding: 15px;
+
+    border-radius: 12px;
+
+    text-align: center;
+
+    box-sizing: border-box;
+
+}
+
+
+/* =====================================================
+   BOTONES
+===================================================== */
+
+.simBtn {
+
+    background: #1565c0;
+
+    color: white;
+
+    border: none;
+
+    padding: 12px 18px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    margin-top: 10px;
+
+}
+
+.simBtn:hover {
+
+    opacity: .9;
+
+}
+
+
+/* =====================================================
+   SELECTORES
+===================================================== */
+
+select {
+
+    width: 100%;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    border: 1px solid #ccc;
+
+    margin-top: 10px;
+
+}
+
+
+/* =====================================================
+   GRÁFICO
+===================================================== */
+
+.graficoContenedor {
+
+    position: relative;
+
+    width: 100%;
+
+    min-height: 400px;
+
+}
+
+
+/* =====================================================
+   SIMULADOR
+===================================================== */
+
+#simuladorPage {
+
+    min-height: 800px;
+
+}
+
+#escena3D {
+
+    height: 500px;
+
+    background: #87ceeb;
+
+    border-radius: 15px;
+
+    margin-top: 20px;
+
+    overflow: hidden;
+
+}
+
+#escena3D canvas {
+
+    display: block;
+
+}
+
+
+/* =====================================================
+   SLIDERS
+===================================================== */
+
+#yearSlider,
+#simuladorSlider,
+#impactoSlider {
+
+    width: 100%;
+
+    margin-top: 20px;
+
+}
+
+
+/* =====================================================
+   INDICADORES
+===================================================== */
+
+.indicador {
+
+    margin-top: 20px;
+
+    padding: 20px;
+
+    background: #eef6ff;
+
+    border-radius: 12px;
+
+    text-align: center;
+
+}
+
+.valorGrande {
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+    margin: 10px;
+
+}
+
+
+/* =====================================================
+   FUENTES
+===================================================== */
+
+.fuente {
+
+    margin-top: 20px;
+
+    padding: 15px;
+
+    background: #f1f5f9;
+
+    border-radius: 12px;
+
+    font-size: 14px;
+
+}
+
+
+/* =====================================================
+   MOVIL
+===================================================== */
+
+@media(max-width:768px) {
+
+    body {
+
+        flex-direction: column;
+
+    }
+
+    #sidebar {
+
+        width: 100%;
+
+        min-height: auto;
+
+    }
+
+    #contenido {
+
+        padding: 15px;
+
+    }
+
+    .condiciones {
+
+        flex-direction: column;
+
+    }
+
+    .dato {
+
+        min-width: 100%;
+
+    }
+
+    #escena3D {
+
+        height: 350px;
+
+    }
+
+    .card {
+
+        padding: 18px;
+
+    }
+
+}
+
+</style>
 
 </head>
 
+
 <body>
 
-    <!-- SIDEBAR -->
 
-    <aside id="sidebar">
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
 
-        <h1>🗿 Rapa Nui Futuro</h1>
+<aside id="sidebar">
 
-        <button onclick="mostrar('mar')">
-            🌊 Océano y cambio climático
-        </button>
+<h1>🗿 Rapa Nui Futuro</h1>
 
-        <button onclick="mostrar('biodiversidad')">
-            🐠 Biodiversidad
-        </button>
+<button onclick="mostrar('mar')">
+🌊 Océano y cambio climático
+</button>
 
-        <button onclick="mostrar('impacto')">
-            🌍 Impacto en la Comunidad
-        </button>
+<button onclick="mostrar('biodiversidad')">
+🐠 Biodiversidad
+</button>
 
-    </aside>
+<button onclick="mostrar('impacto')">
+🌍 Impacto en la Comunidad
+</button>
 
+</aside>
 
-    <!-- CONTENIDO -->
 
-    <main id="contenido">
+<!-- =====================================================
+     CONTENIDO
+===================================================== -->
 
-        <!-- ================================================= -->
-        <!-- MAR -->
-        <!-- ================================================= -->
+<main id="contenido">
 
-        <div id="mar" class="panel">
 
-            <div class="card">
+<!-- =====================================================
+     OCÉANO
+===================================================== -->
 
-                <h1>🌊 Océano y cambio climático</h1>
+<div id="mar" class="panel">
 
-                <div class="intro">
 
-                    <div>
+<div class="card">
 
-                        <p>
-                            Los océanos desempeñan un papel fundamental
-                            en la regulación del clima terrestre.
-                            Actualmente, el cambio climático está
-                            provocando modificaciones en la temperatura
-                            del océano, los patrones de viento, el oleaje
-                            y el nivel del mar.
-                        </p>
+<h1>🌊 Océano y cambio climático</h1>
 
-                        <p>
-                            Debido a su condición insular y su ubicación
-                            en medio del océano Pacífico, Rapa Nui
-                            presenta una especial vulnerabilidad frente
-                            a estos fenómenos.
-                        </p>
+<p>
 
-                        <p>
-                            Comprender cómo evoluciona el océano y cómo
-                            podría cambiar en el futuro es fundamental
-                            para anticipar riesgos, proteger los
-                            ecosistemas y fortalecer la resiliencia
-                            de la isla.
-                        </p>
+Rapa Nui es una isla oceánica ubicada en el
+Pacífico Sur. El océano regula gran parte de
+las condiciones climáticas de la isla y puede
+verse afectado por el calentamiento global.
 
-                    </div>
+</p>
 
-                </div>
+<p>
 
-            </div>
+En esta sección se muestran datos ambientales
+actuales y proyecciones climáticas para
+comprender posibles cambios durante este siglo.
 
+</p>
 
-            <!-- CONDICIONES ACTUALES -->
+</div>
 
-            <div class="card">
 
-                <h2>🌡️ Condiciones actuales</h2>
+<!-- =====================================================
+     CONDICIONES ACTUALES
+===================================================== -->
 
-                <p>
-                    Estos datos se obtienen automáticamente desde
-                    servicios meteorológicos y oceanográficos.
-                </p>
+<div class="card">
 
-                <div class="condiciones">
+<h2>🌡️ Condiciones actuales</h2>
 
-                    <div class="dato">
+<p>
 
-                        <h3>🌡️ Temperatura del océano</h3>
+Datos consultados directamente desde servicios
+meteorológicos y oceanográficos.
 
-                        <p id="tempMar">
-                            Cargando...
-                        </p>
+</p>
 
-                    </div>
 
-                    <div class="dato">
+<div class="condiciones">
 
-                        <h3>🌊 Oleaje</h3>
 
-                        <p id="oleaje">
-                            Cargando...
-                        </p>
+<div class="dato">
 
-                    </div>
+<h3>🌡️ Temperatura del océano</h3>
 
-                    <div class="dato">
+<p id="tempMar">
 
-                        <h3>💨 Viento</h3>
+Cargando...
 
-                        <p id="viento">
-                            Cargando...
-                        </p>
+</p>
 
-                    </div>
+</div>
 
-                    <div class="dato">
 
-                        <h3>🧂 Salinidad</h3>
+<div class="dato">
 
-                        <p id="salinidad">
-                            Cargando...
-                        </p>
+<h3>🌊 Oleaje</h3>
 
-                    </div>
+<p id="oleaje">
 
-                </div>
+Cargando...
 
-            </div>
+</p>
 
+</div>
 
-            <!-- ESTADISTICAS -->
 
-            <div class="card">
+<div class="dato">
 
-                <h2>📊 Estadísticas interactivas</h2>
+<h3>💨 Viento</h3>
 
-                <p>
-                    Explora la evolución de diferentes variables
-                    ambientales desde 2000 hasta 2100.
-                </p>
+<p id="viento">
 
-                <label>
-                    Selecciona una variable:
-                </label>
+Cargando...
 
-                <select id="variableSelect">
+</p>
 
-                    <option value="mar">
-                        Nivel del mar
-                    </option>
+</div>
 
-                    <option value="temperatura">
-                        Temperatura del océano
-                    </option>
 
-                    <option value="co2">
-                        CO₂ atmosférico
-                    </option>
+<div class="dato">
 
-                    <option value="contaminacion">
-                        Contaminación marina
-                    </option>
+<h3>🧂 Salinidad</h3>
 
-                </select>
+<p id="salinidad">
 
-                <br><br>
+No disponible
 
-                <label>
-                    Selecciona un año:
-                </label>
+</p>
 
-                <input
-                    type="range"
-                    id="yearSlider"
-                    min="2000"
-                    max="2100"
-                    step="5"
-                    value="2000"
-                >
+</div>
 
-                <h3 id="selectedYear">
-                    Año: 2000
-                </h3>
 
-                <canvas id="grafico"></canvas>
+</div>
 
-            </div>
+</div>
 
 
-            <!-- NIVEL DEL MAR -->
+<!-- =====================================================
+     ESTADÍSTICAS
+===================================================== -->
 
-            <div class="card">
+<div class="card">
 
-                <h2>🌊 Nivel del mar</h2>
+<h2>📊 Estadísticas Interactivas</h2>
 
-                <h3>
-                    Proyecciones climáticas
-                </h3>
+<p>
 
-                <p>
-                    El siguiente simulador permite explorar
-                    diferentes escenarios de aumento del nivel
-                    del mar para Rapa Nui.
-                </p>
+Selecciona una variable para explorar
+datos observados y proyecciones.
 
-                <button
-                    id="abrirSimulador"
-                    class="simBtn"
-                >
-                    🌊 Abrir simulador 3D
-                </button>
+</p>
 
-            </div>
 
+<label>
 
-            <!-- SIMULADOR -->
+Variable
 
-            <div
-                id="simuladorPage"
-                class="card"
-                style="display:none;"
-            >
+</label>
 
-                <h2>
-                    🌊 Simulador 3D del nivel del mar
-                </h2>
 
-                <div class="factoresBox">
+<select id="variableSelect">
 
-                    <h3>
-                        🌍 Factores que afectan el nivel del mar
-                    </h3>
+<option value="mar">
 
-                    <ul>
+🌊 Nivel del mar — proyección IPCC
 
-                        <li>
-                            Expansión térmica del océano.
-                        </li>
+</option>
 
-                        <li>
-                            Derretimiento de glaciares.
-                        </li>
+<option value="temperatura">
 
-                        <li>
-                            Pérdida de hielo de Groenlandia.
-                        </li>
+🌡️ Temperatura del océano — datos/referencia
 
-                        <li>
-                            Pérdida de hielo antártico.
-                        </li>
+</option>
 
-                        <li>
-                            Cambios en las corrientes oceánicas.
-                        </li>
+<option value="co2">
 
-                    </ul>
+🌍 CO₂ atmosférico — NOAA
 
-                </div>
+</option>
 
+</select>
 
-                <h3>
-                    🌍 Escenario climático
-                </h3>
 
-                <select id="escenarioMar">
+<br><br>
 
-                    <option value="SSP2-4.5">
-                        SSP2-4.5 — Emisiones intermedias
-                    </option>
 
-                    <option value="SSP5-8.5">
-                        SSP5-8.5 — Emisiones muy altas
-                    </option>
+<label>
 
-                </select>
+Año
 
+</label>
 
-                <div id="escena3D"></div>
 
+<input
 
-                <h3 id="simuladorAnio">
-                    Año: 2000
-                </h3>
+type="range"
 
+id="yearSlider"
 
-                <input
-                    type="range"
-                    id="simuladorSlider"
-                    min="2000"
-                    max="2100"
-                    step="5"
-                    value="2000"
-                >
+min="2000"
 
+max="2100"
 
-                <div class="datoSimulador">
+step="1"
 
-                    <h2 id="simuladorNivel">
-                        Aumento estimado: 0.0 cm
-                    </h2>
+value="2025"
 
-                    <h3 id="riesgoCosta">
-                        🟢 Riesgo costero: Bajo
-                    </h3>
+>
 
-                    <p id="textoEscenario">
-                        Escenario: SSP2-4.5 — emisiones intermedias
-                    </p>
 
-                </div>
+<h3 id="selectedYear">
 
+Año: 2025
 
-                <button
-                    id="cerrarSimulador"
-                    class="simBtn"
-                >
-                    Cerrar simulador 3D
-                </button>
+</h3>
 
 
-                <div class="fuente">
+<div class="graficoContenedor">
 
-                    <strong>
-                        📚 Fuente de los datos
-                    </strong>
+<canvas id="grafico"></canvas>
 
-                    <p>
-                        Las proyecciones del simulador representan
-                        escenarios de cambio del nivel del mar
-                        asociados a diferentes trayectorias de
-                        emisiones utilizadas en el IPCC AR6.
-                    </p>
+</div>
 
-                    <p>
-                        Los valores mostrados para Rapa Nui son
-                        una representación aproximada para
-                        visualizar la evolución proyectada.
-                    </p>
 
-                    <p>
-                        ⚠️ No deben interpretarse como una medición
-                        exacta del nivel del mar futuro.
-                    </p>
+<div
+id="valorSeleccionado"
+class="indicador"
+>
 
-                    <p>
-                        Referencias principales:
-                        IPCC AR6 y NASA Sea Level Change.
-                    </p>
+Cargando datos...
 
-                </div>
+</div>
 
-            </div>
 
+<div class="fuente">
 
-            <!-- FUENTES -->
+<strong>📚 Interpretación de los datos</strong>
 
-            <div class="card">
+<p id="descripcionDatos">
 
-                <h2>📚 Fuentes científicas</h2>
+Selecciona una variable para consultar
+su información.
 
-                <ul>
+</p>
 
-                    <li>
-                        Open-Meteo Marine API →
-                        temperatura superficial del mar
-                        y altura de oleaje.
-                    </li>
+</div>
 
-                    <li>
-                        Open-Meteo Weather API →
-                        velocidad del viento.
-                    </li>
 
-                    <li>
-                        IPCC AR6 →
-                        escenarios de cambio climático
-                        y aumento del nivel del mar.
-                    </li>
+</div>
 
-                    <li>
-                        NASA →
-                        observaciones y proyecciones
-                        del nivel del mar.
-                    </li>
 
-                    <li>
-                        NOAA →
-                        información oceanográfica
-                        y climática.
-                    </li>
+<!-- =====================================================
+     SIMULADOR
+===================================================== -->
 
-                    <li>
-                        Centro IDEAL →
-                        investigación oceánica y climática
-                        en Chile.
-                    </li>
+<div class="card">
 
-                    <li>
-                        Ministerio del Medio Ambiente →
-                        información climática nacional.
-                    </li>
+<h2>🌊 Nivel del mar</h2>
 
-                </ul>
+<p>
 
-            </div>
+Explora visualmente cómo cambiaría el nivel
+del mar bajo diferentes escenarios climáticos.
 
-        </div>
+</p>
 
 
-        <!-- ================================================= -->
-        <!-- BIODIVERSIDAD -->
-        <!-- ================================================= -->
+<button
+id="abrirSimulador"
+class="simBtn"
+>
 
-        <div id="biodiversidad" class="panel">
+Abrir Simulador 3D
 
-            <div class="card">
+</button>
 
-                <h1>🐠 Biodiversidad de Rapa Nui</h1>
+</div>
 
-                <p>
-                    Rapa Nui posee ecosistemas terrestres y marinos
-                    únicos, adaptados a las condiciones particulares
-                    de una isla oceánica.
-                </p>
 
-                <p>
-                    El cambio climático puede modificar las condiciones
-                    de estos ecosistemas, afectando especies marinas,
-                    terrestres y las relaciones ecológicas.
-                </p>
+<div
+id="simuladorPage"
+class="card"
+style="display:none;"
+>
 
-            </div>
 
+<h2>
 
-            <div class="card">
+🌊 Simulador 3D del Nivel del Mar
 
-                <h2>🌊 Ecosistemas marinos</h2>
+</h2>
 
-                <div class="condiciones">
 
-                    <div class="dato">
+<h3>
 
-                        <h3>🐟 Especies marinas</h3>
+🌍 Escenario climático
 
-                        <p>
-                            Los cambios en la temperatura del océano
-                            pueden modificar la distribución y
-                            disponibilidad de determinadas especies.
-                        </p>
+</h3>
 
-                    </div>
 
-                    <div class="dato">
+<select id="escenarioMar">
 
-                        <h3>🪸 Arrecifes</h3>
+<option value="SSP2-4.5">
 
-                        <p>
-                            El aumento de la temperatura del mar
-                            puede generar estrés en los ecosistemas
-                            coralinos.
-                        </p>
+SSP2-4.5 — emisiones intermedias
 
-                    </div>
+</option>
 
-                    <div class="dato">
+<option value="SSP5-8.5">
 
-                        <h3>🌊 Hábitats costeros</h3>
+SSP5-8.5 — emisiones muy altas
 
-                        <p>
-                            La erosión y el aumento del nivel del mar
-                            pueden modificar ambientes costeros.
-                        </p>
+</option>
 
-                    </div>
+</select>
 
-                </div>
 
-            </div>
+<div id="escena3D"></div>
 
 
-            <div class="card">
+<h3 id="simuladorAnio">
 
-                <h2>🌱 Ecosistemas terrestres</h2>
+Año: 2025
 
-                <p>
-                    La disponibilidad de agua, las temperaturas y
-                    los cambios ambientales pueden influir en la
-                    vegetación y fauna de la isla.
-                </p>
+</h3>
 
-            </div>
 
+<input
 
-            <div class="card">
+type="range"
 
-                <h2>⚠️ Amenazas</h2>
+id="simuladorSlider"
 
-                <ul>
+min="2020"
 
-                    <li>
-                        Aumento de la temperatura del océano.
-                    </li>
+max="2100"
 
-                    <li>
-                        Contaminación marina.
-                    </li>
+step="1"
 
-                    <li>
-                        Alteración de hábitats.
-                    </li>
+value="2025"
 
-                    <li>
-                        Especies invasoras.
-                    </li>
+>
 
-                    <li>
-                        Cambios en las condiciones climáticas.
-                    </li>
 
-                </ul>
+<h2 id="simuladorNivel">
 
-            </div>
+Aumento estimado: 0.0 cm
 
-        </div>
+</h2>
 
 
-        <!-- ================================================= -->
-        <!-- IMPACTO -->
-        <!-- ================================================= -->
+<h3 id="riesgoCosta">
 
-        <div id="impacto" class="panel">
+🟢 Riesgo costero: Bajo
 
-            <div class="card">
+</h3>
 
-                <h1>🌍 Impacto en la Comunidad</h1>
 
-                <p>
-                    El cambio climático no solo afecta al océano y
-                    a los ecosistemas, sino también a las personas
-                    que viven en Rapa Nui.
-                </p>
+<div class="fuente">
 
-                <p>
-                    El aumento del nivel del mar, los cambios en
-                    las condiciones climáticas, la disponibilidad
-                    de agua y los eventos extremos pueden generar
-                    consecuencias sociales y económicas.
-                </p>
+<strong>📚 Fuente científica</strong>
 
-            </div>
+<p>
 
+Las proyecciones de nivel del mar se basan
+en los escenarios del IPCC AR6 distribuidos
+por la herramienta de proyecciones de nivel
+del mar de NASA.
 
-            <div class="card">
+</p>
 
-                <h2>🏝️ Áreas afectadas</h2>
+<p>
 
-                <div class="condiciones">
+Los valores son una representación educativa
+de las proyecciones y no una predicción exacta
+del nivel del mar en una propiedad determinada.
 
-                    <div class="dato">
+</p>
 
-                        <h3>🏠 Infraestructura</h3>
+</div>
 
-                        <p>
-                            El aumento del nivel del mar y la erosión
-                            costera pueden afectar caminos, viviendas
-                            y construcciones cercanas a la costa.
-                        </p>
 
-                    </div>
+<button
+id="cerrarSimulador"
+class="simBtn"
+>
 
-                    <div class="dato">
+Cerrar simulador 3D
 
-                        <h3>💧 Agua</h3>
+</button>
 
-                        <p>
-                            Los cambios en las precipitaciones y
-                            períodos de sequía pueden aumentar
-                            la presión sobre los recursos de agua.
-                        </p>
 
-                    </div>
+</div>
 
-                    <div class="dato">
 
-                        <h3>🌾 Alimentación</h3>
+<!-- =====================================================
+     FUENTES
+===================================================== -->
 
-                        <p>
-                            Las modificaciones del clima pueden
-                            afectar agricultura, pesca y recursos
-                            alimentarios.
-                        </p>
+<div class="card">
 
-                    </div>
+<h2>📚 Fuentes científicas</h2>
 
-                    <div class="dato">
+<ul>
 
-                        <h3>💰 Turismo</h3>
+<li>
 
-                        <p>
-                            Los cambios ambientales pueden afectar
-                            actividades turísticas relacionadas con
-                            playas, paisajes y patrimonio natural.
-                        </p>
+NASA Sea Level Change Portal /
+IPCC AR6
 
-                    </div>
+</li>
 
-                </div>
+<li>
 
-            </div>
+NOAA Global Monitoring Laboratory
 
+</li>
 
-            <div class="card">
+<li>
 
-                <h2>📊 Impacto proyectado</h2>
+Open-Meteo Marine API
 
-                <p>
-                    Explora cómo podría aumentar el impacto
-                    climático sobre la comunidad.
-                </p>
+</li>
 
-                <input
-                    type="range"
-                    id="impactoSlider"
-                    min="2000"
-                    max="2100"
-                    step="5"
-                    value="2000"
-                >
+<li>
 
-                <h3 id="impactoAnio">
-                    Año: 2000
-                </h3>
+Open-Meteo Weather API
 
-                <div class="impactoIndicador">
+</li>
 
-                    <h2 id="impactoNivel">
-                        🟢 Impacto: Bajo
-                    </h2>
+<li>
 
-                    <p id="impactoDescripcion">
-                        Las condiciones proyectadas presentan
-                        un impacto relativamente bajo sobre
-                        la comunidad.
-                    </p>
+Copernicus Marine Service
 
-                </div>
+</li>
 
-            </div>
+</ul>
 
+</div>
 
-            <div class="card">
 
-                <h2>⚠️ Principales riesgos</h2>
+</div>
 
-                <ul>
 
-                    <li>
-                        Inundaciones costeras.
-                    </li>
+<!-- =====================================================
+     BIODIVERSIDAD
+===================================================== -->
 
-                    <li>
-                        Erosión de sectores costeros.
-                    </li>
+<div id="biodiversidad" class="panel">
 
-                    <li>
-                        Mayor presión sobre los recursos hídricos.
-                    </li>
 
-                    <li>
-                        Cambios en actividades agrícolas y pesqueras.
-                    </li>
+<div class="card">
 
-                    <li>
-                        Posibles efectos sobre el turismo.
-                    </li>
+<h1>🐠 Biodiversidad de Rapa Nui</h1>
 
-                    <li>
-                        Necesidad de adaptar infraestructura
-                        y planificación.
-                    </li>
+<p>
 
-                </ul>
+Rapa Nui posee ecosistemas marinos y terrestres
+adaptados a las condiciones particulares de una
+isla oceánica.
 
-            </div>
+</p>
 
+<p>
 
-            <div class="card">
+El calentamiento del océano, la contaminación,
+la alteración de hábitats y otros factores pueden
+afectar la biodiversidad.
 
-                <h2>🌱 Adaptación y resiliencia</h2>
+</p>
 
-                <p>
-                    La comunidad puede desarrollar estrategias
-                    de adaptación que permitan reducir riesgos
-                    y proteger los recursos naturales y culturales
-                    de Rapa Nui.
-                </p>
+</div>
 
-                <div class="condiciones">
 
-                    <div class="dato">
+<div class="card">
 
-                        <h3>🌊 Protección costera</h3>
+<h2>🌊 Ecosistemas marinos</h2>
 
-                        <p>
-                            Monitorear sectores vulnerables y
-                            planificar medidas frente al aumento
-                            del nivel del mar.
-                        </p>
 
-                    </div>
+<div class="condiciones">
 
-                    <div class="dato">
 
-                        <h3>💧 Gestión del agua</h3>
+<div class="dato">
 
-                        <p>
-                            Promover un uso eficiente y sostenible
-                            de los recursos hídricos.
-                        </p>
+<h3>🐟 Especies marinas</h3>
 
-                    </div>
+<p>
 
-                    <div class="dato">
+Los cambios en la temperatura del océano
+pueden modificar la distribución de especies.
 
-                        <h3>🌱 Ecosistemas</h3>
+</p>
 
-                        <p>
-                            Proteger y restaurar ecosistemas.
-                        </p>
+</div>
 
-                    </div>
 
-                    <div class="dato">
+<div class="dato">
 
-                        <h3>👥 Comunidad</h3>
+<h3>🪸 Arrecifes</h3>
 
-                        <p>
-                            Fortalecer la educación ambiental,
-                            participación y preparación.
-                        </p>
+<p>
 
-                    </div>
+El aumento de temperatura puede producir
+estrés térmico en los ecosistemas coralinos.
 
-                </div>
+</p>
 
-            </div>
+</div>
 
-        </div>
 
-    </main>
+<div class="dato">
 
+<h3>🌊 Hábitats costeros</h3>
 
-    <!-- ================================================= -->
-    <!-- JAVASCRIPT EXTERNO -->
-    <!-- ================================================= -->
+<p>
 
-    <script src="script.js"></script>
+El aumento del nivel del mar y la erosión
+pueden modificar ambientes costeros.
+
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⚠️ Amenazas</h2>
+
+<ul>
+
+<li>Aumento de temperatura oceánica.</li>
+
+<li>Contaminación marina.</li>
+
+<li>Alteración de hábitats.</li>
+
+<li>Especies invasoras.</li>
+
+<li>Cambios climáticos.</li>
+
+</ul>
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+     IMPACTO
+===================================================== -->
+
+<div id="impacto" class="panel">
+
+
+<div class="card">
+
+<h1>🌍 Impacto en la Comunidad</h1>
+
+<p>
+
+El cambio climático puede generar impactos
+sobre infraestructura, agua, alimentación,
+turismo y ecosistemas de Rapa Nui.
+
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>🏝️ Áreas afectadas</h2>
+
+
+<div class="condiciones">
+
+
+<div class="dato">
+
+<h3>🏠 Infraestructura</h3>
+
+<p>
+
+La erosión y el aumento del nivel del mar
+pueden aumentar la exposición de sectores
+costeros.
+
+</p>
+
+</div>
+
+
+<div class="dato">
+
+<h3>💧 Agua</h3>
+
+<p>
+
+Los cambios en precipitaciones y sequías
+pueden aumentar la presión sobre los
+recursos hídricos.
+
+</p>
+
+</div>
+
+
+<div class="dato">
+
+<h3>🌾 Alimentación</h3>
+
+<p>
+
+Los cambios ambientales pueden afectar
+actividades agrícolas y pesqueras.
+
+</p>
+
+</div>
+
+
+<div class="dato">
+
+<h3>💰 Turismo</h3>
+
+<p>
+
+Los cambios ambientales pueden afectar
+sectores turísticos costeros.
+
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>📊 Impacto proyectado</h2>
+
+<input
+
+type="range"
+
+id="impactoSlider"
+
+min="2000"
+
+max="2100"
+
+step="1"
+
+value="2025"
+
+>
+
+
+<h3 id="impactoAnio">
+
+Año: 2025
+
+</h3>
+
+
+<div class="indicador">
+
+<h2 id="impactoNivel">
+
+🟢 Impacto: Bajo
+
+</h2>
+
+<p id="impactoDescripcion">
+
+La exposición proyectada es relativamente baja.
+
+</p>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+</main>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =====================================================
+   NAVEGACIÓN
+===================================================== */
+
+function mostrar(id) {
+
+    document
+    .querySelectorAll(".panel")
+    .forEach(panel => {
+
+        panel.style.display = "none";
+
+    });
+
+
+    const panel =
+        document.getElementById(id);
+
+
+    if(panel) {
+
+        panel.style.display = "block";
+
+    }
+
+}
+
+
+mostrar("mar");
+
+
+/* =====================================================
+   CONDICIONES ACTUALES
+===================================================== */
+
+async function cargarCondiciones() {
+
+    try {
+
+        const url =
+        "https://marine-api.open-meteo.com/v1/marine" +
+        "?latitude=-27.1127" +
+        "&longitude=-109.3497" +
+        "&hourly=wave_height,sea_surface_temperature" +
+        "&forecast_days=1";
+
+
+        const respuesta =
+            await fetch(url);
+
+
+        const datos =
+            await respuesta.json();
+
+
+        const temperaturas =
+            datos.hourly.sea_surface_temperature;
+
+
+        const oleajes =
+            datos.hourly.wave_height;
+
+
+        let temperatura = null;
+
+        let oleaje = null;
+
+
+        for(let i=0;i<temperaturas.length;i++) {
+
+            if(
+                temperaturas[i] !== null &&
+                temperatura === null
+            ) {
+
+                temperatura =
+                    temperaturas[i];
+
+            }
+
+        }
+
+
+        for(let i=0;i<oleajes.length;i++) {
+
+            if(
+                oleajes[i] !== null &&
+                oleaje === null
+            ) {
+
+                oleaje =
+                    oleajes[i];
+
+            }
+
+        }
+
+
+        document.getElementById(
+            "tempMar"
+        ).innerHTML =
+
+            temperatura !== null
+            ? temperatura.toFixed(2) + " °C"
+            : "No disponible";
+
+
+        document.getElementById(
+            "oleaje"
+        ).innerHTML =
+
+            oleaje !== null
+            ? oleaje.toFixed(2) + " m"
+            : "No disponible";
+
+
+    }
+
+    catch(error) {
+
+        console.error(error);
+
+        document.getElementById(
+            "tempMar"
+        ).innerHTML =
+            "No disponible";
+
+        document.getElementById(
+            "oleaje"
+        ).innerHTML =
+            "No disponible";
+
+    }
+
+}
+
+
+/* =====================================================
+   VIENTO
+===================================================== */
+
+async function cargarViento() {
+
+    try {
+
+        const url =
+        "https://api.open-meteo.com/v1/forecast" +
+        "?latitude=-27.1127" +
+        "&longitude=-109.3497" +
+        "&current=wind_speed_10m";
+
+
+        const respuesta =
+            await fetch(url);
+
+
+        const datos =
+            await respuesta.json();
+
+
+        document.getElementById(
+            "viento"
+        ).innerHTML =
+
+            datos.current.wind_speed_10m.toFixed(1)
+            + " km/h";
+
+
+    }
+
+    catch(error) {
+
+        document.getElementById(
+            "viento"
+        ).innerHTML =
+            "No disponible";
+
+    }
+
+}
+
+
+/* =====================================================
+   SALINIDAD
+===================================================== */
+
+document.getElementById(
+    "salinidad"
+).innerHTML =
+
+    "No disponible";
+
+
+cargarCondiciones();
+
+cargarViento();
+
+
+/* =====================================================
+   DATOS CIENTÍFICOS
+===================================================== */
+
+/*
+   NIVEL DEL MAR
+
+   Proyección educativa basada en IPCC AR6 /
+   NASA Sea Level Projection Tool.
+
+   Referencia aproximada:
+   1995-2014.
+
+   Los valores representan aumento relativo
+   acumulado para la visualización.
+*/
+
+const nivelMarSSP245 = {
+
+2020: 0,
+2025: 3,
+2030: 6,
+2035: 9,
+2040: 12,
+2045: 16,
+2050: 20,
+2055: 24,
+2060: 28,
+2065: 32,
+2070: 36,
+2075: 40,
+2080: 44,
+2085: 48,
+2090: 52,
+2095: 57,
+2100: 62
+
+};
+
+
+const nivelMarSSP585 = {
+
+2020: 0,
+2025: 4,
+2030: 8,
+2035: 12,
+2040: 17,
+2045: 22,
+2050: 28,
+2055: 34,
+2060: 40,
+2065: 46,
+2070: 52,
+2075: 58,
+2080: 64,
+2085: 70,
+2090: 76,
+2095: 82,
+2100: 88
+
+};
+
+
+/*
+   CO2 HISTÓRICO
+
+   Valores anuales aproximados de la serie NOAA
+   Mauna Loa.
+
+   Son observaciones atmosféricas reales,
+   pero la estación está en Hawái y por lo tanto
+   no representa una medición local de Rapa Nui.
+*/
+
+const co2NOAA = {
+
+2000: 369.55,
+2001: 371.14,
+2002: 373.28,
+2003: 375.80,
+2004: 377.52,
+2005: 379.80,
+2006: 381.90,
+2007: 383.79,
+2008: 385.60,
+2009: 387.43,
+2010: 389.90,
+2011: 391.65,
+2012: 393.85,
+2013: 396.48,
+2014: 398.65,
+2015: 400.83,
+2016: 404.24,
+2017: 406.55,
+2018: 408.52,
+2019: 411.44,
+2020: 414.24,
+2021: 416.45,
+2022: 418.56,
+2023: 421.08,
+2024: 424.61,
+2025: 427.35
+
+};
+
+
+/*
+   Para 2026-2100 no mostramos "observaciones"
+   porque todavía no existen.
+*/
+
+const co2Proyeccion = {
+
+2030: 438,
+2040: 465,
+2050: 495,
+2060: 525,
+2070: 555,
+2080: 585,
+2090: 615,
+2100: 645
+
+};
+
+
+/*
+   Temperatura oceánica.
+
+   Para evitar inventar mediciones locales,
+   la variable se identifica como referencia
+   y no como una serie histórica local oficial.
+*/
+
+const temperaturaReferencia = {
+
+2000: 22.4,
+2005: 22.5,
+2010: 22.6,
+2015: 22.8,
+2020: 23.0,
+2025: 23.2,
+2030: 23.4,
+2040: 23.8,
+2050: 24.2,
+2060: 24.6,
+2070: 25.0,
+2080: 25.2,
+2090: 25.4,
+2100: 25.6
+
+};
+
+
+/* =====================================================
+   FUNCIÓN INTERPOLACIÓN
+===================================================== */
+
+function interpolar(objeto, año) {
+
+    const años =
+        Object.keys(objeto)
+        .map(Number)
+        .sort((a,b)=>a-b);
+
+
+    if(objeto[año] !== undefined) {
+
+        return objeto[año];
+
+    }
+
+
+    if(año < años[0]) {
+
+        return objeto[años[0]];
+
+    }
+
+
+    if(año > años[años.length-1]) {
+
+        return objeto[años[años.length-1]];
+
+    }
+
+
+    for(
+        let i=0;
+        i<años.length-1;
+        i++
+    ) {
+
+        const a1 =
+            años[i];
+
+        const a2 =
+            años[i+1];
+
+
+        if(
+            año >= a1 &&
+            año <= a2
+        ) {
+
+            const v1 =
+                objeto[a1];
+
+            const v2 =
+                objeto[a2];
+
+
+            const porcentaje =
+                (año-a1) /
+                (a2-a1);
+
+
+            return
+                v1 +
+                (v2-v1) *
+                porcentaje;
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   DATOS DE GRÁFICO
+===================================================== */
+
+const añosGrafico = [];
+
+for(
+    let año=2000;
+    año<=2100;
+    año++
+) {
+
+    añosGrafico.push(año);
+
+}
+
+
+/* =====================================================
+   CREAR GRÁFICO
+===================================================== */
+
+const ctx =
+    document
+    .getElementById("grafico")
+    .getContext("2d");
+
+
+const grafico =
+    new Chart(ctx, {
+
+        type:"line",
+
+        data: {
+
+            labels: [],
+
+            datasets: [{
+
+                label:"",
+
+                data: [],
+
+                borderWidth:3,
+
+                pointRadius:2,
+
+                tension:.3,
+
+                fill:false
+
+            }]
+
+        },
+
+
+        options: {
+
+            responsive:true,
+
+            maintainAspectRatio:false,
+
+            interaction: {
+
+                mode:"index",
+
+                intersect:false
+
+            },
+
+            scales: {
+
+                x: {
+
+                    title: {
+
+                        display:true,
+
+                        text:"Año"
+
+                    }
+
+                },
+
+                y: {
+
+                    title: {
+
+                        display:true,
+
+                        text:"Valor"
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    });
+
+
+/* =====================================================
+   ACTUALIZAR GRÁFICO
+===================================================== */
+
+function actualizarGrafico() {
+
+    const variable =
+        document
+        .getElementById(
+            "variableSelect"
+        ).value;
+
+
+    const año =
+        parseInt(
+            document
+            .getElementById(
+                "yearSlider"
+            ).value
+        );
+
+
+    document
+    .getElementById(
+        "selectedYear"
+    )
+    .innerHTML =
+        "Año: " + año;
+
+
+    let labels = [];
+
+    let valores = [];
+
+    let valorActual = 0;
+
+    let unidad = "";
+
+    let nombre = "";
+
+
+    /* =================================================
+       NIVEL DEL MAR
+    ================================================= */
+
+    if(variable === "mar") {
+
+        nombre =
+            "Nivel del mar — SSP2-4.5";
+
+        unidad =
+            "cm";
+
+
+        for(
+            let y=2020;
+            y<=2100;
+            y++
+        ) {
+
+            labels.push(y);
+
+
+            const valor =
+                interpolar(
+                    nivelMarSSP245,
+                    y
+                );
+
+
+            valores.push(
+                valor
+            );
+
+        }
+
+
+        valorActual =
+            interpolar(
+                nivelMarSSP245,
+                año
+            );
+
+
+        document.getElementById(
+            "descripcionDatos"
+        ).innerHTML =
+
+        "Proyección de aumento relativo " +
+        "del nivel del mar basada en escenarios " +
+        "del IPCC AR6. Los datos futuros son " +
+        "proyecciones, no observaciones.";
+
+
+    }
+
+
+    /* =================================================
+       TEMPERATURA
+    ================================================= */
+
+    else if(variable === "temperatura") {
+
+        nombre =
+            "Temperatura del océano";
+
+        unidad =
+            "°C";
+
+
+        labels =
+            Object.keys(
+                temperaturaReferencia
+            ).map(Number);
+
+
+        valores =
+            Object.values(
+                temperaturaReferencia
+            );
+
+
+        valorActual =
+            interpolar(
+                temperaturaReferencia,
+                año
+            );
+
+
+        document.getElementById(
+            "descripcionDatos"
+        ).innerHTML =
+
+        "Serie de referencia para visualización. " +
+        "No se presenta como una medición oficial " +
+        "local anual de Rapa Nui. Para datos " +
+        "oceanográficos históricos de alta resolución " +
+        "se recomienda Copernicus Marine.";
+
+    }
+
+
+    /* =================================================
+       CO2
+    ================================================= */
+
+    else if(variable === "co2") {
+
+        nombre =
+            "CO₂ atmosférico — NOAA";
+
+        unidad =
+            "ppm";
+
+
+        labels =
+            Object.keys(
+                co2NOAA
+            ).map(Number);
+
+
+        valores =
+            Object.values(
+                co2NOAA
+            );
+
+
+        /*
+           Agregar proyecciones futuras
+        */
+
+        Object.keys(
+            co2Proyeccion
+        ).forEach(
+            añoFuturo => {
+
+                labels.push(
+                    Number(añoFuturo)
+                );
+
+                valores.push(
+                    co2Proyeccion[
+                        añoFuturo
+                    ]
+                );
+
+            }
+        );
+
+
+        valorActual =
+            año <= 2025
+
+            ?
+
+            interpolar(
+                co2NOAA,
+                año
+            )
+
+            :
+
+            interpolar(
+                co2Proyeccion,
+                año
+            );
+
+
+        document.getElementById(
+            "descripcionDatos"
+        ).innerHTML =
+
+        "Los valores históricos corresponden " +
+        "a mediciones de CO₂ atmosférico de NOAA " +
+        "en Mauna Loa, Hawái. Desde 2026 los valores " +
+        "son escenarios/proyecciones y no observaciones.";
+
+
+    }
+
+
+    /* =================================================
+       ACTUALIZAR
+    ================================================= */
+
+    grafico.data.labels =
+        labels;
+
+
+    grafico.data.datasets[0].data =
+        valores;
+
+
+    grafico.data.datasets[0].label =
+        nombre;
+
+
+    grafico.update();
+
+
+    document.getElementById(
+        "valorSeleccionado"
+    ).innerHTML =
+
+        "<div>" +
+
+        nombre +
+
+        "</div>" +
+
+        "<div class='valorGrande'>" +
+
+        valorActual.toFixed(1) +
+
+        " " +
+
+        unidad +
+
+        "</div>" +
+
+        "<div>Año seleccionado: " +
+
+        año +
+
+        "</div>";
+
+}
+
+
+document
+.getElementById(
+    "variableSelect"
+)
+.addEventListener(
+    "change",
+    actualizarGrafico
+);
+
+
+document
+.getElementById(
+    "yearSlider"
+)
+.addEventListener(
+    "input",
+    actualizarGrafico
+);
+
+
+actualizarGrafico();
+
+
+/* =====================================================
+   SIMULADOR 3D
+===================================================== */
+
+const contenedor =
+    document.getElementById(
+        "escena3D"
+    );
+
+
+const escena =
+    new THREE.Scene();
+
+
+escena.background =
+    new THREE.Color(
+        0x87ceeb
+    );
+
+
+const camara =
+    new THREE.PerspectiveCamera(
+
+        60,
+
+        contenedor.clientWidth /
+        contenedor.clientHeight,
+
+        .1,
+
+        1000
+
+    );
+
+
+const renderer =
+    new THREE.WebGLRenderer({
+
+        antialias:true
+
+    });
+
+
+renderer.setPixelRatio(
+    window.devicePixelRatio
+);
+
+
+renderer.setSize(
+
+    contenedor.clientWidth,
+
+    contenedor.clientHeight
+
+);
+
+
+contenedor.appendChild(
+    renderer.domElement
+);
+
+
+/* =====================================================
+   LUCES
+===================================================== */
+
+const luz =
+    new THREE.DirectionalLight(
+        0xffffff,
+        1
+    );
+
+
+luz.position.set(
+    5,
+    10,
+    5
+);
+
+
+escena.add(luz);
+
+
+escena.add(
+    new THREE.AmbientLight(
+        0xffffff,
+        .6
+    )
+);
+
+
+/* =====================================================
+   MAR
+===================================================== */
+
+const marGeometry =
+    new THREE.BoxGeometry(
+        20,
+        1,
+        20
+    );
+
+
+const marMaterial =
+    new THREE.MeshPhongMaterial({
+
+        color:0x3399ff,
+
+        transparent:true,
+
+        opacity:.75
+
+    });
+
+
+const mar =
+    new THREE.Mesh(
+
+        marGeometry,
+
+        marMaterial
+
+    );
+
+
+mar.position.y = 0;
+
+escena.add(mar);
+
+
+/* =====================================================
+   PLAYA
+===================================================== */
+
+const playa =
+    new THREE.Mesh(
+
+        new THREE.CylinderGeometry(
+            5.2,
+            5.2,
+            .3,
+            32
+        ),
+
+        new THREE.MeshPhongMaterial({
+
+            color:0xf4d28c
+
+        })
+
+    );
+
+
+playa.position.y=.3;
+
+escena.add(playa);
+
+
+/* =====================================================
+   ISLA
+===================================================== */
+
+const isla =
+    new THREE.Mesh(
+
+        new THREE.CylinderGeometry(
+            2,
+            5,
+            4,
+            32
+        ),
+
+        new THREE.MeshPhongMaterial({
+
+            color:0x3d8b37
+
+        })
+
+    );
+
+
+isla.position.y=1.5;
+
+escena.add(isla);
+
+
+/* =====================================================
+   CÁMARA
+===================================================== */
+
+camara.position.set(
+    10,
+    8,
+    10
+);
+
+
+camara.lookAt(
+    0,
+    0,
+    0
+);
+
+
+/* =====================================================
+   ANIMACIÓN
+===================================================== */
+
+function animar() {
+
+    requestAnimationFrame(
+        animar
+    );
+
+
+    isla.rotation.y += .003;
+
+
+    renderer.render(
+        escena,
+        camara
+    );
+
+}
+
+
+animar();
+
+
+/* =====================================================
+   SIMULADOR
+===================================================== */
+
+const slider3D =
+    document.getElementById(
+        "simuladorSlider"
+    );
+
+
+const anio3D =
+    document.getElementById(
+        "simuladorAnio"
+    );
+
+
+const nivel3D =
+    document.getElementById(
+        "simuladorNivel"
+    );
+
+
+const riesgo =
+    document.getElementById(
+        "riesgoCosta"
+    );
+
+
+const escenarioMar =
+    document.getElementById(
+        "escenarioMar"
+    );
+
+
+function actualizarSimulador() {
+
+    const año =
+        parseInt(
+            slider3D.value
+        );
+
+
+    const escenario =
+        escenarioMar.value;
+
+
+    let aumento;
+
+
+    if(
+        escenario === "SSP2-4.5"
+    ) {
+
+        aumento =
+            interpolar(
+                nivelMarSSP245,
+                año
+            );
+
+    }
+
+    else {
+
+        aumento =
+            interpolar(
+                nivelMarSSP585,
+                año
+            );
+
+    }
+
+
+    anio3D.innerHTML =
+        "Año: " + año;
+
+
+    nivel3D.innerHTML =
+        "Aumento estimado: " +
+        aumento.toFixed(1) +
+        " cm";
+
+
+    const altura =
+        (aumento / 100) * 3;
+
+
+    mar.position.y =
+        altura;
+
+
+    if(aumento < 20) {
+
+        riesgo.innerHTML =
+            "🟢 Riesgo costero: Bajo";
+
+    }
+
+    else if(aumento < 50) {
+
+        riesgo.innerHTML =
+            "🟡 Riesgo costero: Moderado";
+
+    }
+
+    else if(aumento < 80) {
+
+        riesgo.innerHTML =
+            "🟠 Riesgo costero: Alto";
+
+    }
+
+    else {
+
+        riesgo.innerHTML =
+            "🔴 Riesgo costero: Muy alto";
+
+    }
+
+}
+
+
+slider3D.addEventListener(
+    "input",
+    actualizarSimulador
+);
+
+
+escenarioMar.addEventListener(
+    "change",
+    actualizarSimulador
+);
+
+
+/* =====================================================
+   ABRIR
+===================================================== */
+
+document
+.getElementById(
+    "abrirSimulador"
+)
+.addEventListener(
+    "click",
+    function() {
+
+        document
+        .getElementById(
+            "simuladorPage"
+        )
+        .style.display =
+            "block";
+
+
+        renderer.setSize(
+
+            contenedor.clientWidth,
+
+            contenedor.clientHeight
+
+        );
+
+
+        camara.aspect =
+
+            contenedor.clientWidth /
+            contenedor.clientHeight;
+
+
+        camara.updateProjectionMatrix();
+
+
+        actualizarSimulador();
+
+
+        document
+        .getElementById(
+            "simuladorPage"
+        )
+        .scrollIntoView({
+
+            behavior:"smooth"
+
+        });
+
+    }
+);
+
+
+/* =====================================================
+   CERRAR
+===================================================== */
+
+document
+.getElementById(
+    "cerrarSimulador"
+)
+.addEventListener(
+    "click",
+    function() {
+
+        document
+        .getElementById(
+            "simuladorPage"
+        )
+        .style.display =
+            "none";
+
+    }
+);
+
+
+/* =====================================================
+   IMPACTO
+===================================================== */
+
+const impactoSlider =
+    document.getElementById(
+        "impactoSlider"
+    );
+
+
+impactoSlider.addEventListener(
+    "input",
+    function() {
+
+        const año =
+            parseInt(
+                impactoSlider.value
+            );
+
+
+        document
+        .getElementById(
+            "impactoAnio"
+        )
+        .innerHTML =
+            "Año: " + año;
+
+
+        const progreso =
+            (año-2000)/100;
+
+
+        const nivel =
+            document.getElementById(
+                "impactoNivel"
+            );
+
+
+        const descripcion =
+            document.getElementById(
+                "impactoDescripcion"
+            );
+
+
+        if(progreso < .25) {
+
+            nivel.innerHTML =
+                "🟢 Impacto: Bajo";
+
+
+            descripcion.innerHTML =
+                "La exposición proyectada " +
+                "es relativamente baja.";
+
+        }
+
+        else if(progreso < .5) {
+
+            nivel.innerHTML =
+                "🟡 Impacto: Moderado";
+
+
+            descripcion.innerHTML =
+                "Aumentan progresivamente " +
+                "los posibles efectos sobre " +
+                "infraestructura y recursos.";
+
+        }
+
+        else if(progreso < .75) {
+
+            nivel.innerHTML =
+                "🟠 Impacto: Alto";
+
+
+            descripcion.innerHTML =
+                "La exposición a riesgos " +
+                "climáticos puede aumentar.";
+
+        }
+
+        else {
+
+            nivel.innerHTML =
+                "🔴 Impacto: Muy alto";
+
+
+            descripcion.innerHTML =
+                "Se requiere una mayor planificación " +
+                "y adaptación frente a los riesgos " +
+                "climáticos.";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   REDIMENSIONAR
+===================================================== */
+
+window.addEventListener(
+    "resize",
+    function() {
+
+        if(
+            contenedor.clientWidth > 0
+            &&
+            contenedor.clientHeight > 0
+        ) {
+
+            renderer.setSize(
+
+                contenedor.clientWidth,
+
+                contenedor.clientHeight
+
+            );
+
+
+            camara.aspect =
+
+                contenedor.clientWidth /
+                contenedor.clientHeight;
+
+
+            camara.updateProjectionMatrix();
+
+        }
+
+    }
+);
+
+</script>
+
 
 </body>
 
