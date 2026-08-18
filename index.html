@@ -215,6 +215,55 @@ input[type="range"] {
     font-size: 14px;
 }
 
+/* ================= ACCIONES AMBIENTALES ================= */
+
+.accionesGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.accion {
+    background: #eef6ff;
+    padding: 20px;
+    border-radius: 14px;
+    border-left: 5px solid #1565c0;
+}
+
+.accion h3 {
+    margin-top: 0;
+}
+
+.accion p {
+    line-height: 1.5;
+}
+
+.accion ul {
+    padding-left: 20px;
+}
+
+.accionProyeccion {
+    background: white;
+    padding: 12px;
+    margin-top: 15px;
+    border-radius: 10px;
+    border: 1px solid #dbeafe;
+}
+
+.accionProyeccion strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.accionFinal {
+    background: #e8f5e9;
+    border-left: 5px solid #2e7d32;
+    padding: 20px;
+    border-radius: 14px;
+    margin-top: 20px;
+}
+
 /* ================= MOVIL ================= */
 
 @media (max-width: 768px) {
@@ -258,6 +307,10 @@ input[type="range"] {
         min-width: 0;
     }
 
+    .accionesGrid {
+        grid-template-columns: 1fr;
+    }
+
     .graficoContenedor {
         width: 100%;
         height: 350px;
@@ -298,6 +351,10 @@ input[type="range"] {
 
 }
 
+/* =====================================================
+   FIN CSS
+===================================================== */
+
 </style>
 
 </head>
@@ -322,6 +379,10 @@ input[type="range"] {
 
 <button onclick="mostrar('impacto')">
 🌍 Impacto en la Comunidad
+</button>
+
+<button onclick="mostrar('acciones')">
+🌱 Acción por el medio ambiente
 </button>
 
 </aside>
@@ -773,6 +834,502 @@ La exposición proyectada es relativamente baja.
 
 </div>
 
+
+<!-- =====================================================
+     ACCIÓN POR EL MEDIO AMBIENTE
+===================================================== -->
+
+<div id="acciones" class="panel">
+
+<div class="card">
+
+<h1>🌱 Acción por el medio ambiente — Rapa Nui</h1>
+
+<p>
+El futuro de Rapa Nui no depende solamente de
+conocer cómo puede cambiar el clima, sino también
+de las acciones que se tomen desde el presente.
+</p>
+
+<p>
+Las siguientes propuestas relacionan los posibles
+impactos ambientales con medidas que pueden ayudar
+a proteger los ecosistemas, los recursos naturales,
+la comunidad y el patrimonio de la isla.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>🌊 1. Proteger la costa</h2>
+
+<div class="accion">
+
+<h3>🏝️ Frente a la erosión y el aumento del nivel del mar</h3>
+
+<p>
+Los sectores costeros pueden quedar cada vez más
+expuestos a erosión, oleaje extremo y aumento del
+nivel del mar.
+</p>
+
+<h4>💡 ¿Qué podemos hacer?</h4>
+
+<ul>
+
+<li>Proteger la vegetación cercana a la costa.</li>
+
+<li>Evitar retirar arena, piedras u otros elementos
+naturales de las playas.</li>
+
+<li>Evitar construir en sectores especialmente
+vulnerables.</li>
+
+<li>Monitorear periódicamente la erosión de la costa.</li>
+
+<li>Utilizar soluciones basadas en la naturaleza
+antes que intervenciones que alteren fuertemente
+el ecosistema.</li>
+
+</ul>
+
+<div class="accionProyeccion">
+
+<strong>🔮 Pensando en el futuro</strong>
+
+A medida que aumente el nivel del mar, será
+importante identificar anticipadamente los sectores
+costeros más vulnerables y planificar medidas de
+adaptación.
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>💧 2. Proteger el agua</h2>
+
+<div class="accion">
+
+<h3>🚰 Prepararse para períodos secos</h3>
+
+<p>
+El agua dulce es un recurso fundamental para la
+comunidad, los ecosistemas y las actividades
+productivas de Rapa Nui.
+</p>
+
+<h4>💡 ¿Qué podemos hacer?</h4>
+
+<ul>
+
+<li>Reducir el desperdicio de agua.</li>
+
+<li>Reparar rápidamente fugas.</li>
+
+<li>Promover sistemas de recolección de agua lluvia
+cuando sean apropiados.</li>
+
+<li>Reutilizar agua cuando sea seguro y técnicamente
+posible.</li>
+
+<li>Monitorear el consumo de agua.</li>
+
+</ul>
+
+<div class="accionProyeccion">
+
+<strong>🔮 Pensando en el futuro</strong>
+
+Una mejor gestión del agua puede aumentar la
+capacidad de la comunidad para enfrentar períodos
+de menor disponibilidad hídrica.
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🐠 3. Proteger el océano</h2>
+
+<div class="accion">
+
+<h3>🌊 Un océano saludable es fundamental para Rapa Nui</h3>
+
+<p>
+El océano es parte fundamental del ecosistema,
+la alimentación, la cultura y la economía de la isla.
+</p>
+
+<h4>💡 ¿Qué podemos hacer?</h4>
+
+<ul>
+
+<li>Reducir los residuos que llegan al mar.</li>
+
+<li>Disminuir el uso de plásticos desechables.</li>
+
+<li>No arrojar basura en playas o sectores costeros.</li>
+
+<li>Participar en limpiezas de playas.</li>
+
+<li>Promover prácticas de pesca responsables.</li>
+
+<li>Monitorear cambios en las especies marinas.</li>
+
+</ul>
+
+<div class="accionProyeccion">
+
+<strong>🔮 Pensando en el futuro</strong>
+
+El monitoreo de la temperatura del océano y de la
+biodiversidad puede ayudar a detectar cambios antes
+de que sus efectos sean mayores.
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🌱 4. Restaurar y proteger los suelos</h2>
+
+<div class="accion">
+
+<h3>🌿 Reducir la erosión</h3>
+
+<p>
+La vegetación ayuda a proteger el suelo frente a
+la erosión y contribuye al funcionamiento de los
+ecosistemas terrestres.
+</p>
+
+<h4>💡 ¿Qué podemos hacer?</h4>
+
+<ul>
+
+<li>Reforestar con especies apropiadas para Rapa Nui.</li>
+
+<li>Proteger áreas con vegetación.</li>
+
+<li>Evitar la degradación innecesaria del suelo.</li>
+
+<li>Utilizar prácticas agrícolas que reduzcan la erosión.</li>
+
+<li>Restaurar sectores degradados.</li>
+
+</ul>
+
+<div class="accionProyeccion">
+
+<strong>🔮 Pensando en el futuro</strong>
+
+Un suelo más protegido puede aumentar la capacidad
+de los ecosistemas para enfrentar cambios ambientales
+y eventos climáticos.
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>♻️ 5. Reducir residuos y contaminación</h2>
+
+<div class="accion">
+
+<h3>🗑️ Menos residuos, menos contaminación</h3>
+
+<p>
+En una isla oceánica, reducir la cantidad de residuos
+es especialmente importante porque el transporte y
+la gestión de materiales presentan desafíos.
+</p>
+
+<h4>💡 ¿Qué podemos hacer?</h4>
+
+<ul>
+
+<li>Reducir productos de un solo uso.</li>
+
+<li>Reutilizar materiales.</li>
+
+<li>Separar correctamente los residuos.</li>
+
+<li>Reciclar cuando exista un sistema disponible.</li>
+
+<li>Evitar que los residuos lleguen al océano.</li>
+
+<li>Realizar campañas de educación ambiental.</li>
+
+</ul>
+
+<div class="accionProyeccion">
+
+<strong>🔮 Pensando en el futuro</strong>
+
+Reducir los residuos desde el origen disminuye la
+presión sobre los sistemas de gestión y sobre los
+ecosistemas de la isla.
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⚡ 6. Impulsar energías más limpias</h2>
+
+<div class="accion">
+
+<h3>🌎 Reducir emisiones</h3>
+
+<p>
+La reducción de emisiones de gases de efecto
+invernadero es una acción fundamental frente al
+cambio climático.
+</p>
+
+<h4>💡 ¿Qué podemos hacer?</h4>
+
+<ul>
+
+<li>Mejorar la eficiencia energética.</li>
+
+<li>Reducir el consumo innecesario de electricidad.</li>
+
+<li>Promover energías renovables cuando sean
+adecuadas para la isla.</li>
+
+<li>Utilizar tecnologías eficientes.</li>
+
+<li>Promover el transporte sostenible.</li>
+
+</ul>
+
+<div class="accionProyeccion">
+
+<strong>🔮 Pensando en el futuro</strong>
+
+Una transición energética puede ayudar a reducir
+las emisiones y aumentar la resiliencia energética
+de una isla aislada.
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🗿 7. Proteger el patrimonio de Rapa Nui</h2>
+
+<div class="accion">
+
+<h3>🏛️ Patrimonio cultural y cambio climático</h3>
+
+<p>
+El patrimonio arqueológico y cultural de Rapa Nui
+también puede verse afectado por procesos ambientales
+como erosión, lluvias intensas y cambios costeros.
+</p>
+
+<h4>💡 ¿Qué podemos hacer?</h4>
+
+<ul>
+
+<li>Monitorear sitios arqueológicos vulnerables.</li>
+
+<li>Evitar actividades que deterioren el patrimonio.</li>
+
+<li>Documentar digitalmente sitios y estructuras.</li>
+
+<li>Proteger sectores especialmente expuestos.</li>
+
+<li>Integrar conocimiento científico y conocimiento
+local en las estrategias de conservación.</li>
+
+</ul>
+
+<div class="accionProyeccion">
+
+<strong>🔮 Pensando en el futuro</strong>
+
+La identificación temprana de sitios vulnerables
+permite planificar medidas de conservación antes
+de que los daños sean irreversibles.
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🚨 8. Prepararse para el futuro</h2>
+
+<div class="accion">
+
+<h3>📊 Utilizar los datos para tomar decisiones</h3>
+
+<p>
+Las proyecciones climáticas no indican exactamente
+qué ocurrirá en un año determinado, pero permiten
+analizar posibles escenarios y prepararse.
+</p>
+
+<h4>💡 ¿Qué podemos hacer?</h4>
+
+<ul>
+
+<li>Monitorear temperatura, oleaje y nivel del mar.</li>
+
+<li>Actualizar periódicamente los datos ambientales.</li>
+
+<li>Identificar zonas de mayor riesgo.</li>
+
+<li>Crear planes de emergencia.</li>
+
+<li>Educar a la comunidad sobre cambio climático.</li>
+
+<li>Utilizar escenarios climáticos para planificar
+infraestructura futura.</li>
+
+</ul>
+
+<div class="accionProyeccion">
+
+<strong>🔮 2030 → 2050 → 2100</strong>
+
+Las decisiones tomadas actualmente pueden influir
+en la capacidad de Rapa Nui para adaptarse a los
+cambios ambientales durante las próximas décadas.
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🤝 9. Acción de la comunidad</h2>
+
+<div class="accion">
+
+<h3>🌺 Todos pueden participar</h3>
+
+<p>
+La adaptación al cambio climático no depende
+solamente de instituciones científicas o autoridades.
+La comunidad también puede participar.
+</p>
+
+<h4>💡 Acciones comunitarias</h4>
+
+<ul>
+
+<li>Organizar jornadas de limpieza.</li>
+
+<li>Crear campañas de educación ambiental.</li>
+
+<li>Participar en proyectos científicos escolares.</li>
+
+<li>Registrar cambios observados en el ambiente.</li>
+
+<li>Proteger playas, ecosistemas y patrimonio.</li>
+
+<li>Compartir información científica confiable.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🌍 ¿Qué podemos hacer desde hoy?</h2>
+
+<div class="accionFinal">
+
+<h3>🌱 Rapa Nui puede prepararse para el futuro</h3>
+
+<p>
+El cambio climático representa desafíos importantes,
+pero conocer los posibles escenarios permite tomar
+mejores decisiones.
+</p>
+
+<p>
+Proteger el océano, cuidar el agua, reducir residuos,
+restaurar ecosistemas, proteger el patrimonio y
+utilizar energías más limpias son acciones que pueden
+contribuir a una Rapa Nui más resiliente.
+</p>
+
+<p>
+<strong>
+El futuro no solamente se predice: también se construye
+con las decisiones que tomamos hoy.
+</strong>
+</p>
+
+</div>
+
+</div>
+
+
+<div class="fuente">
+
+<strong>📚 Enfoque científico</strong>
+
+<p>
+Las acciones propuestas están relacionadas con los
+principales riesgos asociados al cambio climático:
+aumento del nivel del mar, calentamiento oceánico,
+erosión, presión sobre los recursos hídricos,
+pérdida de biodiversidad y eventos climáticos.
+</p>
+
+<p>
+Las proyecciones mostradas en Rapa Nui Futuro son
+escenarios utilizados para comprender posibles
+cambios y apoyar la educación y planificación
+ambiental. No representan predicciones exactas.
+</p>
+
+</div>
+
+</div>
+
+
 </main>
 
 
@@ -788,7 +1345,8 @@ function mostrar(id) {
         panel.style.display = "none";
     });
 
-    const panel = document.getElementById(id);
+    const panel =
+        document.getElementById(id);
 
     if (panel) {
 
@@ -827,8 +1385,11 @@ async function cargarCondiciones() {
         "&hourly=wave_height,sea_surface_temperature" +
         "&forecast_days=1";
 
-        const respuesta = await fetch(url);
-        const datos = await respuesta.json();
+        const respuesta =
+            await fetch(url);
+
+        const datos =
+            await respuesta.json();
 
         const temperaturas =
             datos.hourly.sea_surface_temperature;
@@ -839,38 +1400,54 @@ async function cargarCondiciones() {
         let temperatura = null;
         let oleaje = null;
 
-        for (let i = 0; i < temperaturas.length; i++) {
+        for (
+            let i = 0;
+            i < temperaturas.length;
+            i++
+        ) {
 
             if (
                 temperaturas[i] !== null &&
                 temperatura === null
             ) {
 
-                temperatura = temperaturas[i];
+                temperatura =
+                    temperaturas[i];
 
             }
 
         }
 
-        for (let i = 0; i < oleajes.length; i++) {
+        for (
+            let i = 0;
+            i < oleajes.length;
+            i++
+        ) {
 
             if (
                 oleajes[i] !== null &&
                 oleaje === null
             ) {
 
-                oleaje = oleajes[i];
+                oleaje =
+                    oleajes[i];
 
             }
 
         }
 
-        document.getElementById("tempMar").innerHTML =
+        document.getElementById(
+            "tempMar"
+        ).innerHTML =
+
             temperatura !== null
             ? temperatura.toFixed(2) + " °C"
             : "No disponible";
 
-        document.getElementById("oleaje").innerHTML =
+        document.getElementById(
+            "oleaje"
+        ).innerHTML =
+
             oleaje !== null
             ? oleaje.toFixed(2) + " m"
             : "No disponible";
@@ -881,10 +1458,14 @@ async function cargarCondiciones() {
 
         console.error(error);
 
-        document.getElementById("tempMar").innerHTML =
+        document.getElementById(
+            "tempMar"
+        ).innerHTML =
             "No disponible";
 
-        document.getElementById("oleaje").innerHTML =
+        document.getElementById(
+            "oleaje"
+        ).innerHTML =
             "No disponible";
 
     }
@@ -902,10 +1483,16 @@ async function cargarViento() {
         "&longitude=-109.3497" +
         "&current=wind_speed_10m";
 
-        const respuesta = await fetch(url);
-        const datos = await respuesta.json();
+        const respuesta =
+            await fetch(url);
 
-        document.getElementById("viento").innerHTML =
+        const datos =
+            await respuesta.json();
+
+        document.getElementById(
+            "viento"
+        ).innerHTML =
+
             datos.current.wind_speed_10m.toFixed(1)
             + " km/h";
 
@@ -913,14 +1500,18 @@ async function cargarViento() {
 
     catch (error) {
 
-        document.getElementById("viento").innerHTML =
+        document.getElementById(
+            "viento"
+        ).innerHTML =
             "No disponible";
 
     }
 
 }
 
-document.getElementById("salinidad").innerHTML =
+document.getElementById(
+    "salinidad"
+).innerHTML =
     "No disponible";
 
 cargarCondiciones();
@@ -1055,37 +1646,73 @@ function interpolar(objeto, año) {
         .sort((a,b) => a-b);
 
     if (objeto[año] !== undefined) {
-        return Number(objeto[año]);
+
+        return Number(
+            objeto[año]
+        );
+
     }
 
     if (año <= años[0]) {
-        return Number(objeto[años[0]]);
+
+        return Number(
+            objeto[años[0]]
+        );
+
     }
 
-    if (año >= años[años.length - 1]) {
-        return Number(objeto[años[años.length - 1]]);
+    if (
+        año >=
+        años[años.length - 1]
+    ) {
+
+        return Number(
+            objeto[
+                años[años.length - 1]
+            ]
+        );
+
     }
 
-    for (let i = 0; i < años.length - 1; i++) {
+    for (
+        let i = 0;
+        i < años.length - 1;
+        i++
+    ) {
 
-        const a1 = años[i];
-        const a2 = años[i + 1];
+        const a1 =
+            años[i];
 
-        if (año >= a1 && año <= a2) {
+        const a2 =
+            años[i + 1];
 
-            const v1 = Number(objeto[a1]);
-            const v2 = Number(objeto[a2]);
+        if (
+            año >= a1 &&
+            año <= a2
+        ) {
+
+            const v1 =
+                Number(objeto[a1]);
+
+            const v2 =
+                Number(objeto[a2]);
 
             const porcentaje =
-                (año - a1) / (a2 - a1);
+                (año - a1) /
+                (a2 - a1);
 
-            return v1 + (v2 - v1) * porcentaje;
+            return (
+                v1 +
+                (v2 - v1) *
+                porcentaje
+            );
 
         }
 
     }
 
     return null;
+
 }
 
 
@@ -1094,7 +1721,9 @@ function interpolar(objeto, año) {
 ===================================================== */
 
 const canvas =
-    document.getElementById("grafico");
+    document.getElementById(
+        "grafico"
+    );
 
 const ctx =
     canvas.getContext("2d");
@@ -1111,22 +1740,17 @@ const grafico =
 
             datasets: [
 
-                /* =================================================
-                   LÍNEA PRINCIPAL
-                   SIEMPRE AZUL
-                ================================================= */
-
                 {
 
                     label: "",
 
                     data: [],
 
+                    borderWidth: 3,
+
                     borderColor: "#1565c0",
 
-                    backgroundColor: "rgba(21,101,192,0.1)",
-
-                    borderWidth: 3,
+                    backgroundColor: "#1565c0",
 
                     pointRadius: 0,
 
@@ -1140,32 +1764,25 @@ const grafico =
 
                 },
 
-
-                /* =================================================
-                   PUNTO ROJO DEL AÑO SELECCIONADO
-                ================================================= */
-
                 {
 
                     label: "Año seleccionado",
 
                     data: [],
 
-                    borderColor: "#ff0000",
+                    borderWidth: 0,
 
-                    backgroundColor: "#ff0000",
+                    backgroundColor: "#e53935",
 
-                    borderWidth: 3,
+                    borderColor: "#e53935",
+
+                    pointBackgroundColor: "#e53935",
+
+                    pointBorderColor: "#e53935",
 
                     pointRadius: 7,
 
                     pointHoverRadius: 9,
-
-                    pointBackgroundColor: "#ff0000",
-
-                    pointBorderColor: "#ffffff",
-
-                    pointBorderWidth: 2,
 
                     showLine: false,
 
@@ -1266,12 +1883,10 @@ function actualizarGrafico() {
             ).value
         );
 
-
     document.getElementById(
         "selectedYear"
     ).innerHTML =
         "Año: " + año;
-
 
     let labels = [];
     let valores = [];
@@ -1281,11 +1896,11 @@ function actualizarGrafico() {
     let nombre = "";
 
 
-    /* =================================================
-       NIVEL DEL MAR
-    ================================================= */
+    /* ================= NIVEL DEL MAR ================= */
 
-    if (variable === "mar") {
+    if (
+        variable === "mar"
+    ) {
 
         nombre =
             "Nivel del mar — SSP2-4.5";
@@ -1293,8 +1908,11 @@ function actualizarGrafico() {
         unidad =
             "cm";
 
-
-        for (let y = 2020; y <= 2100; y++) {
+        for (
+            let y = 2020;
+            y <= 2100;
+            y++
+        ) {
 
             labels.push(y);
 
@@ -1307,17 +1925,16 @@ function actualizarGrafico() {
 
         }
 
-
         valorActual =
             interpolar(
                 nivelMarSSP245,
                 año
             );
 
-
         document.getElementById(
             "descripcionDatos"
         ).innerHTML =
+
             "Proyección educativa del aumento relativo " +
             "del nivel del mar basada en escenarios " +
             "climáticos del IPCC AR6.";
@@ -1325,11 +1942,11 @@ function actualizarGrafico() {
     }
 
 
-    /* =================================================
-       TEMPERATURA
-    ================================================= */
+    /* ================= TEMPERATURA ================= */
 
-    else if (variable === "temperatura") {
+    else if (
+        variable === "temperatura"
+    ) {
 
         nombre =
             "Temperatura del océano";
@@ -1337,8 +1954,11 @@ function actualizarGrafico() {
         unidad =
             "°C";
 
-
-        for (let y = 2000; y <= 2100; y++) {
+        for (
+            let y = 2000;
+            y <= 2100;
+            y++
+        ) {
 
             labels.push(y);
 
@@ -1351,17 +1971,16 @@ function actualizarGrafico() {
 
         }
 
-
         valorActual =
             interpolar(
                 temperaturaReferencia,
                 año
             );
 
-
         document.getElementById(
             "descripcionDatos"
         ).innerHTML =
+
             "Serie de referencia para visualización. " +
             "No se presenta como una medición oficial " +
             "local anual de Rapa Nui.";
@@ -1369,11 +1988,11 @@ function actualizarGrafico() {
     }
 
 
-    /* =================================================
-       CO2
-    ================================================= */
+    /* ================= CO2 ================= */
 
-    else if (variable === "co2") {
+    else if (
+        variable === "co2"
+    ) {
 
         nombre =
             "CO₂ atmosférico — NOAA";
@@ -1381,12 +2000,17 @@ function actualizarGrafico() {
         unidad =
             "ppm";
 
-
-        for (let y = 2000; y <= 2100; y++) {
+        for (
+            let y = 2000;
+            y <= 2100;
+            y++
+        ) {
 
             labels.push(y);
 
-            if (y <= 2025) {
+            if (
+                y <= 2025
+            ) {
 
                 valores.push(
                     interpolar(
@@ -1410,8 +2034,9 @@ function actualizarGrafico() {
 
         }
 
-
-        if (año <= 2025) {
+        if (
+            año <= 2025
+        ) {
 
             valorActual =
                 interpolar(
@@ -1431,10 +2056,10 @@ function actualizarGrafico() {
 
         }
 
-
         document.getElementById(
             "descripcionDatos"
         ).innerHTML =
+
             "Los valores históricos corresponden " +
             "a mediciones de CO₂ atmosférico de NOAA " +
             "en Mauna Loa, Hawái. Los valores posteriores " +
@@ -1446,83 +2071,53 @@ function actualizarGrafico() {
 
     /* =================================================
        PUNTO ROJO
-       
-       IMPORTANTE:
-       Se crea un punto independiente con:
-       
-       X = año seleccionado
-       Y = valor correspondiente al año seleccionado
-       
-       Así el punto SIEMPRE aparece exactamente
-       donde está la barra.
     ================================================= */
 
-    const puntoSeleccionado = [
+    const puntoSeleccionado =
+        new Array(
+            labels.length
+        ).fill(null);
 
-        {
-            x: año,
-            y: valorActual
+    /*
+     * Buscamos el año elegido.
+     * El gráfico contiene todos los años,
+     * por lo que el punto siempre se coloca
+     * exactamente en el año seleccionado.
+     */
 
-        }
+    const indice =
+        labels.indexOf(año);
 
-    ];
+    if (
+        indice >= 0 &&
+        valores[indice] !== null &&
+        valores[indice] !== undefined
+    ) {
+
+        puntoSeleccionado[indice] =
+            valores[indice];
+
+    }
 
 
     /* =================================================
-       ACTUALIZAR LÍNEA
+       ACTUALIZAR CHART
     ================================================= */
 
-    grafico.data.labels = labels;
-
+    grafico.data.labels =
+        labels;
 
     grafico.data.datasets[0].data =
-        labels.map(
-            (añoGrafico, indice) => ({
-                x: Number(añoGrafico),
-                y: valores[indice]
-            })
-        );
-
+        valores;
 
     grafico.data.datasets[0].label =
         nombre;
 
-
-    /* =================================================
-       ACTUALIZAR PUNTO ROJO
-    ================================================= */
-
     grafico.data.datasets[1].data =
         puntoSeleccionado;
 
-
     grafico.data.datasets[1].label =
         "Año " + año;
-
-
-    /* =================================================
-       FORZAR COLORES
-    ================================================= */
-
-    grafico.data.datasets[0].borderColor =
-        "#1565c0";
-
-    grafico.data.datasets[0].backgroundColor =
-        "rgba(21,101,192,0.1)";
-
-
-    grafico.data.datasets[1].borderColor =
-        "#ff0000";
-
-    grafico.data.datasets[1].backgroundColor =
-        "#ff0000";
-
-
-    /* =================================================
-       ACTUALIZAR
-    ================================================= */
-
-    grafico.resize();
 
     grafico.update("none");
 
@@ -1542,9 +2137,13 @@ function actualizarGrafico() {
         "<div class='valorGrande'>" +
 
         (
-            valorActual !== null
+            valorActual !== null &&
+            valorActual !== undefined
+
             ? valorActual.toFixed(1)
+
             : "No disponible"
+
         ) +
 
         " " +
@@ -1561,7 +2160,7 @@ function actualizarGrafico() {
 
 
 /* =====================================================
-   EVENTOS
+   EVENTOS GRÁFICO
 ===================================================== */
 
 const yearSlider =
@@ -1580,29 +2179,14 @@ variableSelect.addEventListener(
     actualizarGrafico
 );
 
-
 yearSlider.addEventListener(
     "input",
     actualizarGrafico
 );
 
-
 yearSlider.addEventListener(
     "change",
     actualizarGrafico
-);
-
-
-yearSlider.addEventListener(
-    "touchmove",
-    function() {
-
-        requestAnimationFrame(
-            actualizarGrafico
-        );
-
-    },
-    { passive: true }
 );
 
 
@@ -1638,7 +2222,9 @@ const camara =
 
 const renderer =
     new THREE.WebGLRenderer({
+
         antialias: true
+
     });
 
 
@@ -1658,7 +2244,10 @@ function ajustarThree() {
     const alto =
         contenedor.clientHeight;
 
-    if (ancho > 0 && alto > 0) {
+    if (
+        ancho > 0 &&
+        alto > 0
+    ) {
 
         renderer.setSize(
             ancho,
@@ -1681,9 +2270,7 @@ contenedor.appendChild(
 );
 
 
-/* =====================================================
-   LUCES
-===================================================== */
+/* LUCES */
 
 const luz =
     new THREE.DirectionalLight(
@@ -1707,9 +2294,7 @@ escena.add(
 );
 
 
-/* =====================================================
-   MAR
-===================================================== */
+/* MAR */
 
 const mar =
     new THREE.Mesh(
@@ -1737,9 +2322,7 @@ mar.position.y = 0;
 escena.add(mar);
 
 
-/* =====================================================
-   PLAYA
-===================================================== */
+/* PLAYA */
 
 const playa =
     new THREE.Mesh(
@@ -1764,9 +2347,7 @@ playa.position.y = 0.3;
 escena.add(playa);
 
 
-/* =====================================================
-   ISLA
-===================================================== */
+/* ISLA */
 
 const isla =
     new THREE.Mesh(
@@ -1791,9 +2372,7 @@ isla.position.y = 1.5;
 escena.add(isla);
 
 
-/* =====================================================
-   CAMARA
-===================================================== */
+/* CAMARA */
 
 camara.position.set(
     10,
@@ -1808,9 +2387,7 @@ camara.lookAt(
 );
 
 
-/* =====================================================
-   ANIMACIÓN
-===================================================== */
+/* ANIMACIÓN */
 
 function animar() {
 
@@ -1818,7 +2395,8 @@ function animar() {
         animar
     );
 
-    isla.rotation.y += 0.003;
+    isla.rotation.y +=
+        0.003;
 
     renderer.render(
         escena,
@@ -1869,7 +2447,6 @@ function actualizarSimulador() {
 
     let aumento;
 
-
     if (
         escenarioMar.value ===
         "SSP2-4.5"
@@ -1893,40 +2470,41 @@ function actualizarSimulador() {
 
     }
 
-
     anio3D.innerHTML =
         "Año: " + año;
-
 
     nivel3D.innerHTML =
         "Aumento estimado: " +
         aumento.toFixed(1) +
         " cm";
 
-
     const altura =
         (aumento / 100) * 3;
-
 
     mar.position.y =
         altura;
 
-
-    if (aumento < 20) {
+    if (
+        aumento < 20
+    ) {
 
         riesgo.innerHTML =
             "🟢 Riesgo costero: Bajo";
 
     }
 
-    else if (aumento < 50) {
+    else if (
+        aumento < 50
+    ) {
 
         riesgo.innerHTML =
             "🟡 Riesgo costero: Moderado";
 
     }
 
-    else if (aumento < 80) {
+    else if (
+        aumento < 80
+    ) {
 
         riesgo.innerHTML =
             "🟠 Riesgo costero: Alto";
@@ -1964,7 +2542,9 @@ escenarioMar.addEventListener(
 ===================================================== */
 
 document
-.getElementById("abrirSimulador")
+.getElementById(
+    "abrirSimulador"
+)
 .addEventListener(
     "click",
     function() {
@@ -1985,7 +2565,10 @@ document
                 actualizarSimulador();
 
                 pagina.scrollIntoView({
-                    behavior: "smooth"
+
+                    behavior:
+                        "smooth"
+
                 });
 
             },
@@ -2001,7 +2584,9 @@ document
 ===================================================== */
 
 document
-.getElementById("cerrarSimulador")
+.getElementById(
+    "cerrarSimulador"
+)
 .addEventListener(
     "click",
     function() {
@@ -2034,22 +2619,18 @@ function actualizarImpacto() {
             impactoSlider.value
         );
 
-
     document.getElementById(
         "impactoAnio"
     ).innerHTML =
         "Año: " + año;
 
-
     const progreso =
         (año - 2000) / 100;
-
 
     const nivel =
         document.getElementById(
             "impactoNivel"
         );
-
 
     const descripcion =
         document.getElementById(
@@ -2057,7 +2638,9 @@ function actualizarImpacto() {
         );
 
 
-    if (progreso < 0.25) {
+    if (
+        progreso < 0.25
+    ) {
 
         nivel.innerHTML =
             "🟢 Impacto: Bajo";
@@ -2068,7 +2651,9 @@ function actualizarImpacto() {
 
     }
 
-    else if (progreso < 0.5) {
+    else if (
+        progreso < 0.5
+    ) {
 
         nivel.innerHTML =
             "🟡 Impacto: Moderado";
@@ -2080,7 +2665,9 @@ function actualizarImpacto() {
 
     }
 
-    else if (progreso < 0.75) {
+    else if (
+        progreso < 0.75
+    ) {
 
         nivel.innerHTML =
             "🟠 Impacto: Alto";
@@ -2133,7 +2720,10 @@ window.addEventListener(
                 function() {
 
                     grafico.resize();
-                    grafico.update("none");
+
+                    grafico.update(
+                        "none"
+                    );
 
                 },
                 100
@@ -2153,7 +2743,10 @@ window.addEventListener(
             function() {
 
                 grafico.resize();
-                grafico.update("none");
+
+                grafico.update(
+                    "none"
+                );
 
                 ajustarThree();
 
@@ -2173,7 +2766,10 @@ window.addEventListener(
             function() {
 
                 grafico.resize();
-                grafico.update("none");
+
+                grafico.update(
+                    "none"
+                );
 
                 ajustarThree();
 
@@ -2187,4 +2783,5 @@ window.addEventListener(
 </script>
 
 </body>
+
 </html>
