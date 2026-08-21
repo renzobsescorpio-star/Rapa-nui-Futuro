@@ -3,2106 +3,2784 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <meta name="description"
-          content="Rapa Nui Futuro: plataforma educativa sobre cambio climático, océano, biodiversidad, comunidad y futuro sostenible de Rapa Nui.">
+<title>🗿 Rapa Nui Futuro</title>
 
-    <meta name="keywords"
-          content="Rapa Nui, Isla de Pascua, cambio climático, océano, biodiversidad, medio ambiente, futuro, sostenibilidad">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-    <meta name="author"
-          content="Rapa Nui Futuro">
+<style>
 
-    <meta name="theme-color"
-          content="#0f172a">
+* {
+    box-sizing: border-box;
+}
 
-    <title>Rapa Nui Futuro | Ciencia, Medio Ambiente y Comunidad</title>
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    font-family: Arial, sans-serif;
+    background: #eef5ff;
+    color: #172033;
+}
 
-    <!-- ================================
-         LIBRERÍAS EXTERNAS
-    ================================= -->
+body {
+    display: flex;
+}
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+/* ================= SIDEBAR ================= */
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+#sidebar {
+    width: 280px;
+    min-height: 100vh;
+    background: #0f172a;
+    color: white;
+    padding: 20px;
+    flex-shrink: 0;
+}
+
+#sidebar h1 {
+    text-align: center;
+}
+
+#sidebar button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    background: white;
+    color: #0f172a;
+    touch-action: manipulation;
+}
+
+#sidebar button:hover {
+    opacity: .85;
+}
+
+/* ================= CONTENIDO ================= */
+
+#contenido {
+    flex: 1;
+    width: calc(100% - 280px);
+    min-width: 0;
+    padding: 30px;
+}
+
+/* ================= PANELES ================= */
+
+.panel {
+    display: none;
+    width: 100%;
+}
+
+/* ================= CARDS ================= */
+
+.card {
+    background: white;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.15);
+    width: 100%;
+}
+
+/* ================= CONDICIONES ================= */
+
+.condiciones {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.dato {
+    flex: 1;
+    min-width: 200px;
+    background: #eef6ff;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+/* ================= BOTONES ================= */
+
+.simBtn {
+    background: #1565c0;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+    touch-action: manipulation;
+}
+
+.simBtn:hover {
+    opacity: .9;
+}
+
+/* ================= SELECTORES ================= */
+
+select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    background: white;
+    font-size: 16px;
+}
+
+/* ================= SLIDERS ================= */
+
+input[type="range"] {
+    width: 100%;
+    display: block;
+    margin-top: 20px;
+    cursor: pointer;
+    touch-action: pan-x;
+}
+
+/* ================= GRÁFICO ================= */
+
+.graficoContenedor {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    min-height: 420px;
+    max-height: 420px;
+    overflow: hidden;
+}
+
+#grafico {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* ================= INDICADORES ================= */
+
+.indicador {
+    margin-top: 20px;
+    padding: 20px;
+    background: #eef6ff;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.valorGrande {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 10px;
+}
+
+/* ================= SIMULADOR ================= */
+
+#simuladorPage {
+    min-height: 800px;
+}
+
+#escena3D {
+    width: 100%;
+    height: 500px;
+    background: #87ceeb;
+    border-radius: 15px;
+    margin-top: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+#escena3D canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* ================= FUENTES ================= */
+
+.fuente {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f1f5f9;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+/* ================= ACCIONES AMBIENTALES ================= */
+
+.accionesGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.accion {
+    background: #eef6ff;
+    padding: 20px;
+    border-radius: 14px;
+    border-left: 5px solid #1565c0;
+}
+
+.accion h3 {
+    margin-top: 0;
+}
+
+.accion p {
+    line-height: 1.5;
+}
+
+.accion ul {
+    padding-left: 20px;
+}
+
+.accionProyeccion {
+    background: white;
+    padding: 12px;
+    margin-top: 15px;
+    border-radius: 10px;
+    border: 1px solid #dbeafe;
+}
+
+.accionProyeccion strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.accionFinal {
+    background: #e8f5e9;
+    border-left: 5px solid #2e7d32;
+    padding: 20px;
+    border-radius: 14px;
+    margin-top: 20px;
+}
+
+/* ================= MOVIL ================= */
+
+@media (max-width: 768px) {
+
+    body {
+        display: block;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    #sidebar {
+        width: 100%;
+        min-height: auto;
+        padding: 15px;
+    }
+
+    #sidebar h1 {
+        font-size: 24px;
+    }
+
+    #contenido {
+        width: 100%;
+        padding: 12px;
+        overflow-x: hidden;
+    }
+
+    .card {
+        width: 100%;
+        padding: 16px;
+        margin-bottom: 15px;
+        overflow: hidden;
+    }
+
+    .condiciones {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .dato {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .accionesGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .graficoContenedor {
+        width: 100%;
+        height: 350px;
+        min-height: 350px;
+        max-height: 350px;
+        position: relative;
+    }
+
+    #grafico {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    #escena3D {
+        width: 100%;
+        height: 350px;
+    }
+
+    #simuladorPage {
+        min-height: 650px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    h2 {
+        font-size: 21px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    p {
+        line-height: 1.5;
+    }
+
+}
+
+/* =====================================================
+   FIN CSS
+===================================================== */
+
+</style>
 
 </head>
 
-
 <body>
 
-
 <!-- =====================================================
-     BARRA LATERAL
+     SIDEBAR
 ===================================================== -->
 
 <aside id="sidebar">
 
-    <div class="sidebar-header">
+<h1>🗿 Rapa Nui Futuro</h1>
 
-        <div class="logo">
-            🗿
-        </div>
+<button onclick="mostrar('mar')">
+🌊 Océano y cambio climático
+</button>
 
-        <h1>
-            Rapa Nui Futuro
-        </h1>
+<button onclick="mostrar('biodiversidad')">
+🐠 Biodiversidad
+</button>
 
-        <p>
-            Ciencia · Tecnología · Medio ambiente
-        </p>
+<button onclick="mostrar('impacto')">
+🌍 Impacto en la Comunidad
+</button>
 
-    </div>
-
-
-    <nav class="navegacion"
-         aria-label="Navegación principal">
-
-        <button
-            class="nav-btn activo"
-            onclick="mostrar('mar')">
-
-            <span class="nav-icon">🌊</span>
-
-            <span>
-                Océano y clima
-            </span>
-
-        </button>
-
-
-        <button
-            class="nav-btn"
-            onclick="mostrar('biodiversidad')">
-
-            <span class="nav-icon">🐠</span>
-
-            <span>
-                Biodiversidad
-            </span>
-
-        </button>
-
-
-        <button
-            class="nav-btn"
-            onclick="mostrar('impacto')">
-
-            <span class="nav-icon">🌍</span>
-
-            <span>
-                Impacto comunitario
-            </span>
-
-        </button>
-
-
-        <button
-            class="nav-btn"
-            onclick="mostrar('acciones')">
-
-            <span class="nav-icon">🌱</span>
-
-            <span>
-                Acción ambiental
-            </span>
-
-        </button>
-
-    </nav>
-
-
-    <div class="sidebar-footer">
-
-        <div class="estado">
-
-            <span class="estado-punto"></span>
-
-            <span>
-                Plataforma educativa
-            </span>
-
-        </div>
-
-        <p>
-            Explorando el futuro de Rapa Nui
-        </p>
-
-    </div>
+<button onclick="mostrar('acciones')">
+🌱 Acción por el medio ambiente
+</button>
 
 </aside>
 
 
-
 <!-- =====================================================
-     CONTENIDO PRINCIPAL
+     CONTENIDO
 ===================================================== -->
 
 <main id="contenido">
 
 
 <!-- =====================================================
-     MAR / OCÉANO
+     MAR
 ===================================================== -->
 
-<section
-    id="mar"
-    class="panel activo"
-    aria-labelledby="titulo-mar">
+<div id="mar" class="panel">
 
+<div class="card">
 
-    <!-- HERO -->
+<h1>🌊 Océano y cambio climático</h1>
 
-    <div class="hero">
+<p>
+Rapa Nui es una isla oceánica ubicada en el
+Pacífico Sur. El océano regula gran parte de
+las condiciones climáticas de la isla y puede
+verse afectado por el calentamiento global.
+</p>
 
-        <div class="hero-contenido">
+<p>
+En esta sección se muestran datos ambientales
+actuales y proyecciones climáticas para
+comprender posibles cambios durante este siglo.
+</p>
 
-            <span class="etiqueta">
-                🌊 CIENCIA Y CLIMA
-            </span>
+</div>
 
-            <h1 id="titulo-mar">
-                Océano y cambio climático
-            </h1>
 
-            <p class="hero-texto">
+<!-- CONDICIONES -->
 
-                Explora cómo el cambio climático puede
-                afectar al océano, el nivel del mar y
-                el futuro de Rapa Nui.
+<div class="card">
 
-            </p>
+<h2>🌡️ Condiciones actuales</h2>
 
-            <div class="hero-datos">
+<p>
+Datos consultados directamente desde servicios
+meteorológicos y oceanográficos.
+</p>
 
-                <div>
-                    <strong>
-                        2000 → 2100
-                    </strong>
+<div class="condiciones">
 
-                    <span>
-                        período analizado
-                    </span>
-                </div>
+<div class="dato">
+<h3>🌡️ Temperatura del océano</h3>
+<p id="tempMar">Cargando...</p>
+</div>
 
+<div class="dato">
+<h3>🌊 Oleaje</h3>
+<p id="oleaje">Cargando...</p>
+</div>
 
-                <div>
-                    <strong>
-                        IPCC AR6
-                    </strong>
+<div class="dato">
+<h3>💨 Viento</h3>
+<p id="viento">Cargando...</p>
+</div>
 
-                    <span>
-                        escenarios climáticos
-                    </span>
-                </div>
+<div class="dato">
+<h3>🧂 Salinidad</h3>
+<p id="salinidad">No disponible</p>
+</div>
 
+</div>
 
-                <div>
-                    <strong>
-                        Rapa Nui
-                    </strong>
+</div>
 
-                    <span>
-                        Pacífico Sur
-                    </span>
-                </div>
 
-            </div>
+<!-- =====================================================
+     ESTADISTICAS
+===================================================== -->
 
-        </div>
+<div class="card">
 
-    </div>
+<h2>📊 Estadísticas Interactivas</h2>
 
+<p>
+Selecciona una variable para explorar
+datos observados y proyecciones.
+</p>
 
+<label>Variable</label>
 
-    <!-- INTRODUCCIÓN -->
+<select id="variableSelect">
 
-    <div class="card">
+<option value="mar">
+🌊 Nivel del mar — proyección IPCC
+</option>
 
-        <div class="section-title">
+<option value="temperatura">
+🌡️ Temperatura del océano — datos/referencia
+</option>
 
-            <span class="section-icon">
-                🌊
-            </span>
+<option value="co2">
+🌍 CO₂ atmosférico — NOAA
+</option>
 
-            <div>
+</select>
 
-                <h2>
-                    El océano y Rapa Nui
-                </h2>
+<br>
 
-                <p>
-                    Un ecosistema fundamental para la isla.
-                </p>
+<label>Año</label>
 
-            </div>
+<input
+type="range"
+id="yearSlider"
+min="2000"
+max="2100"
+step="1"
+value="2025"
+>
 
-        </div>
+<h3 id="selectedYear">
+Año: 2025
+</h3>
 
+<div class="graficoContenedor">
 
-        <p>
+<canvas id="grafico"></canvas>
 
-            Rapa Nui es una isla oceánica ubicada en
-            el Pacífico Sur. El océano regula gran parte
-            de las condiciones ambientales de la isla y
-            sostiene ecosistemas, actividades económicas,
-            alimentación y parte importante de su cultura.
+</div>
 
-        </p>
+<div id="valorSeleccionado" class="indicador">
+Cargando datos...
+</div>
 
+<div class="fuente">
 
-        <p>
+<strong>📚 Interpretación de los datos</strong>
 
-            El calentamiento global puede modificar la
-            temperatura del océano, el nivel del mar,
-            los patrones climáticos y las condiciones
-            de los ecosistemas marinos.
+<p id="descripcionDatos">
+Selecciona una variable para consultar
+su información.
+</p>
 
-        </p>
+</div>
 
-    </div>
+</div>
 
 
+<!-- =====================================================
+     SIMULADOR
+===================================================== -->
 
-    <!-- CONDICIONES ACTUALES -->
+<div class="card">
 
-    <div class="card">
+<h2>🌊 Nivel del mar</h2>
 
-        <div class="section-title">
+<p>
+Explora visualmente cómo cambiaría el nivel
+del mar bajo diferentes escenarios climáticos.
+</p>
 
-            <span class="section-icon">
-                📡
-            </span>
+<button id="abrirSimulador" class="simBtn">
+Abrir Simulador 3D
+</button>
 
-            <div>
+</div>
 
-                <h2>
-                    Condiciones actuales
-                </h2>
 
-                <p>
-                    Datos ambientales consultados en línea.
-                </p>
+<div
+id="simuladorPage"
+class="card"
+style="display:none;"
+>
 
-            </div>
+<h2>🌊 Simulador 3D del Nivel del Mar</h2>
 
-        </div>
+<h3>🌍 Escenario climático</h3>
 
+<select id="escenarioMar">
 
-        <div class="condiciones">
+<option value="SSP2-4.5">
+SSP2-4.5 — emisiones intermedias
+</option>
 
+<option value="SSP5-8.5">
+SSP5-8.5 — emisiones muy altas
+</option>
 
-            <div class="dato">
+</select>
 
-                <div class="dato-icon">
-                    🌡️
-                </div>
+<div id="escena3D"></div>
 
-                <div>
+<h3 id="simuladorAnio">
+Año: 2025
+</h3>
 
-                    <span class="dato-label">
-                        Temperatura del océano
-                    </span>
+<input
+type="range"
+id="simuladorSlider"
+min="2020"
+max="2100"
+step="1"
+value="2025"
+>
 
-                    <strong id="tempMar">
-                        Cargando...
-                    </strong>
+<h2 id="simuladorNivel">
+Aumento estimado: 0.0 cm
+</h2>
 
-                </div>
+<h3 id="riesgoCosta">
+🟢 Riesgo costero: Bajo
+</h3>
 
-            </div>
+<div class="fuente">
 
+<strong>📚 Fuente científica</strong>
 
+<p>
+Las proyecciones de nivel del mar se basan
+en los escenarios del IPCC AR6 distribuidos
+por la herramienta de proyecciones de nivel
+del mar de NASA.
+</p>
 
-            <div class="dato">
+<p>
+Los valores son una representación educativa
+de las proyecciones y no una predicción exacta
+del nivel del mar en una propiedad determinada.
+</p>
 
-                <div class="dato-icon">
-                    🌊
-                </div>
+</div>
 
-                <div>
+<button id="cerrarSimulador" class="simBtn">
+Cerrar simulador 3D
+</button>
 
-                    <span class="dato-label">
-                        Oleaje
-                    </span>
+</div>
 
-                    <strong id="oleaje">
-                        Cargando...
-                    </strong>
 
-                </div>
+<div class="card">
 
-            </div>
+<h2>📚 Fuentes científicas</h2>
 
+<ul>
 
+<li>NASA Sea Level Change Portal / IPCC AR6</li>
+<li>NOAA Global Monitoring Laboratory</li>
+<li>Open-Meteo Marine API</li>
+<li>Open-Meteo Weather API</li>
+<li>Copernicus Marine Service</li>
 
-            <div class="dato">
+</ul>
 
-                <div class="dato-icon">
-                    💨
-                </div>
+</div>
 
-                <div>
-
-                    <span class="dato-label">
-                        Viento
-                    </span>
-
-                    <strong id="viento">
-                        Cargando...
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="dato">
-
-                <div class="dato-icon">
-                    🧂
-                </div>
-
-                <div>
-
-                    <span class="dato-label">
-                        Salinidad
-                    </span>
-
-                    <strong id="salinidad">
-                        No disponible
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-
-    <!-- ESTADÍSTICAS -->
-
-    <div class="card">
-
-        <div class="section-title">
-
-            <span class="section-icon">
-                📊
-            </span>
-
-            <div>
-
-                <h2>
-                    Estadísticas interactivas
-                </h2>
-
-                <p>
-                    Explora diferentes variables ambientales.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="controles">
-
-
-            <div class="control">
-
-                <label for="variableSelect">
-                    Variable ambiental
-                </label>
-
-                <select id="variableSelect">
-
-                    <option value="mar">
-                        🌊 Nivel del mar — IPCC
-                    </option>
-
-                    <option value="temperatura">
-                        🌡️ Temperatura del océano
-                    </option>
-
-                    <option value="co2">
-                        🌍 CO₂ atmosférico — NOAA
-                    </option>
-
-                </select>
-
-            </div>
-
-
-
-            <div class="control">
-
-                <label for="yearSlider">
-                    Año seleccionado
-                </label>
-
-                <input
-                    type="range"
-                    id="yearSlider"
-                    min="2000"
-                    max="2100"
-                    step="1"
-                    value="2025">
-
-                <div class="slider-info">
-
-                    <span>
-                        2000
-                    </span>
-
-                    <strong id="selectedYear">
-                        Año: 2025
-                    </strong>
-
-                    <span>
-                        2100
-                    </span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        <div class="graficoContenedor">
-
-            <canvas id="grafico"></canvas>
-
-        </div>
-
-
-
-        <div
-            id="valorSeleccionado"
-            class="indicador">
-
-            Cargando datos...
-
-        </div>
-
-
-
-        <div class="fuente">
-
-            <strong>
-                📚 Interpretación
-            </strong>
-
-            <p id="descripcionDatos">
-
-                Selecciona una variable para consultar
-                su información.
-
-            </p>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- SIMULADOR -->
-
-    <div class="card simulador-card">
-
-        <div class="simulador-header">
-
-            <div>
-
-                <span class="etiqueta">
-                    EXPERIMENTO VIRTUAL
-                </span>
-
-                <h2>
-                    🌊 Simulador del nivel del mar
-                </h2>
-
-                <p>
-
-                    Visualiza cómo podría cambiar el
-                    nivel del mar bajo diferentes
-                    escenarios climáticos.
-
-                </p>
-
-            </div>
-
-            <div class="simulador-icon">
-                🌎
-            </div>
-
-        </div>
-
-
-        <button
-            id="abrirSimulador"
-            class="simBtn">
-
-            Explorar simulador 3D
-            <span>→</span>
-
-        </button>
-
-    </div>
-
-
-
-    <!-- SIMULADOR 3D -->
-
-    <div
-        id="simuladorPage"
-        class="card"
-        style="display:none;">
-
-        <div class="section-title">
-
-            <span class="section-icon">
-                🌎
-            </span>
-
-            <div>
-
-                <h2>
-                    Simulador 3D del nivel del mar
-                </h2>
-
-                <p>
-                    Explora diferentes escenarios y años.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="control">
-
-            <label for="escenarioMar">
-                Escenario climático
-            </label>
-
-            <select id="escenarioMar">
-
-                <option value="SSP2-4.5">
-                    SSP2-4.5 — Emisiones intermedias
-                </option>
-
-                <option value="SSP5-8.5">
-                    SSP5-8.5 — Emisiones muy altas
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div id="escena3D"></div>
-
-
-        <div class="simulador-controles">
-
-            <h3 id="simuladorAnio">
-                Año: 2025
-            </h3>
-
-            <input
-                type="range"
-                id="simuladorSlider"
-                min="2020"
-                max="2100"
-                step="1"
-                value="2025">
-
-            <div class="slider-info">
-
-                <span>
-                    2020
-                </span>
-
-                <span>
-                    2100
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <div class="resultado-simulador">
-
-            <h2 id="simuladorNivel">
-                Aumento estimado: 0.0 cm
-            </h2>
-
-            <h3 id="riesgoCosta">
-                🟢 Riesgo costero: Bajo
-            </h3>
-
-        </div>
-
-
-        <div class="fuente">
-
-            <strong>
-                📚 Fuente científica
-            </strong>
-
-            <p>
-
-                Las proyecciones de nivel del mar se
-                basan en escenarios del IPCC AR6 y
-                herramientas de proyección científica.
-
-            </p>
-
-            <p>
-
-                Los valores mostrados son una
-                representación educativa y no constituyen
-                una predicción exacta para una propiedad
-                determinada.
-
-            </p>
-
-        </div>
-
-
-        <button
-            id="cerrarSimulador"
-            class="simBtn secundario">
-
-            ← Cerrar simulador
-
-        </button>
-
-    </div>
-
-
-
-    <!-- FUENTES -->
-
-    <div class="card">
-
-        <div class="section-title">
-
-            <span class="section-icon">
-                📚
-            </span>
-
-            <div>
-
-                <h2>
-                    Fuentes científicas
-                </h2>
-
-                <p>
-                    Información utilizada en la plataforma.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="fuentes-grid">
-
-            <div>
-                <strong>
-                    NASA / IPCC
-                </strong>
-
-                <span>
-                    Proyecciones de cambio climático
-                    y nivel del mar.
-                </span>
-            </div>
-
-
-            <div>
-                <strong>
-                    NOAA
-                </strong>
-
-                <span>
-                    Datos atmosféricos y CO₂.
-                </span>
-            </div>
-
-
-            <div>
-                <strong>
-                    Open-Meteo
-                </strong>
-
-                <span>
-                    Datos meteorológicos y oceanográficos.
-                </span>
-            </div>
-
-
-            <div>
-                <strong>
-                    Copernicus Marine
-                </strong>
-
-                <span>
-                    Información oceanográfica.
-                </span>
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
+</div>
 
 
 <!-- =====================================================
      BIODIVERSIDAD
 ===================================================== -->
 
-<section
-    id="biodiversidad"
-    class="panel"
-    aria-labelledby="titulo-biodiversidad">
+<div id="biodiversidad" class="panel">
 
+<div class="card">
 
-    <div class="hero hero-biodiversidad">
+<h1>🐠 Biodiversidad de Rapa Nui</h1>
 
-        <div class="hero-contenido">
+<p>
+Rapa Nui posee ecosistemas marinos y terrestres
+adaptados a las condiciones particulares de una
+isla oceánica.
+</p>
 
-            <span class="etiqueta">
-                🐠 ECOSISTEMAS
-            </span>
+<p>
+El calentamiento del océano, la contaminación,
+la alteración de hábitats y otros factores pueden
+afectar la biodiversidad.
+</p>
 
-            <h1 id="titulo-biodiversidad">
-                Biodiversidad de Rapa Nui
-            </h1>
+</div>
 
-            <p class="hero-texto">
+<div class="card">
 
-                Conoce los principales desafíos que
-                enfrentan los ecosistemas terrestres
-                y marinos de la isla.
+<h2>🌊 Ecosistemas marinos</h2>
 
-            </p>
+<div class="condiciones">
 
-        </div>
+<div class="dato">
 
-    </div>
+<h3>🐟 Especies marinas</h3>
 
+<p>
+Los cambios en la temperatura del océano
+pueden modificar la distribución de especies.
+</p>
 
+</div>
 
-    <div class="card">
+<div class="dato">
 
-        <div class="section-title">
+<h3>🪸 Arrecifes</h3>
 
-            <span class="section-icon">
-                🐠
-            </span>
+<p>
+El aumento de temperatura puede producir
+estrés térmico en los ecosistemas coralinos.
+</p>
 
-            <div>
+</div>
 
-                <h2>
-                    Una biodiversidad única
-                </h2>
+<div class="dato">
 
-                <p>
-                    Ecosistemas adaptados a una isla oceánica.
-                </p>
+<h3>🌊 Hábitats costeros</h3>
 
-            </div>
+<p>
+El aumento del nivel del mar y la erosión
+pueden modificar ambientes costeros.
+</p>
 
-        </div>
+</div>
 
+</div>
 
-        <p>
+</div>
 
-            Rapa Nui posee ecosistemas marinos y
-            terrestres adaptados a condiciones
-            particulares de una isla oceánica.
+<div class="card">
 
-        </p>
+<h2>⚠️ Amenazas</h2>
 
+<ul>
 
-        <p>
+<li>Aumento de temperatura oceánica.</li>
+<li>Contaminación marina.</li>
+<li>Alteración de hábitats.</li>
+<li>Especies invasoras.</li>
+<li>Cambios climáticos.</li>
 
-            El calentamiento del océano, la contaminación,
-            la alteración de hábitats, las especies
-            invasoras y otros factores pueden afectar
-            la biodiversidad.
+</ul>
 
-        </p>
+</div>
 
-    </div>
-
-
-
-    <div class="card">
-
-        <div class="section-title">
-
-            <span class="section-icon">
-                🌊
-            </span>
-
-            <div>
-
-                <h2>
-                    Ecosistemas marinos
-                </h2>
-
-                <p>
-                    Ambientes esenciales para la isla.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="condiciones">
-
-
-            <div class="dato">
-
-                <div class="dato-icon">
-                    🐟
-                </div>
-
-                <div>
-
-                    <span class="dato-label">
-                        Especies marinas
-                    </span>
-
-                    <p>
-
-                        Los cambios en la temperatura
-                        pueden modificar la distribución
-                        de algunas especies.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="dato">
-
-                <div class="dato-icon">
-                    🪸
-                </div>
-
-                <div>
-
-                    <span class="dato-label">
-                        Arrecifes
-                    </span>
-
-                    <p>
-
-                        El aumento de temperatura puede
-                        generar estrés térmico en
-                        ecosistemas coralinos.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="dato">
-
-                <div class="dato-icon">
-                    🌊
-                </div>
-
-                <div>
-
-                    <span class="dato-label">
-                        Hábitats costeros
-                    </span>
-
-                    <p>
-
-                        La erosión y el aumento del nivel
-                        del mar pueden modificar ambientes
-                        costeros.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-
-    <div class="card">
-
-        <div class="section-title">
-
-            <span class="section-icon">
-                ⚠️
-            </span>
-
-            <div>
-
-                <h2>
-                    Principales amenazas
-                </h2>
-
-            </div>
-
-        </div>
-
-
-        <div class="amenazas-grid">
-
-            <div>
-                🌡️
-                <strong>
-                    Calentamiento oceánico
-                </strong>
-            </div>
-
-            <div>
-                🗑️
-                <strong>
-                    Contaminación marina
-                </strong>
-            </div>
-
-            <div>
-                🏝️
-                <strong>
-                    Alteración de hábitats
-                </strong>
-            </div>
-
-            <div>
-                🦠
-                <strong>
-                    Especies invasoras
-                </strong>
-            </div>
-
-            <div>
-                🌎
-                <strong>
-                    Cambio climático
-                </strong>
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
+</div>
 
 
 <!-- =====================================================
-     IMPACTO EN LA COMUNIDAD
+     IMPACTO
 ===================================================== -->
 
-<section
-    id="impacto"
-    class="panel"
-    aria-labelledby="titulo-impacto">
+<div id="impacto" class="panel">
 
+<div class="card">
 
-    <div class="hero hero-impacto">
+<h1>🌍 Impacto en la Comunidad</h1>
 
-        <div class="hero-contenido">
+<p>
+El cambio climático puede generar impactos
+sobre infraestructura, agua, alimentación,
+turismo y ecosistemas de Rapa Nui.
+</p>
 
-            <span class="etiqueta">
-                🌍 SOCIEDAD
-            </span>
+</div>
 
-            <h1 id="titulo-impacto">
-                Impacto en la comunidad
-            </h1>
+<div class="card">
 
-            <p class="hero-texto">
+<h2>🏝️ Áreas afectadas</h2>
 
-                Comprende cómo los cambios ambientales
-                pueden afectar diferentes áreas de la
-                vida en Rapa Nui.
+<div class="condiciones">
 
-            </p>
+<div class="dato">
 
-        </div>
+<h3>🏠 Infraestructura</h3>
 
-    </div>
+<p>
+La erosión y el aumento del nivel del mar
+pueden aumentar la exposición de sectores
+costeros.
+</p>
 
+</div>
 
+<div class="dato">
 
-    <div class="card">
+<h3>💧 Agua</h3>
 
-        <div class="section-title">
+<p>
+Los cambios en precipitaciones y sequías
+pueden aumentar la presión sobre los
+recursos hídricos.
+</p>
 
-            <span class="section-icon">
-                🏝️
-            </span>
+</div>
 
-            <div>
+<div class="dato">
 
-                <h2>
-                    ¿Qué puede verse afectado?
-                </h2>
+<h3>🌾 Alimentación</h3>
 
-                <p>
-                    Áreas importantes para la comunidad.
-                </p>
+<p>
+Los cambios ambientales pueden afectar
+actividades agrícolas y pesqueras.
+</p>
 
-            </div>
+</div>
 
-        </div>
+<div class="dato">
 
+<h3>💰 Turismo</h3>
 
-        <div class="condiciones">
+<p>
+Los cambios ambientales pueden afectar
+sectores turísticos costeros.
+</p>
 
+</div>
 
-            <div class="dato">
+</div>
 
-                <div class="dato-icon">
-                    🏠
-                </div>
+</div>
 
-                <div>
+<div class="card">
 
-                    <span class="dato-label">
-                        Infraestructura
-                    </span>
+<h2>📊 Impacto proyectado</h2>
 
-                    <p>
+<input
+type="range"
+id="impactoSlider"
+min="2000"
+max="2100"
+step="1"
+value="2025"
+>
 
-                        La erosión y el aumento del nivel
-                        del mar pueden aumentar la exposición
-                        de sectores costeros.
+<h3 id="impactoAnio">
+Año: 2025
+</h3>
 
-                    </p>
+<div class="indicador">
 
-                </div>
+<h2 id="impactoNivel">
+🟢 Impacto: Bajo
+</h2>
 
-            </div>
+<p id="impactoDescripcion">
+La exposición proyectada es relativamente baja.
+</p>
 
+</div>
 
+</div>
 
-            <div class="dato">
-
-                <div class="dato-icon">
-                    💧
-                </div>
-
-                <div>
-
-                    <span class="dato-label">
-                        Agua
-                    </span>
-
-                    <p>
-
-                        Los cambios en precipitaciones y
-                        períodos secos pueden aumentar
-                        la presión sobre los recursos.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="dato">
-
-                <div class="dato-icon">
-                    🌾
-                </div>
-
-                <div>
-
-                    <span class="dato-label">
-                        Alimentación
-                    </span>
-
-                    <p>
-
-                        Los cambios ambientales pueden
-                        afectar actividades agrícolas
-                        y pesqueras.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="dato">
-
-                <div class="dato-icon">
-                    💰
-                </div>
-
-                <div>
-
-                    <span class="dato-label">
-                        Turismo
-                    </span>
-
-                    <p>
-
-                        Los cambios ambientales pueden
-                        afectar sectores turísticos
-                        costeros.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- IMPACTO PROYECTADO -->
-
-    <div class="card">
-
-        <div class="section-title">
-
-            <span class="section-icon">
-                📊
-            </span>
-
-            <div>
-
-                <h2>
-                    Impacto proyectado
-                </h2>
-
-                <p>
-                    Explora cómo cambia el nivel de exposición.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <input
-            type="range"
-            id="impactoSlider"
-            min="2000"
-            max="2100"
-            step="1"
-            value="2025">
-
-
-        <div class="slider-info">
-
-            <span>
-                2000
-            </span>
-
-            <strong id="impactoAnio">
-                Año: 2025
-            </strong>
-
-            <span>
-                2100
-            </span>
-
-        </div>
-
-
-        <div class="indicador impacto-indicador">
-
-            <h2 id="impactoNivel">
-                🟢 Impacto: Bajo
-            </h2>
-
-            <p id="impactoDescripcion">
-
-                La exposición proyectada es
-                relativamente baja.
-
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
+</div>
 
 
 <!-- =====================================================
-     ACCIÓN AMBIENTAL
+     ACCIÓN POR EL MEDIO AMBIENTE
 ===================================================== -->
 
-<section
-    id="acciones"
-    class="panel"
-    aria-labelledby="titulo-acciones">
+<div id="acciones" class="panel">
 
+<div class="card">
 
-    <div class="hero hero-acciones">
+<h1>🌱 Acción por el medio ambiente — Rapa Nui</h1>
 
-        <div class="hero-contenido">
+<p>
+El futuro de Rapa Nui no depende solamente de
+conocer cómo puede cambiar el clima, sino también
+de las acciones que se tomen desde el presente.
+</p>
 
-            <span class="etiqueta">
-                🌱 SOLUCIONES
-            </span>
+<p>
+Las siguientes propuestas relacionan los posibles
+impactos ambientales con medidas que pueden ayudar
+a proteger los ecosistemas, los recursos naturales,
+la comunidad y el patrimonio de la isla.
+</p>
 
-            <h1 id="titulo-acciones">
-                Acción por el medio ambiente
-            </h1>
+</div>
 
-            <p class="hero-texto">
 
-                El futuro de Rapa Nui también depende
-                de las decisiones y acciones que tomemos
-                desde el presente.
+<div class="card">
 
-            </p>
+<h2>🌊 1. Proteger la costa</h2>
 
-        </div>
+<div class="accion">
 
-    </div>
+<h3>🏝️ Frente a la erosión y el aumento del nivel del mar</h3>
 
+<p>
+Los sectores costeros pueden quedar cada vez más
+expuestos a erosión, oleaje extremo y aumento del
+nivel del mar.
+</p>
 
+<h4>💡 ¿Qué podemos hacer?</h4>
 
-    <div class="card">
+<ul>
 
-        <div class="section-title">
+<li>Proteger la vegetación cercana a la costa.</li>
 
-            <span class="section-icon">
-                🌱
-            </span>
+<li>Evitar retirar arena, piedras u otros elementos
+naturales de las playas.</li>
 
-            <div>
+<li>Evitar construir en sectores especialmente
+vulnerables.</li>
 
-                <h2>
-                    De los datos a la acción
-                </h2>
+<li>Monitorear periódicamente la erosión de la costa.</li>
 
-                <p>
-                    Propuestas para una Rapa Nui más resiliente.
-                </p>
+<li>Utilizar soluciones basadas en la naturaleza
+antes que intervenciones que alteren fuertemente
+el ecosistema.</li>
 
-            </div>
+</ul>
 
-        </div>
+<div class="accionProyeccion">
 
+<strong>🔮 Pensando en el futuro</strong>
 
-        <p>
+A medida que aumente el nivel del mar, será
+importante identificar anticipadamente los sectores
+costeros más vulnerables y planificar medidas de
+adaptación.
 
-            Conocer los posibles cambios ambientales
-            permite pensar en soluciones que protejan
-            los ecosistemas, los recursos naturales,
-            la comunidad y el patrimonio de la isla.
+</div>
 
-        </p>
+</div>
 
-    </div>
+</div>
 
 
+<div class="card">
 
-    <!-- ACCIÓN 1 -->
+<h2>💧 2. Proteger el agua</h2>
 
-    <div class="card accion-card">
+<div class="accion">
 
-        <div class="accion-numero">
-            01
-        </div>
+<h3>🚰 Prepararse para períodos secos</h3>
 
-        <div class="accion-contenido">
+<p>
+El agua dulce es un recurso fundamental para la
+comunidad, los ecosistemas y las actividades
+productivas de Rapa Nui.
+</p>
 
-            <h2>
-                🌊 Proteger la costa
-            </h2>
+<h4>💡 ¿Qué podemos hacer?</h4>
 
-            <h3>
-                Frente a la erosión y el aumento del nivel del mar
-            </h3>
+<ul>
 
-            <p>
+<li>Reducir el desperdicio de agua.</li>
 
-                Los sectores costeros pueden quedar cada
-                vez más expuestos a erosión, oleaje extremo
-                y aumento del nivel del mar.
+<li>Reparar rápidamente fugas.</li>
 
-            </p>
+<li>Promover sistemas de recolección de agua lluvia
+cuando sean apropiados.</li>
 
-            <h4>
-                💡 ¿Qué podemos hacer?
-            </h4>
+<li>Reutilizar agua cuando sea seguro y técnicamente
+posible.</li>
 
-            <ul>
+<li>Monitorear el consumo de agua.</li>
 
-                <li>
-                    Proteger la vegetación cercana a la costa.
-                </li>
+</ul>
 
-                <li>
-                    Evitar retirar arena, piedras u otros
-                    elementos naturales de las playas.
-                </li>
+<div class="accionProyeccion">
 
-                <li>
-                    Evitar construir en sectores
-                    especialmente vulnerables.
-                </li>
+<strong>🔮 Pensando en el futuro</strong>
 
-                <li>
-                    Monitorear periódicamente la erosión.
-                </li>
+Una mejor gestión del agua puede aumentar la
+capacidad de la comunidad para enfrentar períodos
+de menor disponibilidad hídrica.
 
-                <li>
-                    Priorizar soluciones basadas en
-                    la naturaleza.
-                </li>
+</div>
 
-            </ul>
+</div>
 
-            <div class="accionProyeccion">
+</div>
 
-                <strong>
-                    🔮 Pensando en el futuro
-                </strong>
 
-                <p>
+<div class="card">
 
-                    Identificar anticipadamente los sectores
-                    costeros más vulnerables permite planificar
-                    medidas de adaptación.
+<h2>🐠 3. Proteger el océano</h2>
 
-                </p>
+<div class="accion">
 
-            </div>
+<h3>🌊 Un océano saludable es fundamental para Rapa Nui</h3>
 
-        </div>
+<p>
+El océano es parte fundamental del ecosistema,
+la alimentación, la cultura y la economía de la isla.
+</p>
 
-    </div>
+<h4>💡 ¿Qué podemos hacer?</h4>
 
+<ul>
 
+<li>Reducir los residuos que llegan al mar.</li>
 
-    <!-- ACCIÓN 2 -->
+<li>Disminuir el uso de plásticos desechables.</li>
 
-    <div class="card accion-card">
+<li>No arrojar basura en playas o sectores costeros.</li>
 
-        <div class="accion-numero">
-            02
-        </div>
+<li>Participar en limpiezas de playas.</li>
 
-        <div class="accion-contenido">
+<li>Promover prácticas de pesca responsables.</li>
 
-            <h2>
-                💧 Proteger el agua
-            </h2>
+<li>Monitorear cambios en las especies marinas.</li>
 
-            <h3>
-                Prepararse para períodos secos
-            </h3>
+</ul>
 
-            <p>
+<div class="accionProyeccion">
 
-                El agua dulce es fundamental para la
-                comunidad, los ecosistemas y las
-                actividades productivas.
+<strong>🔮 Pensando en el futuro</strong>
 
-            </p>
+El monitoreo de la temperatura del océano y de la
+biodiversidad puede ayudar a detectar cambios antes
+de que sus efectos sean mayores.
 
-            <h4>
-                💡 ¿Qué podemos hacer?
-            </h4>
+</div>
 
-            <ul>
+</div>
 
-                <li>
-                    Reducir el desperdicio de agua.
-                </li>
+</div>
 
-                <li>
-                    Reparar rápidamente las fugas.
-                </li>
 
-                <li>
-                    Promover la recolección de agua lluvia
-                    cuando sea apropiado.
-                </li>
+<div class="card">
 
-                <li>
-                    Reutilizar agua cuando sea seguro.
-                </li>
+<h2>🌱 4. Restaurar y proteger los suelos</h2>
 
-                <li>
-                    Monitorear el consumo.
-                </li>
+<div class="accion">
 
-            </ul>
+<h3>🌿 Reducir la erosión</h3>
 
-            <div class="accionProyeccion">
+<p>
+La vegetación ayuda a proteger el suelo frente a
+la erosión y contribuye al funcionamiento de los
+ecosistemas terrestres.
+</p>
 
-                <strong>
-                    🔮 Pensando en el futuro
-                </strong>
+<h4>💡 ¿Qué podemos hacer?</h4>
 
-                <p>
+<ul>
 
-                    Una mejor gestión del agua puede
-                    aumentar la capacidad de la comunidad
-                    para enfrentar períodos de menor
-                    disponibilidad hídrica.
+<li>Reforestar con especies apropiadas para Rapa Nui.</li>
 
-                </p>
+<li>Proteger áreas con vegetación.</li>
 
-            </div>
+<li>Evitar la degradación innecesaria del suelo.</li>
 
-        </div>
+<li>Utilizar prácticas agrícolas que reduzcan la erosión.</li>
 
-    </div>
+<li>Restaurar sectores degradados.</li>
 
+</ul>
 
+<div class="accionProyeccion">
 
-    <!-- ACCIÓN 3 -->
+<strong>🔮 Pensando en el futuro</strong>
 
-    <div class="card accion-card">
+Un suelo más protegido puede aumentar la capacidad
+de los ecosistemas para enfrentar cambios ambientales
+y eventos climáticos.
 
-        <div class="accion-numero">
-            03
-        </div>
+</div>
 
-        <div class="accion-contenido">
+</div>
 
-            <h2>
-                🐠 Proteger el océano
-            </h2>
+</div>
 
-            <h3>
-                Un océano saludable es fundamental
-                para Rapa Nui
-            </h3>
 
-            <p>
+<div class="card">
 
-                El océano forma parte fundamental del
-                ecosistema, la alimentación, la cultura
-                y la economía de la isla.
+<h2>♻️ 5. Reducir residuos y contaminación</h2>
 
-            </p>
+<div class="accion">
 
-            <h4>
-                💡 ¿Qué podemos hacer?
-            </h4>
+<h3>🗑️ Menos residuos, menos contaminación</h3>
 
-            <ul>
+<p>
+En una isla oceánica, reducir la cantidad de residuos
+es especialmente importante porque el transporte y
+la gestión de materiales presentan desafíos.
+</p>
 
-                <li>
-                    Reducir los residuos que llegan al mar.
-                </li>
+<h4>💡 ¿Qué podemos hacer?</h4>
 
-                <li>
-                    Disminuir el uso de plásticos desechables.
-                </li>
+<ul>
 
-                <li>
-                    No arrojar basura en playas.
-                </li>
+<li>Reducir productos de un solo uso.</li>
 
-                <li>
-                    Participar en limpiezas de playas.
-                </li>
+<li>Reutilizar materiales.</li>
 
-                <li>
-                    Promover prácticas de pesca responsables.
-                </li>
+<li>Separar correctamente los residuos.</li>
 
-                <li>
-                    Monitorear cambios en especies marinas.
-                </li>
+<li>Reciclar cuando exista un sistema disponible.</li>
 
-            </ul>
+<li>Evitar que los residuos lleguen al océano.</li>
 
-        </div>
+<li>Realizar campañas de educación ambiental.</li>
 
-    </div>
+</ul>
 
+<div class="accionProyeccion">
 
+<strong>🔮 Pensando en el futuro</strong>
 
-    <!-- ACCIÓN 4 -->
+Reducir los residuos desde el origen disminuye la
+presión sobre los sistemas de gestión y sobre los
+ecosistemas de la isla.
 
-    <div class="card accion-card">
+</div>
 
-        <div class="accion-numero">
-            04
-        </div>
+</div>
 
-        <div class="accion-contenido">
+</div>
 
-            <h2>
-                🌱 Restaurar y proteger los suelos
-            </h2>
 
-            <h3>
-                Reducir la erosión
-            </h3>
+<div class="card">
 
-            <p>
+<h2>⚡ 6. Impulsar energías más limpias</h2>
 
-                La vegetación ayuda a proteger el suelo
-                frente a la erosión y contribuye al
-                funcionamiento de los ecosistemas terrestres.
+<div class="accion">
 
-            </p>
+<h3>🌎 Reducir emisiones</h3>
 
-            <h4>
-                💡 ¿Qué podemos hacer?
-            </h4>
+<p>
+La reducción de emisiones de gases de efecto
+invernadero es una acción fundamental frente al
+cambio climático.
+</p>
 
-            <ul>
+<h4>💡 ¿Qué podemos hacer?</h4>
 
-                <li>
-                    Reforestar con especies apropiadas.
-                </li>
+<ul>
 
-                <li>
-                    Proteger áreas con vegetación.
-                </li>
+<li>Mejorar la eficiencia energética.</li>
 
-                <li>
-                    Evitar la degradación innecesaria del suelo.
-                </li>
+<li>Reducir el consumo innecesario de electricidad.</li>
 
-                <li>
-                    Utilizar prácticas agrícolas sostenibles.
-                </li>
+<li>Promover energías renovables cuando sean
+adecuadas para la isla.</li>
 
-                <li>
-                    Restaurar sectores degradados.
-                </li>
+<li>Utilizar tecnologías eficientes.</li>
 
-            </ul>
+<li>Promover el transporte sostenible.</li>
 
-        </div>
+</ul>
 
-    </div>
+<div class="accionProyeccion">
 
+<strong>🔮 Pensando en el futuro</strong>
 
+Una transición energética puede ayudar a reducir
+las emisiones y aumentar la resiliencia energética
+de una isla aislada.
 
-    <!-- ACCIÓN 5 -->
+</div>
 
-    <div class="card accion-card">
+</div>
 
-        <div class="accion-numero">
-            05
-        </div>
+</div>
 
-        <div class="accion-contenido">
 
-            <h2>
-                ♻️ Reducir residuos y contaminación
-            </h2>
+<div class="card">
 
-            <h3>
-                Menos residuos, menos contaminación
-            </h3>
+<h2>🗿 7. Proteger el patrimonio de Rapa Nui</h2>
 
-            <p>
+<div class="accion">
 
-                En una isla oceánica, reducir la cantidad
-                de residuos es especialmente importante
-                debido a los desafíos de transporte y gestión.
+<h3>🏛️ Patrimonio cultural y cambio climático</h3>
 
-            </p>
+<p>
+El patrimonio arqueológico y cultural de Rapa Nui
+también puede verse afectado por procesos ambientales
+como erosión, lluvias intensas y cambios costeros.
+</p>
 
-            <h4>
-                💡 ¿Qué podemos hacer?
-            </h4>
+<h4>💡 ¿Qué podemos hacer?</h4>
 
-            <ul>
+<ul>
 
-                <li>
-                    Reducir productos de un solo uso.
-                </li>
+<li>Monitorear sitios arqueológicos vulnerables.</li>
 
-                <li>
-                    Reutilizar materiales.
-                </li>
+<li>Evitar actividades que deterioren el patrimonio.</li>
 
-                <li>
-                    Separar correctamente los residuos.
-                </li>
+<li>Documentar digitalmente sitios y estructuras.</li>
 
-                <li>
-                    Reciclar cuando exista un sistema disponible.
-                </li>
+<li>Proteger sectores especialmente expuestos.</li>
 
-                <li>
-                    Evitar que los residuos lleguen al océano.
-                </li>
+<li>Integrar conocimiento científico y conocimiento
+local en las estrategias de conservación.</li>
 
-                <li>
-                    Realizar campañas de educación ambiental.
-                </li>
+</ul>
 
-            </ul>
+<div class="accionProyeccion">
 
-        </div>
+<strong>🔮 Pensando en el futuro</strong>
 
-    </div>
+La identificación temprana de sitios vulnerables
+permite planificar medidas de conservación antes
+de que los daños sean irreversibles.
 
+</div>
 
+</div>
 
-    <!-- ACCIÓN 6 -->
+</div>
 
-    <div class="card accion-card">
 
-        <div class="accion-numero">
-            06
-        </div>
+<div class="card">
 
-        <div class="accion-contenido">
+<h2>🚨 8. Prepararse para el futuro</h2>
 
-            <h2>
-                ⚡ Impulsar energías más limpias
-            </h2>
+<div class="accion">
 
-            <h3>
-                Reducir emisiones
-            </h3>
+<h3>📊 Utilizar los datos para tomar decisiones</h3>
 
-            <p>
+<p>
+Las proyecciones climáticas no indican exactamente
+qué ocurrirá en un año determinado, pero permiten
+analizar posibles escenarios y prepararse.
+</p>
 
-                La reducción de emisiones de gases de
-                efecto invernadero es fundamental frente
-                al cambio climático.
+<h4>💡 ¿Qué podemos hacer?</h4>
 
-            </p>
+<ul>
 
-            <h4>
-                💡 ¿Qué podemos hacer?
-            </h4>
+<li>Monitorear temperatura, oleaje y nivel del mar.</li>
 
-            <ul>
+<li>Actualizar periódicamente los datos ambientales.</li>
 
-                <li>
-                    Mejorar la eficiencia energética.
-                </li>
+<li>Identificar zonas de mayor riesgo.</li>
 
-                <li>
-                    Reducir el consumo innecesario.
-                </li>
+<li>Crear planes de emergencia.</li>
 
-                <li>
-                    Promover energías renovables apropiadas.
-                </li>
+<li>Educar a la comunidad sobre cambio climático.</li>
 
-                <li>
-                    Utilizar tecnologías eficientes.
-                </li>
+<li>Utilizar escenarios climáticos para planificar
+infraestructura futura.</li>
 
-                <li>
-                    Promover transporte sostenible.
-                </li>
+</ul>
 
-            </ul>
+<div class="accionProyeccion">
 
-        </div>
+<strong>🔮 2030 → 2050 → 2100</strong>
 
-    </div>
+Las decisiones tomadas actualmente pueden influir
+en la capacidad de Rapa Nui para adaptarse a los
+cambios ambientales durante las próximas décadas.
 
+</div>
 
+</div>
 
-    <!-- ACCIÓN 7 -->
+</div>
 
-    <div class="card accion-card">
 
-        <div class="accion-numero">
-            07
-        </div>
+<div class="card">
 
-        <div class="accion-contenido">
+<h2>🤝 9. Acción de la comunidad</h2>
 
-            <h2>
-                🗿 Proteger el patrimonio
-            </h2>
+<div class="accion">
 
-            <h3>
-                Patrimonio cultural y cambio climático
-            </h3>
+<h3>🌺 Todos pueden participar</h3>
 
-            <p>
+<p>
+La adaptación al cambio climático no depende
+solamente de instituciones científicas o autoridades.
+La comunidad también puede participar.
+</p>
 
-                El patrimonio arqueológico y cultural
-                también puede verse afectado por procesos
-                como erosión, lluvias intensas y cambios costeros.
+<h4>💡 Acciones comunitarias</h4>
 
-            </p>
+<ul>
 
-            <h4>
-                💡 ¿Qué podemos hacer?
-            </h4>
+<li>Organizar jornadas de limpieza.</li>
 
-            <ul>
+<li>Crear campañas de educación ambiental.</li>
 
-                <li>
-                    Monitorear sitios arqueológicos vulnerables.
-                </li>
+<li>Participar en proyectos científicos escolares.</li>
 
-                <li>
-                    Evitar actividades que deterioren el patrimonio.
-                </li>
+<li>Registrar cambios observados en el ambiente.</li>
 
-                <li>
-                    Documentar digitalmente sitios y estructuras.
-                </li>
+<li>Proteger playas, ecosistemas y patrimonio.</li>
 
-                <li>
-                    Proteger sectores especialmente expuestos.
-                </li>
+<li>Compartir información científica confiable.</li>
 
-                <li>
-                    Integrar conocimiento científico y local.
-                </li>
+</ul>
 
-            </ul>
+</div>
 
-        </div>
+</div>
 
-    </div>
 
+<div class="card">
 
+<h2>🌍 ¿Qué podemos hacer desde hoy?</h2>
 
-    <!-- ACCIÓN 8 -->
+<div class="accionFinal">
 
-    <div class="card accion-card">
+<h3>🌱 Rapa Nui puede prepararse para el futuro</h3>
 
-        <div class="accion-numero">
-            08
-        </div>
+<p>
+El cambio climático representa desafíos importantes,
+pero conocer los posibles escenarios permite tomar
+mejores decisiones.
+</p>
 
-        <div class="accion-contenido">
+<p>
+Proteger el océano, cuidar el agua, reducir residuos,
+restaurar ecosistemas, proteger el patrimonio y
+utilizar energías más limpias son acciones que pueden
+contribuir a una Rapa Nui más resiliente.
+</p>
 
-            <h2>
-                🚨 Prepararse para el futuro
-            </h2>
+<p>
+<strong>
+El futuro no solamente se predice: también se construye
+con las decisiones que tomamos hoy.
+</strong>
+</p>
 
-            <h3>
-                Utilizar los datos para tomar decisiones
-            </h3>
+</div>
 
-            <p>
+</div>
 
-                Las proyecciones climáticas no indican
-                exactamente qué ocurrirá en un año determinado,
-                pero permiten analizar posibles escenarios.
 
-            </p>
+<div class="fuente">
 
-            <h4>
-                💡 ¿Qué podemos hacer?
-            </h4>
+<strong>📚 Enfoque científico</strong>
 
-            <ul>
+<p>
+Las acciones propuestas están relacionadas con los
+principales riesgos asociados al cambio climático:
+aumento del nivel del mar, calentamiento oceánico,
+erosión, presión sobre los recursos hídricos,
+pérdida de biodiversidad y eventos climáticos.
+</p>
 
-                <li>
-                    Monitorear temperatura, oleaje y nivel del mar.
-                </li>
+<p>
+Las proyecciones mostradas en Rapa Nui Futuro son
+escenarios utilizados para comprender posibles
+cambios y apoyar la educación y planificación
+ambiental. No representan predicciones exactas.
+</p>
 
-                <li>
-                    Actualizar periódicamente los datos.
-                </li>
+</div>
 
-                <li>
-                    Identificar zonas de mayor riesgo.
-                </li>
-
-                <li>
-                    Crear planes de emergencia.
-                </li>
-
-                <li>
-                    Educar a la comunidad.
-                </li>
-
-                <li>
-                    Utilizar escenarios climáticos para planificar.
-                </li>
-
-            </ul>
-
-            <div class="accionProyeccion">
-
-                <strong>
-                    🔮 2030 → 2050 → 2100
-                </strong>
-
-                <p>
-
-                    Las decisiones tomadas actualmente
-                    pueden influir en la capacidad de Rapa Nui
-                    para adaptarse durante las próximas décadas.
-
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- ACCIÓN 9 -->
-
-    <div class="card accion-card">
-
-        <div class="accion-numero">
-            09
-        </div>
-
-        <div class="accion-contenido">
-
-            <h2>
-                🤝 Acción de la comunidad
-            </h2>
-
-            <h3>
-                Todos pueden participar
-            </h3>
-
-            <p>
-
-                La adaptación al cambio climático no depende
-                solamente de instituciones científicas o
-                autoridades. La comunidad también puede participar.
-
-            </p>
-
-            <h4>
-                💡 Acciones comunitarias
-            </h4>
-
-            <ul>
-
-                <li>
-                    Organizar jornadas de limpieza.
-                </li>
-
-                <li>
-                    Crear campañas de educación ambiental.
-                </li>
-
-                <li>
-                    Participar en proyectos científicos escolares.
-                </li>
-
-                <li>
-                    Registrar cambios observados en el ambiente.
-                </li>
-
-                <li>
-                    Proteger playas, ecosistemas y patrimonio.
-                </li>
-
-                <li>
-                    Compartir información científica confiable.
-                </li>
-
-            </ul>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- CIERRE -->
-
-    <div class="card futuro-card">
-
-        <div class="futuro-icon">
-            🌺
-        </div>
-
-        <div>
-
-            <span class="etiqueta">
-                VISIÓN DE FUTURO
-            </span>
-
-            <h2>
-                ¿Qué podemos hacer desde hoy?
-            </h2>
-
-            <p>
-
-                El cambio climático representa desafíos
-                importantes, pero conocer los posibles
-                escenarios permite tomar mejores decisiones.
-
-            </p>
-
-            <p>
-
-                Proteger el océano, cuidar el agua,
-                reducir residuos, restaurar ecosistemas,
-                proteger el patrimonio y utilizar energías
-                más limpias pueden contribuir a una
-                Rapa Nui más resiliente.
-
-            </p>
-
-            <blockquote>
-
-                “El futuro no solamente se predice:
-                también se construye con las decisiones
-                que tomamos hoy.”
-
-            </blockquote>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- ENFOQUE CIENTÍFICO -->
-
-    <div class="fuente">
-
-        <strong>
-            📚 Enfoque científico
-        </strong>
-
-        <p>
-
-            Las acciones propuestas están relacionadas
-            con riesgos asociados al cambio climático,
-            como aumento del nivel del mar, calentamiento
-            oceánico, erosión, presión sobre recursos
-            hídricos, pérdida de biodiversidad y eventos
-            climáticos.
-
-        </p>
-
-        <p>
-
-            Las proyecciones mostradas en Rapa Nui Futuro
-            son escenarios utilizados para comprender
-            posibles cambios y apoyar la educación y
-            planificación ambiental. No representan
-            predicciones exactas.
-
-        </p>
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     PIE DE PÁGINA
-===================================================== -->
-
-<footer id="footer">
-
-    <div>
-
-        <strong>
-            🗿 Rapa Nui Futuro
-        </strong>
-
-        <p>
-            Ciencia, tecnología y conciencia para
-            construir un futuro sostenible.
-        </p>
-
-    </div>
-
-
-    <div class="footer-info">
-
-        <span>
-            🌊 Océano
-        </span>
-
-        <span>
-            🐠 Biodiversidad
-        </span>
-
-        <span>
-            🌱 Acción
-        </span>
-
-        <span>
-            🌍 Comunidad
-        </span>
-
-    </div>
-
-
-    <div class="footer-bottom">
-
-        <span>
-            Proyecto educativo
-        </span>
-
-        <span>
-            Rapa Nui · Chile
-        </span>
-
-    </div>
-
-</footer>
+</div>
 
 
 </main>
 
 
+<script>
 
-<!-- =====================================================
-     JAVASCRIPT EXTERNO
-     
-     NO SE COLOCA CÓDIGO JAVASCRIPT AQUÍ.
-     Se cargará desde script.js.
-===================================================== -->
+/* =====================================================
+   NAVEGACIÓN
+===================================================== */
 
-<script src="script.js"></script>
+function mostrar(id) {
+
+    document.querySelectorAll(".panel").forEach(panel => {
+        panel.style.display = "none";
+    });
+
+    const panel =
+        document.getElementById(id);
+
+    if (panel) {
+
+        panel.style.display = "block";
+
+        setTimeout(() => {
+
+            if (typeof grafico !== "undefined") {
+
+                grafico.resize();
+                grafico.update("none");
+
+            }
+
+        }, 100);
+
+    }
+
+}
+
+mostrar("mar");
+
+
+/* =====================================================
+   CONDICIONES ACTUALES
+===================================================== */
+
+async function cargarCondiciones() {
+
+    try {
+
+        const url =
+        "https://marine-api.open-meteo.com/v1/marine" +
+        "?latitude=-27.1127" +
+        "&longitude=-109.3497" +
+        "&hourly=wave_height,sea_surface_temperature" +
+        "&forecast_days=1";
+
+        const respuesta =
+            await fetch(url);
+
+        const datos =
+            await respuesta.json();
+
+        const temperaturas =
+            datos.hourly.sea_surface_temperature;
+
+        const oleajes =
+            datos.hourly.wave_height;
+
+        let temperatura = null;
+        let oleaje = null;
+
+        for (
+            let i = 0;
+            i < temperaturas.length;
+            i++
+        ) {
+
+            if (
+                temperaturas[i] !== null &&
+                temperatura === null
+            ) {
+
+                temperatura =
+                    temperaturas[i];
+
+            }
+
+        }
+
+        for (
+            let i = 0;
+            i < oleajes.length;
+            i++
+        ) {
+
+            if (
+                oleajes[i] !== null &&
+                oleaje === null
+            ) {
+
+                oleaje =
+                    oleajes[i];
+
+            }
+
+        }
+
+        document.getElementById(
+            "tempMar"
+        ).innerHTML =
+
+            temperatura !== null
+            ? temperatura.toFixed(2) + " °C"
+            : "No disponible";
+
+        document.getElementById(
+            "oleaje"
+        ).innerHTML =
+
+            oleaje !== null
+            ? oleaje.toFixed(2) + " m"
+            : "No disponible";
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        document.getElementById(
+            "tempMar"
+        ).innerHTML =
+            "No disponible";
+
+        document.getElementById(
+            "oleaje"
+        ).innerHTML =
+            "No disponible";
+
+    }
+
+}
+
+
+async function cargarViento() {
+
+    try {
+
+        const url =
+        "https://api.open-meteo.com/v1/forecast" +
+        "?latitude=-27.1127" +
+        "&longitude=-109.3497" +
+        "&current=wind_speed_10m";
+
+        const respuesta =
+            await fetch(url);
+
+        const datos =
+            await respuesta.json();
+
+        document.getElementById(
+            "viento"
+        ).innerHTML =
+
+            datos.current.wind_speed_10m.toFixed(1)
+            + " km/h";
+
+    }
+
+    catch (error) {
+
+        document.getElementById(
+            "viento"
+        ).innerHTML =
+            "No disponible";
+
+    }
+
+}
+
+document.getElementById(
+    "salinidad"
+).innerHTML =
+    "No disponible";
+
+cargarCondiciones();
+cargarViento();
+
+
+/* =====================================================
+   DATOS
+===================================================== */
+
+const nivelMarSSP245 = {
+
+2020: 0,
+2025: 3,
+2030: 6,
+2035: 9,
+2040: 12,
+2045: 16,
+2050: 20,
+2055: 24,
+2060: 28,
+2065: 32,
+2070: 36,
+2075: 40,
+2080: 44,
+2085: 48,
+2090: 52,
+2095: 57,
+2100: 62
+
+};
+
+
+const nivelMarSSP585 = {
+
+2020: 0,
+2025: 4,
+2030: 8,
+2035: 12,
+2040: 17,
+2045: 22,
+2050: 28,
+2055: 34,
+2060: 40,
+2065: 46,
+2070: 52,
+2075: 58,
+2080: 64,
+2085: 70,
+2090: 76,
+2095: 82,
+2100: 88
+
+};
+
+
+const co2NOAA = {
+
+2000:369.55,
+2001:371.14,
+2002:373.28,
+2003:375.80,
+2004:377.52,
+2005:379.80,
+2006:381.90,
+2007:383.79,
+2008:385.60,
+2009:387.43,
+2010:389.90,
+2011:391.65,
+2012:393.85,
+2013:396.48,
+2014:398.65,
+2015:400.83,
+2016:404.24,
+2017:406.55,
+2018:408.52,
+2019:411.44,
+2020:414.24,
+2021:416.45,
+2022:418.56,
+2023:421.08,
+2024:424.61,
+2025:427.35
+
+};
+
+
+const co2Proyeccion = {
+
+2030:438,
+2040:465,
+2050:495,
+2060:525,
+2070:555,
+2080:585,
+2090:615,
+2100:645
+
+};
+
+
+const temperaturaReferencia = {
+
+2000:22.4,
+2005:22.5,
+2010:22.6,
+2015:22.8,
+2020:23.0,
+2025:23.2,
+2030:23.4,
+2040:23.8,
+2050:24.2,
+2060:24.6,
+2070:25.0,
+2080:25.2,
+2090:25.4,
+2100:25.6
+
+};
+
+
+/* =====================================================
+   INTERPOLACIÓN
+===================================================== */
+
+function interpolar(objeto, año) {
+
+    const años =
+        Object.keys(objeto)
+        .map(Number)
+        .sort((a,b) => a-b);
+
+    if (objeto[año] !== undefined) {
+
+        return Number(
+            objeto[año]
+        );
+
+    }
+
+    if (año <= años[0]) {
+
+        return Number(
+            objeto[años[0]]
+        );
+
+    }
+
+    if (
+        año >=
+        años[años.length - 1]
+    ) {
+
+        return Number(
+            objeto[
+                años[años.length - 1]
+            ]
+        );
+
+    }
+
+    for (
+        let i = 0;
+        i < años.length - 1;
+        i++
+    ) {
+
+        const a1 =
+            años[i];
+
+        const a2 =
+            años[i + 1];
+
+        if (
+            año >= a1 &&
+            año <= a2
+        ) {
+
+            const v1 =
+                Number(objeto[a1]);
+
+            const v2 =
+                Number(objeto[a2]);
+
+            const porcentaje =
+                (año - a1) /
+                (a2 - a1);
+
+            return (
+                v1 +
+                (v2 - v1) *
+                porcentaje
+            );
+
+        }
+
+    }
+
+    return null;
+
+}
+
+
+/* =====================================================
+   GRÁFICO
+===================================================== */
+
+const canvas =
+    document.getElementById(
+        "grafico"
+    );
+
+const ctx =
+    canvas.getContext("2d");
+
+
+const grafico =
+    new Chart(ctx, {
+
+        type: "line",
+
+        data: {
+
+            labels: [],
+
+            datasets: [
+
+                {
+
+                    label: "",
+
+                    data: [],
+
+                    borderWidth: 3,
+
+                    borderColor: "#1565c0",
+
+                    backgroundColor: "#1565c0",
+
+                    pointRadius: 0,
+
+                    pointHoverRadius: 6,
+
+                    tension: 0.25,
+
+                    fill: false,
+
+                    spanGaps: true
+
+                },
+
+                {
+
+                    label: "Año seleccionado",
+
+                    data: [],
+
+                    borderWidth: 0,
+
+                    backgroundColor: "#e53935",
+
+                    borderColor: "#e53935",
+
+                    pointBackgroundColor: "#e53935",
+
+                    pointBorderColor: "#e53935",
+
+                    pointRadius: 7,
+
+                    pointHoverRadius: 9,
+
+                    showLine: false,
+
+                    fill: false
+
+                }
+
+            ]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            animation: false,
+
+            resizeDelay: 0,
+
+            interaction: {
+
+                mode: "nearest",
+
+                intersect: false
+
+            },
+
+            plugins: {
+
+                legend: {
+
+                    display: true
+
+                }
+
+            },
+
+            scales: {
+
+                x: {
+
+                    type: "linear",
+
+                    title: {
+
+                        display: true,
+
+                        text: "Año"
+
+                    },
+
+                    ticks: {
+
+                        maxTicksLimit: 8
+
+                    }
+
+                },
+
+                y: {
+
+                    title: {
+
+                        display: true,
+
+                        text: "Valor"
+
+                    },
+
+                    beginAtZero: false
+
+                }
+
+            }
+
+        }
+
+    });
+
+
+/* =====================================================
+   ACTUALIZAR GRÁFICO
+===================================================== */
+
+function actualizarGrafico() {
+
+    const variable =
+        document.getElementById(
+            "variableSelect"
+        ).value;
+
+    const año =
+        parseInt(
+            document.getElementById(
+                "yearSlider"
+            ).value
+        );
+
+    document.getElementById(
+        "selectedYear"
+    ).innerHTML =
+        "Año: " + año;
+
+    let labels = [];
+    let valores = [];
+
+    let valorActual = null;
+    let unidad = "";
+    let nombre = "";
+
+
+    /* ================= NIVEL DEL MAR ================= */
+
+    if (
+        variable === "mar"
+    ) {
+
+        nombre =
+            "Nivel del mar — SSP2-4.5";
+
+        unidad =
+            "cm";
+
+        for (
+            let y = 2020;
+            y <= 2100;
+            y++
+        ) {
+
+            labels.push(y);
+
+            valores.push(
+                interpolar(
+                    nivelMarSSP245,
+                    y
+                )
+            );
+
+        }
+
+        valorActual =
+            interpolar(
+                nivelMarSSP245,
+                año
+            );
+
+        document.getElementById(
+            "descripcionDatos"
+        ).innerHTML =
+
+            "Proyección educativa del aumento relativo " +
+            "del nivel del mar basada en escenarios " +
+            "climáticos del IPCC AR6.";
+
+    }
+
+
+    /* ================= TEMPERATURA ================= */
+
+    else if (
+        variable === "temperatura"
+    ) {
+
+        nombre =
+            "Temperatura del océano";
+
+        unidad =
+            "°C";
+
+        for (
+            let y = 2000;
+            y <= 2100;
+            y++
+        ) {
+
+            labels.push(y);
+
+            valores.push(
+                interpolar(
+                    temperaturaReferencia,
+                    y
+                )
+            );
+
+        }
+
+        valorActual =
+            interpolar(
+                temperaturaReferencia,
+                año
+            );
+
+        document.getElementById(
+            "descripcionDatos"
+        ).innerHTML =
+
+            "Serie de referencia para visualización. " +
+            "No se presenta como una medición oficial " +
+            "local anual de Rapa Nui.";
+
+    }
+
+
+    /* ================= CO2 ================= */
+
+    else if (
+        variable === "co2"
+    ) {
+
+        nombre =
+            "CO₂ atmosférico — NOAA";
+
+        unidad =
+            "ppm";
+
+        for (
+            let y = 2000;
+            y <= 2100;
+            y++
+        ) {
+
+            labels.push(y);
+
+            if (
+                y <= 2025
+            ) {
+
+                valores.push(
+                    interpolar(
+                        co2NOAA,
+                        y
+                    )
+                );
+
+            }
+
+            else {
+
+                valores.push(
+                    interpolar(
+                        co2Proyeccion,
+                        y
+                    )
+                );
+
+            }
+
+        }
+
+        if (
+            año <= 2025
+        ) {
+
+            valorActual =
+                interpolar(
+                    co2NOAA,
+                    año
+                );
+
+        }
+
+        else {
+
+            valorActual =
+                interpolar(
+                    co2Proyeccion,
+                    año
+                );
+
+        }
+
+        document.getElementById(
+            "descripcionDatos"
+        ).innerHTML =
+
+            "Los valores históricos corresponden " +
+            "a mediciones de CO₂ atmosférico de NOAA " +
+            "en Mauna Loa, Hawái. Los valores posteriores " +
+            "son proyecciones utilizadas para esta " +
+            "visualización educativa.";
+
+    }
+
+
+    /* =================================================
+       PUNTO ROJO
+    ================================================= */
+
+    const puntoSeleccionado =
+        new Array(
+            labels.length
+        ).fill(null);
+
+    /*
+     * Buscamos el año elegido.
+     * El gráfico contiene todos los años,
+     * por lo que el punto siempre se coloca
+     * exactamente en el año seleccionado.
+     */
+
+    const indice =
+        labels.indexOf(año);
+
+    if (
+        indice >= 0 &&
+        valores[indice] !== null &&
+        valores[indice] !== undefined
+    ) {
+
+        puntoSeleccionado[indice] =
+            valores[indice];
+
+    }
+
+
+    /* =================================================
+       ACTUALIZAR CHART
+    ================================================= */
+
+    grafico.data.labels =
+        labels;
+
+    grafico.data.datasets[0].data =
+        valores;
+
+    grafico.data.datasets[0].label =
+        nombre;
+
+    grafico.data.datasets[1].data =
+        puntoSeleccionado;
+
+    grafico.data.datasets[1].label =
+        "Año " + año;
+
+    grafico.update("none");
+
+
+    /* =================================================
+       NUMERO
+    ================================================= */
+
+    document.getElementById(
+        "valorSeleccionado"
+    ).innerHTML =
+
+        "<div>" +
+        nombre +
+        "</div>" +
+
+        "<div class='valorGrande'>" +
+
+        (
+            valorActual !== null &&
+            valorActual !== undefined
+
+            ? valorActual.toFixed(1)
+
+            : "No disponible"
+
+        ) +
+
+        " " +
+        unidad +
+
+        "</div>" +
+
+        "<div>" +
+        "Año seleccionado: " +
+        año +
+        "</div>";
+
+}
+
+
+/* =====================================================
+   EVENTOS GRÁFICO
+===================================================== */
+
+const yearSlider =
+    document.getElementById(
+        "yearSlider"
+    );
+
+const variableSelect =
+    document.getElementById(
+        "variableSelect"
+    );
+
+
+variableSelect.addEventListener(
+    "change",
+    actualizarGrafico
+);
+
+yearSlider.addEventListener(
+    "input",
+    actualizarGrafico
+);
+
+yearSlider.addEventListener(
+    "change",
+    actualizarGrafico
+);
+
+
+actualizarGrafico();
+
+
+/* =====================================================
+   SIMULADOR 3D
+===================================================== */
+
+const contenedor =
+    document.getElementById(
+        "escena3D"
+    );
+
+const escena =
+    new THREE.Scene();
+
+escena.background =
+    new THREE.Color(
+        0x87ceeb
+    );
+
+
+const camara =
+    new THREE.PerspectiveCamera(
+        60,
+        1,
+        0.1,
+        1000
+    );
+
+
+const renderer =
+    new THREE.WebGLRenderer({
+
+        antialias: true
+
+    });
+
+
+renderer.setPixelRatio(
+    Math.min(
+        window.devicePixelRatio || 1,
+        2
+    )
+);
+
+
+function ajustarThree() {
+
+    const ancho =
+        contenedor.clientWidth;
+
+    const alto =
+        contenedor.clientHeight;
+
+    if (
+        ancho > 0 &&
+        alto > 0
+    ) {
+
+        renderer.setSize(
+            ancho,
+            alto,
+            false
+        );
+
+        camara.aspect =
+            ancho / alto;
+
+        camara.updateProjectionMatrix();
+
+    }
+
+}
+
+
+contenedor.appendChild(
+    renderer.domElement
+);
+
+
+/* LUCES */
+
+const luz =
+    new THREE.DirectionalLight(
+        0xffffff,
+        1
+    );
+
+luz.position.set(
+    5,
+    10,
+    5
+);
+
+escena.add(luz);
+
+escena.add(
+    new THREE.AmbientLight(
+        0xffffff,
+        0.6
+    )
+);
+
+
+/* MAR */
+
+const mar =
+    new THREE.Mesh(
+
+        new THREE.BoxGeometry(
+            20,
+            1,
+            20
+        ),
+
+        new THREE.MeshPhongMaterial({
+
+            color: 0x3399ff,
+
+            transparent: true,
+
+            opacity: 0.75
+
+        })
+
+    );
+
+mar.position.y = 0;
+
+escena.add(mar);
+
+
+/* PLAYA */
+
+const playa =
+    new THREE.Mesh(
+
+        new THREE.CylinderGeometry(
+            5.2,
+            5.2,
+            0.3,
+            32
+        ),
+
+        new THREE.MeshPhongMaterial({
+
+            color: 0xf4d28c
+
+        })
+
+    );
+
+playa.position.y = 0.3;
+
+escena.add(playa);
+
+
+/* ISLA */
+
+const isla =
+    new THREE.Mesh(
+
+        new THREE.CylinderGeometry(
+            2,
+            5,
+            4,
+            32
+        ),
+
+        new THREE.MeshPhongMaterial({
+
+            color: 0x3d8b37
+
+        })
+
+    );
+
+isla.position.y = 1.5;
+
+escena.add(isla);
+
+
+/* CAMARA */
+
+camara.position.set(
+    10,
+    8,
+    10
+);
+
+camara.lookAt(
+    0,
+    0,
+    0
+);
+
+
+/* ANIMACIÓN */
+
+function animar() {
+
+    requestAnimationFrame(
+        animar
+    );
+
+    isla.rotation.y +=
+        0.003;
+
+    renderer.render(
+        escena,
+        camara
+    );
+
+}
+
+animar();
+
+
+/* =====================================================
+   SIMULADOR
+===================================================== */
+
+const slider3D =
+    document.getElementById(
+        "simuladorSlider"
+    );
+
+const anio3D =
+    document.getElementById(
+        "simuladorAnio"
+    );
+
+const nivel3D =
+    document.getElementById(
+        "simuladorNivel"
+    );
+
+const riesgo =
+    document.getElementById(
+        "riesgoCosta"
+    );
+
+const escenarioMar =
+    document.getElementById(
+        "escenarioMar"
+    );
+
+
+function actualizarSimulador() {
+
+    const año =
+        parseInt(
+            slider3D.value
+        );
+
+    let aumento;
+
+    if (
+        escenarioMar.value ===
+        "SSP2-4.5"
+    ) {
+
+        aumento =
+            interpolar(
+                nivelMarSSP245,
+                año
+            );
+
+    }
+
+    else {
+
+        aumento =
+            interpolar(
+                nivelMarSSP585,
+                año
+            );
+
+    }
+
+    anio3D.innerHTML =
+        "Año: " + año;
+
+    nivel3D.innerHTML =
+        "Aumento estimado: " +
+        aumento.toFixed(1) +
+        " cm";
+
+    const altura =
+        (aumento / 100) * 3;
+
+    mar.position.y =
+        altura;
+
+    if (
+        aumento < 20
+    ) {
+
+        riesgo.innerHTML =
+            "🟢 Riesgo costero: Bajo";
+
+    }
+
+    else if (
+        aumento < 50
+    ) {
+
+        riesgo.innerHTML =
+            "🟡 Riesgo costero: Moderado";
+
+    }
+
+    else if (
+        aumento < 80
+    ) {
+
+        riesgo.innerHTML =
+            "🟠 Riesgo costero: Alto";
+
+    }
+
+    else {
+
+        riesgo.innerHTML =
+            "🔴 Riesgo costero: Muy alto";
+
+    }
+
+}
+
+
+slider3D.addEventListener(
+    "input",
+    actualizarSimulador
+);
+
+slider3D.addEventListener(
+    "change",
+    actualizarSimulador
+);
+
+escenarioMar.addEventListener(
+    "change",
+    actualizarSimulador
+);
+
+
+/* =====================================================
+   ABRIR SIMULADOR
+===================================================== */
+
+document
+.getElementById(
+    "abrirSimulador"
+)
+.addEventListener(
+    "click",
+    function() {
+
+        const pagina =
+            document.getElementById(
+                "simuladorPage"
+            );
+
+        pagina.style.display =
+            "block";
+
+        setTimeout(
+            function() {
+
+                ajustarThree();
+
+                actualizarSimulador();
+
+                pagina.scrollIntoView({
+
+                    behavior:
+                        "smooth"
+
+                });
+
+            },
+            100
+        );
+
+    }
+);
+
+
+/* =====================================================
+   CERRAR SIMULADOR
+===================================================== */
+
+document
+.getElementById(
+    "cerrarSimulador"
+)
+.addEventListener(
+    "click",
+    function() {
+
+        document
+        .getElementById(
+            "simuladorPage"
+        )
+        .style.display =
+            "none";
+
+    }
+);
+
+
+/* =====================================================
+   IMPACTO
+===================================================== */
+
+const impactoSlider =
+    document.getElementById(
+        "impactoSlider"
+    );
+
+
+function actualizarImpacto() {
+
+    const año =
+        parseInt(
+            impactoSlider.value
+        );
+
+    document.getElementById(
+        "impactoAnio"
+    ).innerHTML =
+        "Año: " + año;
+
+    const progreso =
+        (año - 2000) / 100;
+
+    const nivel =
+        document.getElementById(
+            "impactoNivel"
+        );
+
+    const descripcion =
+        document.getElementById(
+            "impactoDescripcion"
+        );
+
+
+    if (
+        progreso < 0.25
+    ) {
+
+        nivel.innerHTML =
+            "🟢 Impacto: Bajo";
+
+        descripcion.innerHTML =
+            "La exposición proyectada " +
+            "es relativamente baja.";
+
+    }
+
+    else if (
+        progreso < 0.5
+    ) {
+
+        nivel.innerHTML =
+            "🟡 Impacto: Moderado";
+
+        descripcion.innerHTML =
+            "Aumentan progresivamente " +
+            "los posibles efectos sobre " +
+            "infraestructura y recursos.";
+
+    }
+
+    else if (
+        progreso < 0.75
+    ) {
+
+        nivel.innerHTML =
+            "🟠 Impacto: Alto";
+
+        descripcion.innerHTML =
+            "La exposición a riesgos " +
+            "climáticos puede aumentar.";
+
+    }
+
+    else {
+
+        nivel.innerHTML =
+            "🔴 Impacto: Muy alto";
+
+        descripcion.innerHTML =
+            "Se requiere una mayor planificación " +
+            "y adaptación frente a los riesgos " +
+            "climáticos.";
+
+    }
+
+}
+
+
+impactoSlider.addEventListener(
+    "input",
+    actualizarImpacto
+);
+
+actualizarImpacto();
+
+
+/* =====================================================
+   REDIMENSIONAR
+===================================================== */
+
+window.addEventListener(
+    "resize",
+    function() {
+
+        ajustarThree();
+
+        if (
+            typeof grafico !==
+            "undefined"
+        ) {
+
+            setTimeout(
+                function() {
+
+                    grafico.resize();
+
+                    grafico.update(
+                        "none"
+                    );
+
+                },
+                100
+            );
+
+        }
+
+    }
+);
+
+
+window.addEventListener(
+    "load",
+    function() {
+
+        setTimeout(
+            function() {
+
+                grafico.resize();
+
+                grafico.update(
+                    "none"
+                );
+
+                ajustarThree();
+
+            },
+            300
+        );
+
+    }
+);
+
+
+window.addEventListener(
+    "orientationchange",
+    function() {
+
+        setTimeout(
+            function() {
+
+                grafico.resize();
+
+                grafico.update(
+                    "none"
+                );
+
+                ajustarThree();
+
+            },
+            400
+        );
+
+    }
+);
+
+</script>
 
 </body>
 
