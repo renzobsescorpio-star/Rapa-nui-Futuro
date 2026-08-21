@@ -1,14 +1,14 @@
-// ============================================================
-// 🗿 RAPA NUI FUTURO
-// SCRIPT PRINCIPAL
-// ============================================================
+/* =========================================================
+   RAPANUI FUTURO
+   script.js
+   ========================================================= */
 
 
-// ============================================================
-// NAVEGACIÓN
-// ============================================================
+/* =========================================================
+   NAVEGACIÓN
+   ========================================================= */
 
-function mostrar(id) {
+function mostrar(id, boton) {
 
     document
         .querySelectorAll(".panel")
@@ -16,50 +16,36 @@ function mostrar(id) {
             panel.style.display = "none";
         });
 
-    const panel = document.getElementById(id);
+    const panel =
+        document.getElementById(id);
 
     if (panel) {
         panel.style.display = "block";
-
-        // Dar tiempo al navegador para mostrar el panel
-        // antes de recalcular gráficos.
-        setTimeout(() => {
-
-            if (grafico) {
-                grafico.resize();
-            }
-
-            if (typeof redimensionar3D === "function") {
-                redimensionar3D();
-            }
-
-        }, 100);
     }
+
+    document
+        .querySelectorAll(".navButton")
+        .forEach(button => {
+            button.classList.remove("active");
+        });
+
+    if (boton) {
+        boton.classList.add("active");
+    }
+
 }
 
 
-// Mostrar Océano al iniciar
+/* Mostrar página inicial */
+
 mostrar("mar");
 
 
-// ============================================================
-// CONDICIONES ACTUALES DEL OCÉANO
-// ============================================================
+/* =========================================================
+   CONDICIONES ACTUALES
+   ========================================================= */
 
 async function cargarCondiciones() {
-
-    const elementoTemp =
-        document.getElementById("tempMar");
-
-    const elementoOleaje =
-        document.getElementById("oleaje");
-
-    if (!elementoTemp || !elementoOleaje) {
-        return;
-    }
-
-    elementoTemp.innerHTML = "Cargando...";
-    elementoOleaje.innerHTML = "Cargando...";
 
     try {
 
@@ -71,27 +57,31 @@ async function cargarCondiciones() {
             "&forecast_days=1" +
             "&timezone=auto";
 
-        const respuesta = await fetch(url);
+
+        const respuesta =
+            await fetch(url);
+
 
         if (!respuesta.ok) {
-            throw new Error("Error en Marine API");
+
+            throw new Error(
+                "Error en Marine API"
+            );
+
         }
 
-        const datos = await respuesta.json();
 
-        if (
-            !datos.hourly ||
-            !datos.hourly.sea_surface_temperature ||
-            !datos.hourly.wave_height
-        ) {
-            throw new Error("Datos marinos no disponibles");
-        }
+        const datos =
+            await respuesta.json();
+
 
         const temperaturas =
-            datos.hourly.sea_surface_temperature;
+            datos.hourly?.sea_surface_temperature || [];
+
 
         const oleajes =
-            datos.hourly.wave_height;
+            datos.hourly?.wave_height || [];
+
 
         const temperatura =
             temperaturas.find(
@@ -99,6 +89,7 @@ async function cargarCondiciones() {
                     valor !== null &&
                     valor !== undefined
             );
+
 
         const oleaje =
             oleajes.find(
@@ -108,40 +99,34 @@ async function cargarCondiciones() {
             );
 
 
-        // Temperatura
+        const elementoTemp =
+            document.getElementById(
+                "tempMar"
+            );
 
-        if (
-            temperatura !== undefined &&
-            temperatura !== null
-        ) {
 
-            elementoTemp.innerHTML =
-                Number(temperatura).toFixed(1) +
-                " °C";
+        const elementoOleaje =
+            document.getElementById(
+                "oleaje"
+            );
 
-        } else {
 
-            elementoTemp.innerHTML =
-                "No disponible";
+        if (elementoTemp) {
+
+            elementoTemp.textContent =
+                temperatura !== undefined
+                    ? Number(temperatura).toFixed(1) + " °C"
+                    : "No disponible";
 
         }
 
 
-        // Oleaje
+        if (elementoOleaje) {
 
-        if (
-            oleaje !== undefined &&
-            oleaje !== null
-        ) {
-
-            elementoOleaje.innerHTML =
-                Number(oleaje).toFixed(2) +
-                " m";
-
-        } else {
-
-            elementoOleaje.innerHTML =
-                "No disponible";
+            elementoOleaje.textContent =
+                oleaje !== undefined
+                    ? Number(oleaje).toFixed(2) + " m"
+                    : "No disponible";
 
         }
 
@@ -154,29 +139,40 @@ async function cargarCondiciones() {
             error
         );
 
-        elementoTemp.innerHTML =
-            "No disponible";
 
-        elementoOleaje.innerHTML =
-            "No disponible";
+        const temp =
+            document.getElementById(
+                "tempMar"
+            );
+
+
+        const oleaje =
+            document.getElementById(
+                "oleaje"
+            );
+
+
+        if (temp) {
+            temp.textContent =
+                "No disponible";
+        }
+
+
+        if (oleaje) {
+            oleaje.textContent =
+                "No disponible";
+        }
+
     }
+
 }
 
 
-// ============================================================
-// VIENTO
-// ============================================================
+/* =========================================================
+   VIENTO
+   ========================================================= */
 
 async function cargarViento() {
-
-    const elemento =
-        document.getElementById("viento");
-
-    if (!elemento) {
-        return;
-    }
-
-    elemento.innerHTML = "Cargando...";
 
     try {
 
@@ -187,27 +183,42 @@ async function cargarViento() {
             "&current=wind_speed_10m" +
             "&timezone=auto";
 
-        const respuesta = await fetch(url);
+
+        const respuesta =
+            await fetch(url);
+
 
         if (!respuesta.ok) {
-            throw new Error("Error en Weather API");
+
+            throw new Error(
+                "Error en Weather API"
+            );
+
         }
 
-        const datos = await respuesta.json();
 
-        if (
-            !datos.current ||
-            datos.current.wind_speed_10m === undefined
-        ) {
-            throw new Error("Viento no disponible");
-        }
+        const datos =
+            await respuesta.json();
+
 
         const viento =
-            datos.current.wind_speed_10m;
+            datos.current?.wind_speed_10m;
 
-        elemento.innerHTML =
-            Number(viento).toFixed(1) +
-            " km/h";
+
+        const elemento =
+            document.getElementById(
+                "viento"
+            );
+
+
+        if (elemento) {
+
+            elemento.textContent =
+                viento !== undefined
+                    ? Number(viento).toFixed(1) + " km/h"
+                    : "No disponible";
+
+        }
 
     }
 
@@ -218,40 +229,56 @@ async function cargarViento() {
             error
         );
 
-        elemento.innerHTML =
-            "No disponible";
+
+        const elemento =
+            document.getElementById(
+                "viento"
+            );
+
+
+        if (elemento) {
+
+            elemento.textContent =
+                "No disponible";
+
+        }
+
     }
+
 }
 
 
-// ============================================================
-// SALINIDAD
-// ============================================================
+/* =========================================================
+   SALINIDAD
+   ========================================================= */
 
 const salinidad =
-    document.getElementById("salinidad");
+    document.getElementById(
+        "salinidad"
+    );
+
 
 if (salinidad) {
 
-    salinidad.innerHTML =
+    salinidad.textContent =
         "≈ 35 PSU";
 
 }
 
 
-// Ejecutar condiciones actuales
 cargarCondiciones();
+
 cargarViento();
 
 
-// ============================================================
-// DATOS CIENTÍFICOS
-// ============================================================
+/* =========================================================
+   DATOS CIENTÍFICOS
+   ========================================================= */
 
 
-// ============================================================
-// NIVEL DEL MAR — SSP2-4.5
-// ============================================================
+/* =========================================================
+   NIVEL DEL MAR
+   ========================================================= */
 
 const nivelMarSSP245 = {
 
@@ -280,10 +307,6 @@ const nivelMarSSP245 = {
 };
 
 
-// ============================================================
-// NIVEL DEL MAR — SSP5-8.5
-// ============================================================
-
 const nivelMarSSP585 = {
 
     2000: 0,
@@ -311,9 +334,9 @@ const nivelMarSSP585 = {
 };
 
 
-// ============================================================
-// CO₂ HISTÓRICO — NOAA
-// ============================================================
+/* =========================================================
+   CO2
+   ========================================================= */
 
 const co2NOAA = {
 
@@ -347,10 +370,6 @@ const co2NOAA = {
 };
 
 
-// ============================================================
-// CO₂ PROYECCIÓN EDUCATIVA
-// ============================================================
-
 const co2Proyeccion = {
 
     2030: 438,
@@ -365,9 +384,9 @@ const co2Proyeccion = {
 };
 
 
-// ============================================================
-// TEMPERATURA DEL OCÉANO
-// ============================================================
+/* =========================================================
+   TEMPERATURA DEL OCÉANO
+   ========================================================= */
 
 const temperaturaReferencia = {
 
@@ -396,9 +415,9 @@ const temperaturaReferencia = {
 };
 
 
-// ============================================================
-// CONTAMINACIÓN
-// ============================================================
+/* =========================================================
+   CONTAMINACIÓN
+   ========================================================= */
 
 const contaminacion = {
 
@@ -427,64 +446,48 @@ const contaminacion = {
 };
 
 
-// ============================================================
-// INTERPOLACIÓN
-// ============================================================
+/* =========================================================
+   INTERPOLACIÓN
+   ========================================================= */
 
 function interpolar(objeto, año) {
-
-    if (!objeto) {
-        return null;
-    }
 
     const años =
         Object.keys(objeto)
             .map(Number)
-            .sort((a, b) => a - b);
+            .sort(
+                (a, b) => a - b
+            );
 
 
-    if (años.length === 0) {
-        return null;
-    }
+    if (
+        Object.prototype.hasOwnProperty
+            .call(objeto, año)
+    ) {
 
-
-    // Año exacto
-
-    if (objeto[año] !== undefined) {
-
-        return Number(objeto[año]);
+        return objeto[año];
 
     }
 
-
-    // Antes del primer año
 
     if (año <= años[0]) {
 
-        return Number(
-            objeto[años[0]]
-        );
+        return objeto[años[0]];
 
     }
 
-
-    // Después del último año
 
     if (
         año >=
         años[años.length - 1]
     ) {
 
-        return Number(
-            objeto[
-                años[años.length - 1]
-            ]
-        );
+        return objeto[
+            años[años.length - 1]
+        ];
 
     }
 
-
-    // Interpolación lineal
 
     for (
         let i = 0;
@@ -505,10 +508,10 @@ function interpolar(objeto, año) {
         ) {
 
             const valor1 =
-                Number(objeto[año1]);
+                objeto[año1];
 
             const valor2 =
-                Number(objeto[año2]);
+                objeto[año2];
 
 
             const porcentaje =
@@ -528,12 +531,13 @@ function interpolar(objeto, año) {
 
 
     return null;
+
 }
 
 
-// ============================================================
-// DATOS PARA GRÁFICOS
-// ============================================================
+/* =========================================================
+   DATOS PARA GRÁFICOS
+   ========================================================= */
 
 const datos = {
 
@@ -573,11 +577,10 @@ const datos = {
         unidad:
             "ppm",
 
-        objeto:
-            {
-                ...co2NOAA,
-                ...co2Proyeccion
-            }
+        objeto: {
+            ...co2NOAA,
+            ...co2Proyeccion
+        }
 
     },
 
@@ -598,12 +601,15 @@ const datos = {
 };
 
 
-// ============================================================
-// GRÁFICO
-// ============================================================
+/* =========================================================
+   GRÁFICO
+   ========================================================= */
 
 const canvasGrafico =
-    document.getElementById("grafico");
+    document.getElementById(
+        "grafico"
+    );
+
 
 let grafico = null;
 
@@ -614,197 +620,119 @@ if (
 ) {
 
     const ctx =
-        canvasGrafico.getContext("2d");
+        canvasGrafico.getContext(
+            "2d"
+        );
 
 
     grafico =
-        new Chart(ctx, {
+        new Chart(
+            ctx,
+            {
 
-            type: "line",
+                type: "line",
 
-            data: {
+                data: {
 
-                labels: [],
+                    labels: [],
 
-                datasets: [
+                    datasets: [
 
-                    {
+                        {
 
-                        label:
-                            "Nivel del mar",
+                            label:
+                                "Nivel del mar",
 
-                        data: [],
+                            data: [],
 
-                        borderColor:
-                            "#1565c0",
+                            borderColor:
+                                "#1261a0",
 
-                        backgroundColor:
-                            "rgba(21, 101, 192, 0.10)",
+                            backgroundColor:
+                                "rgba(18, 97, 160, 0.10)",
 
-                        borderWidth:
-                            3,
+                            borderWidth:
+                                3,
 
-                        pointBackgroundColor:
-                            "#1565c0",
+                            pointBackgroundColor:
+                                "#1261a0",
 
-                        pointBorderColor:
-                            "#1565c0",
+                            pointBorderColor:
+                                "#ffffff",
 
-                        pointRadius:
-                            2,
+                            pointBorderWidth:
+                                2,
 
-                        pointHoverRadius:
-                            6,
+                            pointRadius:
+                                2,
 
-                        fill:
-                            false,
+                            pointHoverRadius:
+                                6,
 
-                        tension:
-                            0.25,
+                            fill:
+                                true,
 
-                        spanGaps:
-                            true
-
-                    },
-
-                    {
-
-                        label:
-                            "Año seleccionado",
-
-                        data: [],
-
-                        borderWidth:
-                            0,
-
-                        backgroundColor:
-                            "#e53935",
-
-                        borderColor:
-                            "#e53935",
-
-                        pointBackgroundColor:
-                            "#e53935",
-
-                        pointBorderColor:
-                            "#ffffff",
-
-                        pointBorderWidth:
-                            2,
-
-                        pointRadius:
-                            7,
-
-                        pointHoverRadius:
-                            9,
-
-                        showLine:
-                            false,
-
-                        fill:
-                            false
-
-                    }
-
-                ]
-
-            },
-
-
-            options: {
-
-                responsive:
-                    true,
-
-                maintainAspectRatio:
-                    false,
-
-                animation:
-                    false,
-
-                interaction: {
-
-                    mode:
-                        "nearest",
-
-                    intersect:
-                        false
-
-                },
-
-
-                plugins: {
-
-                    legend: {
-
-                        display:
-                            true
-
-                    },
-
-                    tooltip: {
-
-                        callbacks: {
-
-                            label: function(context) {
-
-                                const variable =
-                                    document.getElementById(
-                                        "variableSelect"
-                                    );
-
-                                let unidad =
-                                    "";
-
-                                if (
-                                    variable &&
-                                    datos[variable.value]
-                                ) {
-
-                                    unidad =
-                                        datos[
-                                            variable.value
-                                        ].unidad;
-
-                                }
-
-                                return (
-                                    Number(
-                                        context.parsed.y
-                                    ).toFixed(1) +
-                                    " " +
-                                    unidad
-                                );
-
-                            }
+                            tension:
+                                0.3
 
                         }
 
-                    }
+                    ]
 
                 },
 
 
-                scales: {
+                options: {
 
-                    x: {
+                    responsive:
+                        true,
 
-                        type:
-                            "linear",
+                    maintainAspectRatio:
+                        false,
 
-                        title: {
+                    animation:
+                        false,
+
+
+                    interaction: {
+
+                        mode:
+                            "index",
+
+                        intersect:
+                            false
+
+                    },
+
+
+                    plugins: {
+
+                        legend: {
 
                             display:
                                 true,
 
-                            text:
-                                "Año"
+                            labels: {
+
+                                usePointStyle:
+                                    true,
+
+                                padding:
+                                    20
+
+                            }
 
                         },
 
-                        ticks: {
+                        tooltip: {
 
-                            maxTicksLimit:
+                            backgroundColor:
+                                "#102333",
+
+                            padding:
+                                12,
+
+                            cornerRadius:
                                 10
 
                         }
@@ -812,18 +740,51 @@ if (
                     },
 
 
-                    y: {
+                    scales: {
 
-                        beginAtZero:
-                            false,
+                        x: {
 
-                        title: {
+                            grid: {
 
-                            display:
-                                true,
+                                display:
+                                    false
 
-                            text:
-                                "Valor"
+                            },
+
+                            title: {
+
+                                display:
+                                    true,
+
+                                text:
+                                    "Año"
+
+                            }
+
+                        },
+
+
+                        y: {
+
+                            beginAtZero:
+                                false,
+
+                            grid: {
+
+                                color:
+                                    "rgba(100,130,145,0.10)"
+
+                            },
+
+                            title: {
+
+                                display:
+                                    true,
+
+                                text:
+                                    "Valor"
+
+                            }
 
                         }
 
@@ -833,14 +794,14 @@ if (
 
             }
 
-        });
+        );
 
 }
 
 
-// ============================================================
-// ACTUALIZAR GRÁFICO
-// ============================================================
+/* =========================================================
+   ACTUALIZAR GRÁFICO
+   ========================================================= */
 
 function actualizarGrafico() {
 
@@ -870,12 +831,6 @@ function actualizarGrafico() {
     const valorSeleccionado =
         document.getElementById(
             "valorSeleccionado"
-        );
-
-
-    const descripcionDatos =
-        document.getElementById(
-            "descripcionDatos"
         );
 
 
@@ -909,27 +864,22 @@ function actualizarGrafico() {
     }
 
 
-    // Mostrar año
-
     if (selectedYearElement) {
 
-        selectedYearElement.innerHTML =
+        selectedYearElement.textContent =
             "Año: " + año;
 
     }
 
 
-    // ========================================================
-    // CREAR DATOS
-    // ========================================================
-
     const añosMostrar = [];
+
     const valoresMostrar = [];
 
 
     for (
         let y = 2000;
-        y <= 2100;
+        y <= año;
         y++
     ) {
 
@@ -943,41 +893,10 @@ function actualizarGrafico() {
             );
 
 
-        valoresMostrar.push(
-            valor
-        );
+        valoresMostrar.push(valor);
 
     }
 
-
-    // ========================================================
-    // PUNTO DEL AÑO SELECCIONADO
-    // ========================================================
-
-    const puntoSeleccionado =
-        new Array(
-            añosMostrar.length
-        ).fill(null);
-
-
-    const indice =
-        añosMostrar.indexOf(año);
-
-
-    if (
-        indice >= 0 &&
-        valoresMostrar[indice] !== null
-    ) {
-
-        puntoSeleccionado[indice] =
-            valoresMostrar[indice];
-
-    }
-
-
-    // ========================================================
-    // ACTUALIZAR LÍNEA
-    // ========================================================
 
     grafico.data.labels =
         añosMostrar;
@@ -991,29 +910,9 @@ function actualizarGrafico() {
         dataset.nombre;
 
 
-    // ========================================================
-    // ACTUALIZAR PUNTO ROJO
-    // ========================================================
-
-    grafico.data.datasets[1].data =
-        puntoSeleccionado;
-
-
-    grafico.data.datasets[1].label =
-        "Año " + año;
-
-
-    // ========================================================
-    // UNIDAD
-    // ========================================================
-
     grafico.options.scales.y.title.text =
         dataset.unidad;
 
-
-    // ========================================================
-    // VALOR SELECCIONADO
-    // ========================================================
 
     const valor =
         interpolar(
@@ -1024,12 +923,6 @@ function actualizarGrafico() {
 
     if (valorSeleccionado) {
 
-        const valorTexto =
-            valor !== null
-                ? Number(valor).toFixed(1)
-                : "No disponible";
-
-
         valorSeleccionado.innerHTML =
 
             "<div>" +
@@ -1037,7 +930,7 @@ function actualizarGrafico() {
             "</div>" +
 
             "<div class='valorGrande'>" +
-            valorTexto +
+            Number(valor).toFixed(1) +
             " " +
             dataset.unidad +
             "</div>" +
@@ -1050,68 +943,14 @@ function actualizarGrafico() {
     }
 
 
-    // ========================================================
-    // DESCRIPCIÓN
-    // ========================================================
+    grafico.update();
 
-    if (descripcionDatos) {
-
-        if (variable === "mar") {
-
-            descripcionDatos.innerHTML =
-                "Proyección educativa del aumento " +
-                "relativo del nivel del mar basada en " +
-                "escenarios climáticos. Los valores se " +
-                "utilizan para visualizar posibles cambios " +
-                "y no representan una predicción exacta " +
-                "para una propiedad específica.";
-
-        }
-
-        else if (variable === "temperatura") {
-
-            descripcionDatos.innerHTML =
-                "Serie de referencia utilizada para " +
-                "visualizar una posible evolución de la " +
-                "temperatura del océano. No representa " +
-                "una medición anual oficial específica " +
-                "de Rapa Nui.";
-
-        }
-
-        else if (variable === "co2") {
-
-            descripcionDatos.innerHTML =
-                "Los valores históricos corresponden " +
-                "a mediciones atmosféricas de CO₂. " +
-                "Los valores posteriores se utilizan " +
-                "como proyección educativa.";
-
-        }
-
-        else if (variable === "contaminacion") {
-
-            descripcionDatos.innerHTML =
-                "Índice educativo utilizado para " +
-                "representar una posible evolución de " +
-                "la presión de contaminación marina. " +
-                "No corresponde a una medición oficial " +
-                "de contaminación de Rapa Nui.";
-
-        }
-
-    }
-
-
-    // Actualizar gráfico
-
-    grafico.update("none");
 }
 
 
-// ============================================================
-// EVENTOS DEL GRÁFICO
-// ============================================================
+/* =========================================================
+   EVENTOS DEL GRÁFICO
+   ========================================================= */
 
 const yearSlider =
     document.getElementById(
@@ -1132,11 +971,6 @@ if (yearSlider) {
         actualizarGrafico
     );
 
-    yearSlider.addEventListener(
-        "change",
-        actualizarGrafico
-    );
-
 }
 
 
@@ -1153,9 +987,9 @@ if (variableSelect) {
 actualizarGrafico();
 
 
-// ============================================================
-// SIMULADOR 3D
-// ============================================================
+/* =========================================================
+   SIMULADOR 3D
+   ========================================================= */
 
 const contenedor =
     document.getElementById(
@@ -1164,57 +998,16 @@ const contenedor =
 
 
 let escena = null;
+
 let camara = null;
+
 let renderer = null;
+
 let mar = null;
+
 let isla = null;
 
-
-function redimensionar3D() {
-
-    if (
-        !contenedor ||
-        !renderer ||
-        !camara
-    ) {
-
-        return;
-
-    }
-
-
-    const ancho =
-        contenedor.clientWidth;
-
-
-    const alto =
-        contenedor.clientHeight;
-
-
-    if (
-        ancho <= 0 ||
-        alto <= 0
-    ) {
-
-        return;
-
-    }
-
-
-    renderer.setSize(
-        ancho,
-        alto,
-        false
-    );
-
-
-    camara.aspect =
-        ancho / alto;
-
-
-    camara.updateProjectionMatrix();
-
-}
+let playa = null;
 
 
 if (
@@ -1222,27 +1015,21 @@ if (
     typeof THREE !== "undefined"
 ) {
 
-    // ========================================================
-    // ESCENA
-    // ========================================================
-
     escena =
         new THREE.Scene();
 
 
     escena.background =
         new THREE.Color(
-            0x87ceeb
+            0x8ed8eb
         );
 
 
-    // ========================================================
-    // CÁMARA
-    // ========================================================
+    /* CÁMARA */
 
     camara =
         new THREE.PerspectiveCamera(
-            60,
+            55,
             1,
             0.1,
             1000
@@ -1263,9 +1050,7 @@ if (
     );
 
 
-    // ========================================================
-    // RENDERER
-    // ========================================================
+    /* RENDERER */
 
     renderer =
         new THREE.WebGLRenderer({
@@ -1278,10 +1063,14 @@ if (
 
     renderer.setPixelRatio(
         Math.min(
-            window.devicePixelRatio || 1,
+            window.devicePixelRatio,
             2
         )
     );
+
+
+    renderer.shadowMap.enabled =
+        true;
 
 
     contenedor.appendChild(
@@ -1289,27 +1078,27 @@ if (
     );
 
 
-    // ========================================================
-    // LUCES
-    // ========================================================
+    /* LUZ */
 
     const luz =
         new THREE.DirectionalLight(
             0xffffff,
-            1.2
+            1.6
         );
 
 
     luz.position.set(
-        5,
-        10,
+        6,
+        12,
         5
     );
 
 
-    escena.add(
-        luz
-    );
+    luz.castShadow =
+        true;
+
+
+    escena.add(luz);
 
 
     const luzAmbiente =
@@ -1324,15 +1113,13 @@ if (
     );
 
 
-    // ========================================================
-    // MAR
-    // ========================================================
+    /* MAR */
 
     const marGeometry =
         new THREE.BoxGeometry(
-            20,
+            24,
             0.8,
-            20
+            24
         );
 
 
@@ -1340,13 +1127,13 @@ if (
         new THREE.MeshPhongMaterial({
 
             color:
-                0x2196f3,
+                0x168dcc,
 
             transparent:
                 true,
 
             opacity:
-                0.75
+                0.78
 
         });
 
@@ -1362,29 +1149,29 @@ if (
         0;
 
 
-    escena.add(
-        mar
-    );
+    mar.receiveShadow =
+        true;
 
 
-    // ========================================================
-    // PLAYA
-    // ========================================================
+    escena.add(mar);
 
-    const playa =
+
+    /* PLAYA */
+
+    playa =
         new THREE.Mesh(
 
             new THREE.CylinderGeometry(
-                5.2,
-                5.2,
+                5.5,
+                5.5,
                 0.3,
-                32
+                48
             ),
 
             new THREE.MeshPhongMaterial({
 
                 color:
-                    0xf4d28c
+                    0xe8c77f
 
             })
 
@@ -1392,24 +1179,24 @@ if (
 
 
     playa.position.y =
-        0.25;
+        0.35;
 
 
-    escena.add(
-        playa
-    );
+    playa.receiveShadow =
+        true;
 
 
-    // ========================================================
-    // ISLA
-    // ========================================================
+    escena.add(playa);
+
+
+    /* ISLA */
 
     const islaGeometry =
         new THREE.CylinderGeometry(
-            2,
+            2.2,
             5,
             4,
-            32
+            48
         );
 
 
@@ -1417,7 +1204,7 @@ if (
         new THREE.MeshPhongMaterial({
 
             color:
-                0x3d8b37
+                0x3c893c
 
         });
 
@@ -1430,17 +1217,21 @@ if (
 
 
     isla.position.y =
-        1.5;
+        1.8;
 
 
-    escena.add(
-        isla
-    );
+    isla.castShadow =
+        true;
 
 
-    // ========================================================
-    // MOAI
-    // ========================================================
+    isla.receiveShadow =
+        true;
+
+
+    escena.add(isla);
+
+
+    /* MOAI */
 
     const moaiGroup =
         new THREE.Group();
@@ -1450,47 +1241,19 @@ if (
         new THREE.MeshPhongMaterial({
 
             color:
-                0x777777
+                0x77746d
 
         });
 
-
-    // Cabeza
-
-    const cabeza =
-        new THREE.Mesh(
-
-            new THREE.CylinderGeometry(
-                0.35,
-                0.45,
-                0.8,
-                12
-            ),
-
-            moaiMaterial
-
-        );
-
-
-    cabeza.position.y =
-        3.2;
-
-
-    moaiGroup.add(
-        cabeza
-    );
-
-
-    // Cuerpo
 
     const cuerpo =
         new THREE.Mesh(
 
             new THREE.CylinderGeometry(
                 0.45,
-                0.65,
-                1.4,
-                12
+                0.68,
+                1.5,
+                16
             ),
 
             moaiMaterial
@@ -1499,7 +1262,11 @@ if (
 
 
     cuerpo.position.y =
-        2.25;
+        2.8;
+
+
+    cuerpo.castShadow =
+        true;
 
 
     moaiGroup.add(
@@ -1507,15 +1274,14 @@ if (
     );
 
 
-    // Nariz simple
-
-    const nariz =
+    const cabeza =
         new THREE.Mesh(
 
-            new THREE.BoxGeometry(
-                0.18,
-                0.18,
-                0.45
+            new THREE.CylinderGeometry(
+                0.38,
+                0.48,
+                0.85,
+                16
             ),
 
             moaiMaterial
@@ -1523,15 +1289,16 @@ if (
         );
 
 
-    nariz.position.set(
-        0,
-        3.15,
-        0.42
-    );
+    cabeza.position.y =
+        3.95;
+
+
+    cabeza.castShadow =
+        true;
 
 
     moaiGroup.add(
-        nariz
+        cabeza
     );
 
 
@@ -1540,16 +1307,84 @@ if (
     );
 
 
-    // ========================================================
-    // REDIMENSIONAR
-    // ========================================================
+    /* SEGUNDO MOAI */
+
+    const moai2 =
+        moaiGroup.clone();
+
+
+    moai2.scale.set(
+        0.65,
+        0.65,
+        0.65
+    );
+
+
+    moai2.position.set(
+        2.5,
+        0,
+        -1
+    );
+
+
+    escena.add(
+        moai2
+    );
+
+
+    /* REDIMENSIONAR */
+
+    function redimensionar3D() {
+
+        if (
+            !contenedor ||
+            !renderer ||
+            !camara
+        ) {
+
+            return;
+
+        }
+
+
+        const ancho =
+            contenedor.clientWidth;
+
+
+        const alto =
+            contenedor.clientHeight;
+
+
+        if (
+            ancho <= 0 ||
+            alto <= 0
+        ) {
+
+            return;
+
+        }
+
+
+        renderer.setSize(
+            ancho,
+            alto,
+            false
+        );
+
+
+        camara.aspect =
+            ancho / alto;
+
+
+        camara.updateProjectionMatrix();
+
+    }
+
 
     redimensionar3D();
 
 
-    // ========================================================
-    // ANIMACIÓN
-    // ========================================================
+    /* ANIMACIÓN */
 
     function animar() {
 
@@ -1561,7 +1396,7 @@ if (
         if (isla) {
 
             isla.rotation.y +=
-                0.002;
+                0.0015;
 
         }
 
@@ -1585,9 +1420,9 @@ if (
 }
 
 
-// ============================================================
-// SIMULADOR
-// ============================================================
+/* =========================================================
+   ELEMENTOS DEL SIMULADOR
+   ========================================================= */
 
 const abrirSimulador =
     document.getElementById(
@@ -1637,9 +1472,9 @@ const selectorMar =
     );
 
 
-// ============================================================
-// OBTENER AUMENTO DEL NIVEL DEL MAR
-// ============================================================
+/* =========================================================
+   AUMENTO DEL MAR
+   ========================================================= */
 
 function obtenerAumentoMar(
     año,
@@ -1675,9 +1510,9 @@ function obtenerAumentoMar(
 }
 
 
-// ============================================================
-// ACTUALIZAR SIMULADOR
-// ============================================================
+/* =========================================================
+   ACTUALIZAR SIMULADOR
+   ========================================================= */
 
 function actualizarSimuladorMar() {
 
@@ -1706,23 +1541,11 @@ function actualizarSimuladorMar() {
         );
 
 
-    if (
-        aumento === null ||
-        aumento === undefined
-    ) {
-
-        return;
-
-    }
-
-
-    // ========================================================
-    // TEXTO
-    // ========================================================
+    /* TEXTO */
 
     if (anio3D) {
 
-        anio3D.innerHTML =
+        anio3D.textContent =
             "Año: " + año;
 
     }
@@ -1730,26 +1553,20 @@ function actualizarSimuladorMar() {
 
     if (nivel3D) {
 
-        nivel3D.innerHTML =
+        nivel3D.textContent =
             "Aumento estimado: " +
-            Number(aumento).toFixed(1) +
+            aumento.toFixed(1) +
             " cm";
 
     }
 
 
-    // ========================================================
-    // SUBIR EL MAR
-    // ========================================================
+    /* SUBIR EL MAR */
 
     if (mar) {
 
         const alturaVisual =
-            (
-                aumento /
-                100
-            ) *
-            3;
+            (aumento / 100) * 3;
 
 
         mar.position.y =
@@ -1758,36 +1575,34 @@ function actualizarSimuladorMar() {
     }
 
 
-    // ========================================================
-    // RIESGO COSTERO
-    // ========================================================
+    /* RIESGO */
 
     if (riesgo) {
 
         if (aumento < 20) {
 
-            riesgo.innerHTML =
+            riesgo.textContent =
                 "🟢 Riesgo costero: Bajo";
 
         }
 
         else if (aumento < 50) {
 
-            riesgo.innerHTML =
+            riesgo.textContent =
                 "🟡 Riesgo costero: Moderado";
 
         }
 
         else if (aumento < 80) {
 
-            riesgo.innerHTML =
+            riesgo.textContent =
                 "🟠 Riesgo costero: Alto";
 
         }
 
         else {
 
-            riesgo.innerHTML =
+            riesgo.textContent =
                 "🔴 Riesgo costero: Muy alto";
 
         }
@@ -1797,19 +1612,14 @@ function actualizarSimuladorMar() {
 }
 
 
-// ============================================================
-// EVENTOS DEL SIMULADOR
-// ============================================================
+/* =========================================================
+   EVENTOS DEL SIMULADOR
+   ========================================================= */
 
 if (slider3D) {
 
     slider3D.addEventListener(
         "input",
-        actualizarSimuladorMar
-    );
-
-    slider3D.addEventListener(
-        "change",
         actualizarSimuladorMar
     );
 
@@ -1826,15 +1636,15 @@ if (selectorMar) {
 }
 
 
-// ============================================================
-// ABRIR SIMULADOR
-// ============================================================
+/* =========================================================
+   ABRIR SIMULADOR
+   ========================================================= */
 
 if (abrirSimulador) {
 
     abrirSimulador.addEventListener(
         "click",
-        function() {
+        function () {
 
             if (simuladorPage) {
 
@@ -1845,9 +1655,44 @@ if (abrirSimulador) {
 
 
             setTimeout(
-                function() {
+                function () {
 
-                    redimensionar3D();
+                    if (
+                        renderer &&
+                        camara &&
+                        contenedor
+                    ) {
+
+                        const ancho =
+                            contenedor.clientWidth;
+
+
+                        const alto =
+                            contenedor.clientHeight;
+
+
+                        if (
+                            ancho > 0 &&
+                            alto > 0
+                        ) {
+
+                            renderer.setSize(
+                                ancho,
+                                alto,
+                                false
+                            );
+
+
+                            camara.aspect =
+                                ancho / alto;
+
+
+                            camara.updateProjectionMatrix();
+
+                        }
+
+                    }
+
 
                     actualizarSimuladorMar();
 
@@ -1861,10 +1706,7 @@ if (abrirSimulador) {
                 simuladorPage.scrollIntoView({
 
                     behavior:
-                        "smooth",
-
-                    block:
-                        "start"
+                        "smooth"
 
                 });
 
@@ -1876,15 +1718,15 @@ if (abrirSimulador) {
 }
 
 
-// ============================================================
-// CERRAR SIMULADOR
-// ============================================================
+/* =========================================================
+   CERRAR SIMULADOR
+   ========================================================= */
 
 if (cerrarSimulador) {
 
     cerrarSimulador.addEventListener(
         "click",
-        function() {
+        function () {
 
             if (simuladorPage) {
 
@@ -1902,9 +1744,9 @@ if (cerrarSimulador) {
 actualizarSimuladorMar();
 
 
-// ============================================================
-// IMPACTO EN LA COMUNIDAD
-// ============================================================
+/* =========================================================
+   IMPACTO EN LA COMUNIDAD
+   ========================================================= */
 
 const impactoSlider =
     document.getElementById(
@@ -1946,26 +1788,21 @@ function actualizarImpacto() {
 
     if (impactoAnio) {
 
-        impactoAnio.innerHTML =
+        impactoAnio.textContent =
             "Año: " + año;
 
     }
 
 
     const progreso =
-        (
-            año - 2000
-        ) /
-        100;
+        (año - 2000) / 100;
 
 
-    if (
-        progreso < 0.25
-    ) {
+    if (progreso < 0.25) {
 
         if (impactoNivel) {
 
-            impactoNivel.innerHTML =
+            impactoNivel.textContent =
                 "🟢 Impacto: Bajo";
 
         }
@@ -1973,23 +1810,21 @@ function actualizarImpacto() {
 
         if (impactoDescripcion) {
 
-            impactoDescripcion.innerHTML =
-                "Las condiciones proyectadas " +
-                "presentan un impacto relativamente " +
-                "bajo sobre la comunidad.";
+            impactoDescripcion.textContent =
+                "Las condiciones proyectadas presentan " +
+                "un impacto relativamente bajo sobre " +
+                "la comunidad.";
 
         }
 
     }
 
 
-    else if (
-        progreso < 0.50
-    ) {
+    else if (progreso < 0.50) {
 
         if (impactoNivel) {
 
-            impactoNivel.innerHTML =
+            impactoNivel.textContent =
                 "🟡 Impacto: Moderado";
 
         }
@@ -1997,7 +1832,7 @@ function actualizarImpacto() {
 
         if (impactoDescripcion) {
 
-            impactoDescripcion.innerHTML =
+            impactoDescripcion.textContent =
                 "Comienzan a aumentar los posibles " +
                 "efectos sobre recursos, infraestructura " +
                 "y actividades de la comunidad.";
@@ -2007,13 +1842,11 @@ function actualizarImpacto() {
     }
 
 
-    else if (
-        progreso < 0.75
-    ) {
+    else if (progreso < 0.75) {
 
         if (impactoNivel) {
 
-            impactoNivel.innerHTML =
+            impactoNivel.textContent =
                 "🟠 Impacto: Alto";
 
         }
@@ -2021,7 +1854,7 @@ function actualizarImpacto() {
 
         if (impactoDescripcion) {
 
-            impactoDescripcion.innerHTML =
+            impactoDescripcion.textContent =
                 "La comunidad podría enfrentar una " +
                 "mayor exposición a riesgos costeros " +
                 "y presión sobre recursos naturales.";
@@ -2035,7 +1868,7 @@ function actualizarImpacto() {
 
         if (impactoNivel) {
 
-            impactoNivel.innerHTML =
+            impactoNivel.textContent =
                 "🔴 Impacto: Muy alto";
 
         }
@@ -2043,7 +1876,7 @@ function actualizarImpacto() {
 
         if (impactoDescripcion) {
 
-            impactoDescripcion.innerHTML =
+            impactoDescripcion.textContent =
                 "Las proyecciones indican una mayor " +
                 "necesidad de adaptación de infraestructura, " +
                 "gestión de recursos y protección de " +
@@ -2063,109 +1896,12 @@ if (impactoSlider) {
         actualizarImpacto
     );
 
-    impactoSlider.addEventListener(
-        "change",
-        actualizarImpacto
-    );
-
 }
 
 
 actualizarImpacto();
 
 
-// ============================================================
-// REDIMENSIONAR TODO
-// ============================================================
-
-window.addEventListener(
-    "resize",
-    function() {
-
-        redimensionar3D();
-
-
-        if (grafico) {
-
-            setTimeout(
-                function() {
-
-                    grafico.resize();
-
-                },
-                100
-            );
-
-        }
-
-    }
-);
-
-
-// ============================================================
-// CARGA INICIAL
-// ============================================================
-
-window.addEventListener(
-    "load",
-    function() {
-
-        setTimeout(
-            function() {
-
-                if (grafico) {
-                    grafico.resize();
-                    grafico.update("none");
-                }
-
-
-                redimensionar3D();
-
-
-                actualizarGrafico();
-
-
-                actualizarSimuladorMar();
-
-
-                actualizarImpacto();
-
-            },
-            300
-        );
-
-    }
-);
-
-
-// ============================================================
-// ORIENTACIÓN DEL TELÉFONO
-// ============================================================
-
-window.addEventListener(
-    "orientationchange",
-    function() {
-
-        setTimeout(
-            function() {
-
-                if (grafico) {
-
-                    grafico.resize();
-
-                }
-
-
-                redimensionar3D();
-
-            },
-            400
-        );
-
-    }
-);
-
-
-// ============================================================
-// FIN DEL SCRIPT
-// ============================================================
+/* =========================================================
+   FIN
+   ========================================================= */
