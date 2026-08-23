@@ -1,6 +1,6 @@
 /* =========================================================
    RAPANUI FUTURO
-   style.css
+   STYLE.CSS
    ========================================================= */
 
 * {
@@ -11,7 +11,7 @@ html {
     margin: 0;
     padding: 0;
     width: 100%;
-    scroll-behavior: auto;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -36,6 +36,7 @@ body {
    ========================================================= */
 
 #sidebar {
+
     width: 280px;
     min-height: 100vh;
 
@@ -55,6 +56,7 @@ body {
 }
 
 #sidebar h1 {
+
     text-align: center;
 
     margin-top: 0;
@@ -64,6 +66,7 @@ body {
 }
 
 #sidebar button {
+
     width: 100%;
 
     padding: 13px;
@@ -87,11 +90,14 @@ body {
 }
 
 #sidebar button:hover {
+
     opacity: 0.9;
+
     transform: translateY(-1px);
 }
 
 #sidebar button:active {
+
     transform: scale(0.98);
 }
 
@@ -101,6 +107,7 @@ body {
    ========================================================= */
 
 #contenido {
+
     flex: 1;
 
     width: calc(100% - 280px);
@@ -116,6 +123,7 @@ body {
    ========================================================= */
 
 .panel {
+
     display: none;
 
     width: 100%;
@@ -131,6 +139,7 @@ body {
    ========================================================= */
 
 .card {
+
     width: 100%;
 
     background: white;
@@ -148,15 +157,19 @@ body {
 }
 
 .card h1 {
+
     margin-top: 0;
+
     color: #0f172a;
 }
 
 .card h2 {
+
     color: #172033;
 }
 
 .card p {
+
     line-height: 1.6;
 }
 
@@ -166,6 +179,7 @@ body {
    ========================================================= */
 
 .condiciones {
+
     display: grid;
 
     grid-template-columns:
@@ -177,6 +191,7 @@ body {
 }
 
 .dato {
+
     min-width: 0;
 
     background: #eef6ff;
@@ -189,18 +204,21 @@ body {
 }
 
 .dato h3 {
+
     margin-top: 0;
 
     font-size: 17px;
 }
 
 .dato p {
+
     font-size: 18px;
 
     font-weight: bold;
 }
 
 .dato small {
+
     color: #64748b;
 }
 
@@ -210,6 +228,7 @@ body {
    ========================================================= */
 
 .simBtn {
+
     background: #1565c0;
 
     color: white;
@@ -232,13 +251,34 @@ body {
 }
 
 .simBtn:hover {
+
     opacity: 0.9;
 
     transform: translateY(-1px);
 }
 
 .simBtn:active {
+
     transform: scale(0.98);
+}
+
+.botonSecundario {
+
+    background: #64748b;
+
+    color: white;
+
+    border: none;
+
+    padding: 12px 18px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    margin-top: 10px;
+
+    font-size: 15px;
 }
 
 
@@ -247,6 +287,7 @@ body {
    ========================================================= */
 
 select {
+
     width: 100%;
 
     padding: 11px;
@@ -273,6 +314,7 @@ select {
    ========================================================= */
 
 input[type="range"] {
+
     width: 100%;
 
     display: block;
@@ -291,6 +333,7 @@ input[type="range"] {
    ========================================================= */
 
 .graficoContenedor {
+
     position: relative;
 
     width: 100%;
@@ -305,9 +348,11 @@ input[type="range"] {
 }
 
 #grafico {
+
     display: block;
 
     width: 100% !important;
+
     height: 100% !important;
 }
 
@@ -317,6 +362,7 @@ input[type="range"] {
    ========================================================= */
 
 .indicador {
+
     margin-top: 20px;
 
     padding: 20px;
@@ -331,6 +377,7 @@ input[type="range"] {
 }
 
 .valorGrande {
+
     font-size: 30px;
 
     font-weight: bold;
@@ -344,6 +391,7 @@ input[type="range"] {
    ========================================================= */
 
 .fuente {
+
     margin-top: 20px;
 
     padding: 15px;
@@ -363,18 +411,17 @@ input[type="range"] {
    ========================================================= */
 
 #simuladorPage {
+
     min-height: 800px;
 }
 
-/* IMPORTANTE:
-   El simulador está completamente oculto al iniciar.
-*/
-
 .simuladorOculto {
+
     display: none !important;
 }
 
 #escena3D {
+
     width: 100%;
 
     height: 500px;
@@ -391,18 +438,21 @@ input[type="range"] {
 }
 
 #escena3D canvas {
+
     display: block;
 
     width: 100% !important;
+
     height: 100% !important;
 }
 
 
 /* =========================================================
-   ACCIONES AMBIENTALES
+   ACCIONES
    ========================================================= */
 
 .accion {
+
     background: #eef6ff;
 
     padding: 20px;
@@ -413,20 +463,24 @@ input[type="range"] {
 }
 
 .accion h3 {
+
     margin-top: 0;
 }
 
 .accion p {
+
     line-height: 1.6;
 }
 
 .accion ul {
+
     padding-left: 22px;
 
     line-height: 1.8;
 }
 
 .accionProyeccion {
+
     background: white;
 
     padding: 14px;
@@ -439,12 +493,14 @@ input[type="range"] {
 }
 
 .accionProyeccion strong {
+
     display: block;
 
     margin-bottom: 5px;
 }
 
 .accionFinal {
+
     background: #e8f5e9;
 
     border-left: 5px solid #2e7d32;
@@ -462,18 +518,260 @@ input[type="range"] {
    ========================================================= */
 
 ul {
+
     line-height: 1.8;
 }
 
 
 /* =========================================================
-   ANIMACIÓN DE CARGA
+   CARGA
    ========================================================= */
 
 .cargando {
+
     color: #64748b;
 
     font-style: italic;
+}
+
+
+/* =========================================================
+   IA
+   ========================================================= */
+
+.iaCard {
+
+    max-width: 1100px;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.iaTitulo {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    margin-bottom: 20px;
+}
+
+.iaTitulo h1 {
+
+    margin-bottom: 5px;
+}
+
+.iaTitulo p {
+
+    margin-top: 0;
+
+    color: #64748b;
+}
+
+.iaIcono {
+
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #e0f2fe;
+
+    border-radius: 20px;
+
+    font-size: 38px;
+
+    flex-shrink: 0;
+}
+
+.iaAviso {
+
+    background: #eef6ff;
+
+    border-left: 5px solid #1565c0;
+
+    padding: 18px;
+
+    border-radius: 12px;
+
+    margin-bottom: 25px;
+}
+
+.iaAviso p {
+
+    margin-bottom: 0;
+}
+
+.iaConfiguracion {
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+    padding: 20px;
+
+    border-radius: 14px;
+
+    margin-bottom: 25px;
+}
+
+.iaConfiguracion h3 {
+
+    margin-top: 0;
+}
+
+.iaConfiguracion input {
+
+    width: 100%;
+
+    padding: 13px;
+
+    border-radius: 9px;
+
+    border: 1px solid #cbd5e1;
+
+    font-size: 15px;
+
+    outline: none;
+
+    margin-top: 5px;
+}
+
+.iaConfiguracion input:focus {
+
+    border-color: #1565c0;
+
+    box-shadow:
+        0 0 0 3px rgba(21, 101, 192, 0.1);
+}
+
+.estadoApiKey {
+
+    font-weight: bold;
+
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   CHAT
+   ========================================================= */
+
+.chat {
+
+    border: 1px solid #dbeafe;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    background: #f8fafc;
+}
+
+.chatMensajes {
+
+    height: 500px;
+
+    overflow-y: auto;
+
+    padding: 20px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+.mensaje {
+
+    max-width: 85%;
+
+    padding: 14px 16px;
+
+    border-radius: 14px;
+
+    line-height: 1.6;
+
+    white-space: pre-wrap;
+
+    word-wrap: break-word;
+}
+
+.iaMensaje {
+
+    align-self: flex-start;
+
+    background: white;
+
+    border: 1px solid #dbeafe;
+
+    border-bottom-left-radius: 4px;
+}
+
+.usuarioMensaje {
+
+    align-self: flex-end;
+
+    background: #1565c0;
+
+    color: white;
+
+    border-bottom-right-radius: 4px;
+}
+
+.mensajeNombre {
+
+    font-weight: bold;
+
+    margin-bottom: 6px;
+
+    font-size: 13px;
+}
+
+.chatFormulario {
+
+    display: flex;
+
+    gap: 10px;
+
+    padding: 15px;
+
+    background: white;
+
+    border-top: 1px solid #e2e8f0;
+}
+
+.chatFormulario input {
+
+    flex: 1;
+
+    min-width: 0;
+
+    padding: 13px;
+
+    border-radius: 9px;
+
+    border: 1px solid #cbd5e1;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+.chatFormulario input:focus {
+
+    border-color: #1565c0;
+}
+
+.chatFormulario .simBtn {
+
+    margin-top: 0;
 }
 
 
@@ -484,6 +782,7 @@ ul {
 @media (max-width: 1100px) {
 
     .condiciones {
+
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
     }
@@ -498,6 +797,7 @@ ul {
 @media (max-width: 768px) {
 
     body {
+
         display: block;
 
         width: 100%;
@@ -506,6 +806,7 @@ ul {
     }
 
     #sidebar {
+
         width: 100%;
 
         min-height: auto;
@@ -516,18 +817,21 @@ ul {
     }
 
     #sidebar h1 {
+
         font-size: 24px;
 
         margin-bottom: 15px;
     }
 
     #sidebar button {
+
         font-size: 14px;
 
         padding: 12px;
     }
 
     #contenido {
+
         width: 100%;
 
         padding: 12px;
@@ -536,6 +840,7 @@ ul {
     }
 
     .card {
+
         width: 100%;
 
         padding: 16px;
@@ -546,30 +851,36 @@ ul {
     }
 
     .card h1 {
+
         font-size: 25px;
     }
 
     .card h2 {
+
         font-size: 21px;
     }
 
     .card h3 {
+
         font-size: 18px;
     }
 
     .condiciones {
+
         grid-template-columns: 1fr;
 
         gap: 12px;
     }
 
     .dato {
+
         width: 100%;
 
         min-width: 0;
     }
 
     .graficoContenedor {
+
         width: 100%;
 
         height: 350px;
@@ -578,21 +889,60 @@ ul {
     }
 
     #escena3D {
+
         width: 100%;
 
         height: 350px;
     }
 
     #simuladorPage {
+
         min-height: 650px;
     }
 
     .accion {
+
         padding: 16px;
     }
 
     .valorGrande {
+
         font-size: 25px;
+    }
+
+    .iaTitulo {
+
+        align-items: flex-start;
+    }
+
+    .iaIcono {
+
+        width: 55px;
+        height: 55px;
+
+        font-size: 28px;
+    }
+
+    .chatMensajes {
+
+        height: 420px;
+
+        padding: 12px;
+    }
+
+    .mensaje {
+
+        max-width: 92%;
+    }
+
+    .chatFormulario {
+
+        flex-direction: column;
+    }
+
+    .chatFormulario .simBtn {
+
+        width: 100%;
     }
 
 }
@@ -605,24 +955,29 @@ ul {
 @media (max-width: 400px) {
 
     #sidebar h1 {
+
         font-size: 21px;
     }
 
     #sidebar button {
+
         font-size: 13px;
     }
 
     .card {
+
         padding: 14px;
     }
 
     .graficoContenedor {
+
         height: 300px;
 
         min-height: 300px;
     }
 
     #escena3D {
+
         height: 300px;
     }
 

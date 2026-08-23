@@ -10,21 +10,36 @@
 
 function mostrar(id) {
 
-    const paneles = document.querySelectorAll(".panel");
+    document
+        .querySelectorAll(".panel")
+        .forEach(panel => {
 
-    paneles.forEach(function (panel) {
-        panel.style.display = "none";
-    });
+            panel.style.display = "none";
+
+        });
+
 
     const panel = document.getElementById(id);
 
+
     if (panel) {
+
         panel.style.display = "block";
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
     }
+
 }
 
 
-// Panel inicial
+// ============================================================
+// PANEL INICIAL
+// ============================================================
+
 mostrar("mar");
 
 
@@ -131,12 +146,18 @@ async function cargarCondiciones() {
 
 
         if (elementoTemp) {
-            elementoTemp.innerHTML = "No disponible";
+
+            elementoTemp.innerHTML =
+                "No disponible";
+
         }
 
 
         if (elementoOleaje) {
-            elementoOleaje.innerHTML = "No disponible";
+
+            elementoOleaje.innerHTML =
+                "No disponible";
+
         }
 
     }
@@ -218,7 +239,10 @@ async function cargarViento() {
 
 
         if (elemento) {
-            elemento.innerHTML = "No disponible";
+
+            elemento.innerHTML =
+                "No disponible";
+
         }
 
     }
@@ -227,7 +251,7 @@ async function cargarViento() {
 
 
 // ============================================================
-// INICIAR CONDICIONES
+// SALINIDAD
 // ============================================================
 
 const salinidad =
@@ -235,7 +259,10 @@ const salinidad =
 
 
 if (salinidad) {
-    salinidad.innerHTML = "≈ 35 PSU";
+
+    salinidad.innerHTML =
+        "≈ 35 PSU";
+
 }
 
 
@@ -245,11 +272,6 @@ cargarViento();
 
 // ============================================================
 // DATOS CIENTÍFICOS
-// ============================================================
-
-
-// ============================================================
-// NIVEL DEL MAR
 // ============================================================
 
 const nivelMarSSP245 = {
@@ -306,10 +328,6 @@ const nivelMarSSP585 = {
 };
 
 
-// ============================================================
-// CO2 HISTÓRICO
-// ============================================================
-
 const co2NOAA = {
 
     2000: 369.55,
@@ -342,10 +360,6 @@ const co2NOAA = {
 };
 
 
-// ============================================================
-// CO2 PROYECTADO
-// ============================================================
-
 const co2Proyeccion = {
 
     2030: 438,
@@ -359,10 +373,6 @@ const co2Proyeccion = {
 
 };
 
-
-// ============================================================
-// TEMPERATURA
-// ============================================================
 
 const temperaturaReferencia = {
 
@@ -400,25 +410,29 @@ function interpolar(objeto, año) {
     const años =
         Object.keys(objeto)
             .map(Number)
-            .sort(function (a, b) {
-                return a - b;
-            });
+            .sort((a, b) => a - b);
 
 
     if (objeto[año] !== undefined) {
+
         return Number(objeto[año]);
+
     }
 
 
     if (año <= años[0]) {
+
         return Number(objeto[años[0]]);
+
     }
 
 
     if (año >= años[años.length - 1]) {
+
         return Number(
             objeto[años[años.length - 1]]
         );
+
     }
 
 
@@ -429,6 +443,7 @@ function interpolar(objeto, año) {
     ) {
 
         const año1 = años[i];
+
         const año2 = años[i + 1];
 
 
@@ -459,6 +474,7 @@ function interpolar(objeto, año) {
 
 
     return null;
+
 }
 
 
@@ -516,10 +532,11 @@ const datos = {
         unidad:
             "ppm",
 
-        objeto: {
-            ...co2NOAA,
-            ...co2Proyeccion
-        },
+        objeto:
+            {
+                ...co2NOAA,
+                ...co2Proyeccion
+            },
 
         inicio:
             2000,
@@ -579,9 +596,8 @@ if (
         canvasGrafico.getContext("2d");
 
 
-    grafico = new Chart(
-        ctx,
-        {
+    grafico =
+        new Chart(ctx, {
 
             type: "line",
 
@@ -621,22 +637,17 @@ if (
 
                     {
 
-                        label:
-                            "Año seleccionado",
+                        label: "Año seleccionado",
 
                         data: [],
 
-                        borderColor:
-                            "#e53935",
+                        borderColor: "#e53935",
 
-                        backgroundColor:
-                            "#e53935",
+                        backgroundColor: "#e53935",
 
-                        pointBackgroundColor:
-                            "#e53935",
+                        pointBackgroundColor: "#e53935",
 
-                        pointBorderColor:
-                            "#e53935",
+                        pointBorderColor: "#e53935",
 
                         pointRadius: 7,
 
@@ -720,8 +731,7 @@ if (
 
             }
 
-        }
-    );
+        });
 
 }
 
@@ -819,8 +829,11 @@ function actualizarGrafico() {
         ) {
 
             puntos.push({
+
                 x: y,
+
                 y: valor
+
             });
 
         }
@@ -844,8 +857,11 @@ function actualizarGrafico() {
     ) {
 
         puntoSeleccionado.push({
+
             x: año,
+
             y: valorActual
+
         });
 
     }
@@ -854,18 +870,14 @@ function actualizarGrafico() {
     grafico.data.datasets[0].data =
         puntos;
 
-
     grafico.data.datasets[0].label =
         dataset.nombre;
-
 
     grafico.data.datasets[1].data =
         puntoSeleccionado;
 
-
     grafico.data.datasets[1].label =
         "Año " + año;
-
 
     grafico.options.scales.y.title.text =
         dataset.unidad;
@@ -879,6 +891,7 @@ function actualizarGrafico() {
         ) {
 
             valorSeleccionado.innerHTML =
+
                 "<div>" +
                 dataset.nombre +
                 "</div>" +
@@ -905,6 +918,7 @@ function actualizarGrafico() {
 
 
     grafico.update("none");
+
 }
 
 
@@ -996,7 +1010,9 @@ if (
 
     renderer =
         new THREE.WebGLRenderer({
+
             antialias: true
+
         });
 
 
@@ -1007,6 +1023,13 @@ if (
         )
     );
 
+
+    /*
+       IMPORTANTE:
+       El contenedor está oculto al cargar.
+       Por eso NO se intenta redimensionar
+       como si estuviera visible.
+    */
 
     renderer.setSize(
         1,
@@ -1043,12 +1066,8 @@ if (
         );
 
 
-    escena.add(
-        luzAmbiente
-    );
+    escena.add(luzAmbiente);
 
-
-    // MAR
 
     const marGeometry =
         new THREE.BoxGeometry(
@@ -1083,8 +1102,6 @@ if (
     escena.add(mar3D);
 
 
-    // PLAYA
-
     const playa =
         new THREE.Mesh(
 
@@ -1096,7 +1113,9 @@ if (
             ),
 
             new THREE.MeshPhongMaterial({
+
                 color: 0xf4d28c
+
             })
 
         );
@@ -1107,8 +1126,6 @@ if (
 
     escena.add(playa);
 
-
-    // ISLA
 
     const islaGeometry =
         new THREE.CylinderGeometry(
@@ -1121,7 +1138,9 @@ if (
 
     const islaMaterial =
         new THREE.MeshPhongMaterial({
+
             color: 0x3d8b37
+
         });
 
 
@@ -1138,15 +1157,15 @@ if (
     escena.add(isla3D);
 
 
-    // MOÁI
-
     const moaiGroup =
         new THREE.Group();
 
 
     const moaiMaterial =
         new THREE.MeshPhongMaterial({
+
             color: 0x777777
+
         });
 
 
@@ -1222,10 +1241,6 @@ if (
     escena.add(moaiGroup);
 
 
-    // ========================================================
-    // REDIMENSIONAR 3D
-    // ========================================================
-
     function redimensionar3D() {
 
         if (
@@ -1233,7 +1248,9 @@ if (
             !renderer ||
             !camara
         ) {
+
             return;
+
         }
 
 
@@ -1249,7 +1266,9 @@ if (
             ancho <= 0 ||
             alto <= 0
         ) {
+
             return;
+
         }
 
 
@@ -1269,10 +1288,6 @@ if (
     }
 
 
-    // ========================================================
-    // ANIMACIÓN
-    // ========================================================
-
     function animar3D() {
 
         requestAnimationFrame(
@@ -1288,10 +1303,18 @@ if (
         }
 
 
-        renderer.render(
-            escena,
+        if (
+            renderer &&
+            escena &&
             camara
-        );
+        ) {
+
+            renderer.render(
+                escena,
+                camara
+            );
+
+        }
 
     }
 
@@ -1360,7 +1383,7 @@ const selectorMar =
 
 
 // ============================================================
-// OBTENER AUMENTO DEL MAR
+// OBTENER AUMENTO
 // ============================================================
 
 function obtenerAumentoMar(
@@ -1378,6 +1401,7 @@ function obtenerAumentoMar(
         datosEscenario,
         año
     );
+
 }
 
 
@@ -1521,9 +1545,18 @@ if (abrirSimulador) {
             }
 
 
+            /*
+               Se abre SOLO cuando el usuario
+               presiona el botón.
+            */
+
             simuladorPage.classList.remove(
                 "simuladorOculto"
             );
+
+
+            simuladorPage.style.display =
+                "block";
 
 
             setTimeout(
@@ -1569,6 +1602,22 @@ if (abrirSimulador) {
                     actualizarSimuladorMar();
 
                 },
+                100
+            );
+
+
+            setTimeout(
+                function () {
+
+                    simuladorPage.scrollIntoView({
+
+                        behavior: "smooth",
+
+                        block: "start"
+
+                    });
+
+                },
                 50
             );
 
@@ -1588,18 +1637,42 @@ if (cerrarSimulador) {
         "click",
         function () {
 
-            if (simuladorPage) {
-
-                simuladorPage.classList.add(
-                    "simuladorOculto"
-                );
-
+            if (!simuladorPage) {
+                return;
             }
+
+
+            /*
+               Se vuelve a ocultar completamente.
+            */
+
+            simuladorPage.classList.add(
+                "simuladorOculto"
+            );
+
+
+            simuladorPage.style.display =
+                "none";
 
         }
     );
 
 }
+
+
+// ============================================================
+// ESTADO INICIAL DEL SIMULADOR
+// ============================================================
+
+/*
+   MUY IMPORTANTE:
+
+   No abrimos el simulador aquí.
+
+   Solamente actualizamos sus datos.
+*/
+
+actualizarSimuladorMar();
 
 
 // ============================================================
@@ -1629,10 +1702,6 @@ const impactoDescripcion =
         "impactoDescripcion"
     );
 
-
-// ============================================================
-// ACTUALIZAR IMPACTO
-// ============================================================
 
 function actualizarImpacto() {
 
@@ -1771,9 +1840,865 @@ window.addEventListener(
 
         if (grafico) {
 
-            grafico.resize();
+            setTimeout(
+                function () {
+
+                    grafico.resize();
+
+                    grafico.update("none");
+
+                },
+                100
+            );
 
         }
+
+    }
+);
+
+
+// ============================================================
+// IA — RAPANUI FUTURO
+// ============================================================
+
+const apiKeyInput =
+    document.getElementById(
+        "apiKeyInput"
+    );
+
+
+const guardarApiKey =
+    document.getElementById(
+        "guardarApiKey"
+    );
+
+
+const borrarApiKey =
+    document.getElementById(
+        "borrarApiKey"
+    );
+
+
+const estadoApiKey =
+    document.getElementById(
+        "estadoApiKey"
+    );
+
+
+const chatForm =
+    document.getElementById(
+        "chatForm"
+    );
+
+
+const chatInput =
+    document.getElementById(
+        "chatInput"
+    );
+
+
+const chatMensajes =
+    document.getElementById(
+        "chatMensajes"
+    );
+
+
+// ============================================================
+// CONFIGURACIÓN IA
+// ============================================================
+
+const IA_MODEL =
+    "openai/gpt-5.2";
+
+
+const IA_ENDPOINT =
+    "https://openrouter.ai/api/v1/chat/completions";
+
+
+let historialIA = [];
+
+
+// ============================================================
+// API KEY
+// ============================================================
+
+function obtenerApiKey() {
+
+    return localStorage.getItem(
+        "rapanui_futuro_api_key"
+    );
+
+}
+
+
+function actualizarEstadoApiKey() {
+
+    if (!estadoApiKey) {
+        return;
+    }
+
+
+    const clave =
+        obtenerApiKey();
+
+
+    if (clave) {
+
+        estadoApiKey.innerHTML =
+            "🟢 IA configurada correctamente";
+
+        estadoApiKey.style.color =
+            "#2e7d32";
+
+    } else {
+
+        estadoApiKey.innerHTML =
+            "🔴 IA no configurada";
+
+        estadoApiKey.style.color =
+            "#c62828";
+
+    }
+
+}
+
+
+if (apiKeyInput) {
+
+    const claveGuardada =
+        obtenerApiKey();
+
+
+    if (claveGuardada) {
+
+        apiKeyInput.value =
+            claveGuardada;
+
+    }
+
+}
+
+
+actualizarEstadoApiKey();
+
+
+// ============================================================
+// GUARDAR API KEY
+// ============================================================
+
+if (guardarApiKey) {
+
+    guardarApiKey.addEventListener(
+        "click",
+        function () {
+
+            if (!apiKeyInput) {
+                return;
+            }
+
+
+            const clave =
+                apiKeyInput.value.trim();
+
+
+            if (!clave) {
+
+                alert(
+                    "Escribe una API Key primero."
+                );
+
+                return;
+
+            }
+
+
+            localStorage.setItem(
+                "rapanui_futuro_api_key",
+                clave
+            );
+
+
+            actualizarEstadoApiKey();
+
+
+            alert(
+                "✅ API Key guardada solamente en este navegador."
+            );
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// BORRAR API KEY
+// ============================================================
+
+if (borrarApiKey) {
+
+    borrarApiKey.addEventListener(
+        "click",
+        function () {
+
+            localStorage.removeItem(
+                "rapanui_futuro_api_key"
+            );
+
+
+            if (apiKeyInput) {
+
+                apiKeyInput.value = "";
+
+            }
+
+
+            actualizarEstadoApiKey();
+
+
+            alert(
+                "🗑️ API Key eliminada."
+            );
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// MENSAJES DEL CHAT
+// ============================================================
+
+function agregarMensaje(
+    texto,
+    tipo
+) {
+
+    if (!chatMensajes) {
+        return;
+    }
+
+
+    const mensaje =
+        document.createElement("div");
+
+
+    mensaje.className =
+        "mensaje " +
+        (
+            tipo === "usuario"
+                ? "usuarioMensaje"
+                : "iaMensaje"
+        );
+
+
+    const nombre =
+        document.createElement("div");
+
+
+    nombre.className =
+        "mensajeNombre";
+
+
+    nombre.textContent =
+        tipo === "usuario"
+            ? "👤 Tú"
+            : "🤖 Rapa Nui Futuro IA";
+
+
+    const contenido =
+        document.createElement("div");
+
+
+    contenido.className =
+        "mensajeTexto";
+
+
+    contenido.textContent =
+        texto;
+
+
+    mensaje.appendChild(
+        nombre
+    );
+
+
+    mensaje.appendChild(
+        contenido
+    );
+
+
+    chatMensajes.appendChild(
+        mensaje
+    );
+
+
+    chatMensajes.scrollTop =
+        chatMensajes.scrollHeight;
+
+
+    return mensaje;
+
+}
+
+
+// ============================================================
+// MENSAJE DE CARGA
+// ============================================================
+
+function agregarMensajeCarga() {
+
+    if (!chatMensajes) {
+        return null;
+    }
+
+
+    const mensaje =
+        document.createElement("div");
+
+
+    mensaje.className =
+        "mensaje iaMensaje";
+
+
+    mensaje.innerHTML =
+        `
+        <div class="mensajeNombre">
+            🤖 Rapa Nui Futuro IA
+        </div>
+
+        <div class="mensajeTexto">
+            Pensando... 🧠
+        </div>
+        `;
+
+
+    chatMensajes.appendChild(
+        mensaje
+    );
+
+
+    chatMensajes.scrollTop =
+        chatMensajes.scrollHeight;
+
+
+    return mensaje;
+
+}
+
+
+// ============================================================
+// CONTEXTO DE RAPANUI FUTURO
+// ============================================================
+
+const IA_SYSTEM_PROMPT = `
+
+Eres "Rapa Nui Futuro IA", un asistente educativo especializado
+en Rapa Nui (Isla de Pascua), cambio climático, océano,
+biodiversidad, contaminación, patrimonio y adaptación ambiental.
+
+Tu función es ayudar a estudiantes y visitantes a comprender
+los contenidos de la plataforma Rapa Nui Futuro.
+
+Debes responder en español, de manera clara, educativa y natural.
+
+Puedes hablar sobre:
+
+- Rapa Nui.
+- Cambio climático.
+- Nivel del mar.
+- Temperatura del océano.
+- Biodiversidad.
+- Contaminación marina.
+- Conservación.
+- Agua.
+- Turismo sostenible.
+- Patrimonio.
+- Energías limpias.
+- Adaptación climática.
+- Educación ambiental.
+- Ciencia.
+
+IMPORTANTE:
+
+Las cifras y simulaciones de la página son educativas.
+No debes presentar las proyecciones de la página como predicciones
+exactas de lo que ocurrirá en Rapa Nui.
+
+Si el usuario pregunta por datos actuales que no aparecen en
+el contexto entregado, debes indicarle que no tienes acceso
+automático a todas las mediciones en tiempo real.
+
+No inventes fuentes científicas.
+
+Si no sabes algo, dilo claramente.
+
+Mantén un tono cercano y educativo.
+
+Puedes utilizar emojis moderadamente.
+
+La página utiliza actualmente:
+
+Nivel del mar SSP2-4.5:
+2025 = 10 cm
+2050 = 25 cm
+2100 = 66 cm
+
+Nivel del mar SSP5-8.5:
+2025 = 11 cm
+2050 = 32 cm
+2100 = 86 cm
+
+Temperatura oceánica de referencia:
+2025 = 23.2 °C
+2050 = 24.2 °C
+2100 = 25.6 °C
+
+CO2:
+2025 = 427.35 ppm
+
+Estos valores forman parte de las visualizaciones educativas
+de la página y deben tratarse como tales.
+
+Si el usuario pregunta qué puede hacer para ayudar a Rapa Nui,
+puedes recomendar acciones como proteger la costa, cuidar el agua,
+reducir residuos, proteger el océano, restaurar suelos,
+usar energía eficientemente y participar en acciones comunitarias.
+
+`
+
+
+// ============================================================
+// LLAMAR A LA IA
+// ============================================================
+
+async function preguntarIA(pregunta) {
+
+    const apiKey =
+        obtenerApiKey();
+
+
+    if (!apiKey) {
+
+        throw new Error(
+            "No hay una API Key configurada."
+        );
+
+    }
+
+
+    historialIA.push({
+
+        role: "user",
+
+        content: pregunta
+
+    });
+
+
+    /*
+       Limitamos el historial para evitar
+       enviar una conversación enorme.
+    */
+
+    const historialReciente =
+        historialIA.slice(-10);
+
+
+    const mensajes = [
+
+        {
+
+            role: "system",
+
+            content:
+                IA_SYSTEM_PROMPT
+
+        },
+
+        ...historialReciente
+
+    ];
+
+
+    const respuesta =
+        await fetch(
+            IA_ENDPOINT,
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json",
+
+                    "Authorization":
+                        "Bearer " + apiKey,
+
+                    "HTTP-Referer":
+                        window.location.href,
+
+                    "X-Title":
+                        "Rapa Nui Futuro"
+
+                },
+
+                body: JSON.stringify({
+
+                    model:
+                        IA_MODEL,
+
+                    messages:
+                        mensajes,
+
+                    temperature:
+                        0.7,
+
+                    max_tokens:
+                        700
+
+                })
+
+            }
+        );
+
+
+    if (!respuesta.ok) {
+
+        let detalle = "";
+
+        try {
+
+            detalle =
+                await respuesta.text();
+
+        }
+
+        catch {
+
+            detalle = "";
+
+        }
+
+
+        throw new Error(
+            "Error de la IA (" +
+            respuesta.status +
+            "). " +
+            detalle
+        );
+
+    }
+
+
+    const datosRespuesta =
+        await respuesta.json();
+
+
+    const contenido =
+        datosRespuesta
+            ?.choices?.[0]
+            ?.message?.content;
+
+
+    if (!contenido) {
+
+        throw new Error(
+            "La IA no devolvió una respuesta."
+        );
+
+    }
+
+
+    historialIA.push({
+
+        role: "assistant",
+
+        content: contenido
+
+    });
+
+
+    return contenido;
+
+}
+
+
+// ============================================================
+// FORMULARIO DEL CHAT
+// ============================================================
+
+if (chatForm) {
+
+    chatForm.addEventListener(
+        "submit",
+        async function (evento) {
+
+            evento.preventDefault();
+
+
+            if (!chatInput) {
+                return;
+            }
+
+
+            const pregunta =
+                chatInput.value.trim();
+
+
+            if (!pregunta) {
+                return;
+            }
+
+
+            const apiKey =
+                obtenerApiKey();
+
+
+            if (!apiKey) {
+
+                agregarMensaje(
+
+                    "Primero debes configurar tu API Key en la sección ⚙️ Configuración de la IA.",
+
+                    "ia"
+
+                );
+
+                return;
+
+            }
+
+
+            agregarMensaje(
+                pregunta,
+                "usuario"
+            );
+
+
+            chatInput.value = "";
+
+
+            chatInput.disabled =
+                true;
+
+
+            const botonEnviar =
+                chatForm.querySelector(
+                    "button"
+                );
+
+
+            if (botonEnviar) {
+
+                botonEnviar.disabled =
+                    true;
+
+                botonEnviar.textContent =
+                    "🧠 Pensando...";
+
+            }
+
+
+            const mensajeCarga =
+                agregarMensajeCarga();
+
+
+            try {
+
+                const respuesta =
+                    await preguntarIA(
+                        pregunta
+                    );
+
+
+                if (mensajeCarga) {
+
+                    mensajeCarga.remove();
+
+                }
+
+
+                agregarMensaje(
+                    respuesta,
+                    "ia"
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Error IA:",
+                    error
+                );
+
+
+                /*
+                   Si la solicitud falló,
+                   eliminamos la pregunta del historial
+                   para no contaminar la conversación.
+                */
+
+                historialIA.pop();
+
+
+                if (mensajeCarga) {
+
+                    mensajeCarga.remove();
+
+                }
+
+
+                let mensajeError =
+                    "No pude conectarme con la IA.";
+
+
+                if (
+                    error.message.includes(
+                        "401"
+                    )
+                ) {
+
+                    mensajeError =
+                        "🔑 La API Key parece ser incorrecta o no está autorizada.";
+
+                }
+
+                else if (
+                    error.message.includes(
+                        "429"
+                    )
+                ) {
+
+                    mensajeError =
+                        "⏳ Se alcanzó un límite de solicitudes. Intenta nuevamente en unos momentos.";
+
+                }
+
+                else if (
+                    error.message.includes(
+                        "403"
+                    )
+                ) {
+
+                    mensajeError =
+                        "🚫 La solicitud fue rechazada. Revisa tu API Key y la configuración de tu cuenta.";
+
+                }
+
+
+                agregarMensaje(
+                    mensajeError,
+                    "ia"
+                );
+
+            }
+
+            finally {
+
+                chatInput.disabled =
+                    false;
+
+
+                if (botonEnviar) {
+
+                    botonEnviar.disabled =
+                        false;
+
+                    botonEnviar.textContent =
+                        "➤ Enviar";
+
+                }
+
+
+                chatInput.focus();
+
+            }
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// ENTER PARA ENVIAR
+// ============================================================
+
+if (chatInput) {
+
+    chatInput.addEventListener(
+        "keydown",
+        function (evento) {
+
+            if (
+                evento.key === "Enter" &&
+                !evento.shiftKey
+            ) {
+
+                evento.preventDefault();
+
+
+                if (chatForm) {
+
+                    chatForm.requestSubmit();
+
+                }
+
+            }
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// CARGA FINAL
+// ============================================================
+
+window.addEventListener(
+    "load",
+    function () {
+
+        setTimeout(
+            function () {
+
+                if (grafico) {
+
+                    grafico.resize();
+
+                    grafico.update("none");
+
+                }
+
+
+                /*
+                   No abrimos el simulador aquí.
+                */
+
+                if (
+                    simuladorPage &&
+                    !simuladorPage.classList.contains(
+                        "simuladorOculto"
+                    )
+                ) {
+
+                    simuladorPage.classList.add(
+                        "simuladorOculto"
+                    );
+
+                    simuladorPage.style.display =
+                        "none";
+
+                }
+
+            },
+            300
+        );
 
     }
 );
