@@ -147,18 +147,14 @@ async function cargarCondiciones() {
 
 
         if (elementoTemp) {
-
             elementoTemp.innerHTML =
                 "No disponible";
-
         }
 
 
         if (elementoOleaje) {
-
             elementoOleaje.innerHTML =
                 "No disponible";
-
         }
 
     }
@@ -613,7 +609,7 @@ if (
                         borderColor: "#1565c0",
 
                         backgroundColor:
-                            "rgba(21, 101, 192, 0.10)",
+                            "rgba(21,101,192,0.10)",
 
                         borderWidth: 3,
 
@@ -642,7 +638,8 @@ if (
 
                         borderColor: "#e53935",
 
-                        backgroundColor: "#e53935",
+                        backgroundColor:
+                            "#e53935",
 
                         pointBackgroundColor:
                             "#e53935",
@@ -772,7 +769,9 @@ function actualizarGrafico() {
         !variableElement ||
         !yearElement
     ) {
+
         return;
+
     }
 
 
@@ -1653,10 +1652,6 @@ if (cerrarSimulador) {
 }
 
 
-// ============================================================
-// ESTADO INICIAL DEL SIMULADOR
-// ============================================================
-
 actualizarSimuladorMar();
 
 
@@ -1850,11 +1845,12 @@ window.addEventListener(
 //
 // La API Key NO está aquí.
 //
-// La clave está protegida como secreto
-// dentro del Cloudflare Worker.
+// La clave está protegida dentro
+// del Cloudflare Worker.
 //
-// El navegador solamente se comunica
-// con el Worker.
+// El secreto utilizado por el Worker es:
+//
+// OPENAI_API_KEY
 //
 // ============================================================
 
@@ -1864,21 +1860,19 @@ window.addEventListener(
 // ============================================================
 
 const chatForm =
-    document.getElementById(
-        "chatForm"
-    );
+    document.getElementById("chatForm");
 
 
 const chatInput =
-    document.getElementById(
-        "chatInput"
-    );
+    document.getElementById("chatInput");
 
 
 const chatMensajes =
-    document.getElementById(
-        "chatMensajes"
-    );
+    document.getElementById("chatMensajes");
+
+
+const estadoIA =
+    document.getElementById("estadoApiKey");
 
 
 // ============================================================
@@ -1890,14 +1884,14 @@ const IA_ENDPOINT =
 
 
 // ============================================================
-// HISTORIAL DE CONVERSACIÓN
+// HISTORIAL
 // ============================================================
 
 let historialIA = [];
 
 
 // ============================================================
-// PERSONALIDAD DE LA IA
+// PERSONALIDAD
 // ============================================================
 
 const IA_SYSTEM_PROMPT = `
@@ -1939,16 +1933,15 @@ IMPORTANTE:
 Las simulaciones de Rapa Nui Futuro
 son educativas.
 
-No debes presentarlas como predicciones
-exactas del futuro.
+No debes presentar las simulaciones
+como predicciones exactas del futuro.
 
 Si no conoces un dato,
 debes decirlo claramente.
 
 No inventes fuentes científicas.
 
-DATOS EDUCATIVOS ACTUALES
-DE LA PLATAFORMA:
+DATOS EDUCATIVOS DE LA PLATAFORMA:
 
 Nivel del mar SSP2-4.5:
 
@@ -1974,7 +1967,7 @@ CO₂:
 
 Estos datos pertenecen a las
 visualizaciones educativas
-de la plataforma.
+de Rapa Nui Futuro.
 
 Cuando sea apropiado, recomienda acciones
 para proteger Rapa Nui:
@@ -1996,11 +1989,10 @@ Tu identidad es:
 
 No afirmes que eres ChatGPT.
 
-Si una persona pregunta por algo
-que requiere datos en tiempo real
-que no están disponibles en la página,
-explica que no tienes acceso automático
-a todas las mediciones actuales.
+Si una persona pregunta por datos
+en tiempo real que no están disponibles,
+explica claramente que no tienes acceso
+automático a todas las mediciones actuales.
 
 `;
 
@@ -2009,10 +2001,7 @@ a todas las mediciones actuales.
 // AGREGAR MENSAJE
 // ============================================================
 
-function agregarMensaje(
-    texto,
-    tipo
-) {
+function agregarMensaje(texto, tipo) {
 
     if (!chatMensajes) {
         return null;
@@ -2058,19 +2047,11 @@ function agregarMensaje(
         texto;
 
 
-    mensaje.appendChild(
-        nombre
-    );
+    mensaje.appendChild(nombre);
 
+    mensaje.appendChild(contenido);
 
-    mensaje.appendChild(
-        contenido
-    );
-
-
-    chatMensajes.appendChild(
-        mensaje
-    );
+    chatMensajes.appendChild(mensaje);
 
 
     chatMensajes.scrollTop =
@@ -2114,9 +2095,7 @@ function agregarMensajeCarga() {
     `;
 
 
-    chatMensajes.appendChild(
-        mensaje
-    );
+    chatMensajes.appendChild(mensaje);
 
 
     chatMensajes.scrollTop =
@@ -2129,12 +2108,64 @@ function agregarMensajeCarga() {
 
 
 // ============================================================
+// COMPROBAR WORKER
+// ============================================================
+
+async function comprobarIA() {
+
+    if (!estadoIA) {
+        return;
+    }
+
+
+    try {
+
+        const respuesta =
+            await fetch(
+                IA_ENDPOINT,
+                {
+                    method: "GET"
+                }
+            );
+
+
+        if (respuesta.ok) {
+
+            estadoIA.innerHTML =
+                "🟢 IA conectada correctamente";
+
+            return;
+
+        }
+
+
+        estadoIA.innerHTML =
+            "🔴 Error del servidor: " +
+            respuesta.status;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Error comprobando IA:",
+            error
+        );
+
+
+        estadoIA.innerHTML =
+            "🔴 No se pudo conectar con el servidor de IA.";
+
+    }
+
+}
+
+
+// ============================================================
 // PREGUNTAR A LA IA
 // ============================================================
 
-async function preguntarIA(
-    pregunta
-) {
+async function preguntarIA(pregunta) {
 
     historialIA.push({
 
@@ -2144,11 +2175,6 @@ async function preguntarIA(
 
     });
 
-
-    /*
-       Solo enviamos las últimas
-       10 intervenciones.
-    */
 
     const historialReciente =
         historialIA.slice(-10);
@@ -2220,7 +2246,7 @@ async function preguntarIA(
         throw new Error(
 
             datosRespuesta?.error ||
-            "Error conectando con el servidor de IA."
+            `Error del servidor: ${respuesta.status}`
 
         );
 
@@ -2228,7 +2254,9 @@ async function preguntarIA(
 
 
     const contenido =
-        datosRespuesta?.respuesta;
+        datosRespuesta?.respuesta ||
+        datosRespuesta?.response ||
+        datosRespuesta?.message;
 
 
     if (!contenido) {
@@ -2283,29 +2311,21 @@ if (chatForm) {
             }
 
 
-            // Mostrar pregunta del usuario
-
             agregarMensaje(
                 pregunta,
                 "usuario"
             );
 
 
-            // Limpiar campo
-
             chatInput.value = "";
 
-
-            // Desactivar mientras responde
 
             chatInput.disabled =
                 true;
 
 
             const botonEnviar =
-                chatForm.querySelector(
-                    "button"
-                );
+                chatForm.querySelector("button");
 
 
             if (botonEnviar) {
@@ -2318,8 +2338,6 @@ if (chatForm) {
 
             }
 
-
-            // Mostrar carga
 
             const mensajeCarga =
                 agregarMensajeCarga();
@@ -2355,12 +2373,6 @@ if (chatForm) {
                 );
 
 
-                /*
-                   Si falla la petición,
-                   eliminamos la última
-                   pregunta del historial.
-                */
-
                 if (
                     historialIA.length > 0 &&
                     historialIA[
@@ -2395,8 +2407,8 @@ if (chatForm) {
                 ) {
 
                     mensajeError =
-                        "🔑 El servidor rechazó la autenticación. " +
-                        "Revisa OPENAI_API_KEY en Cloudflare.";
+                        "🔑 El servidor no pudo autenticarse con la API. " +
+                        "Revisa el secreto OPENAI_API_KEY en Cloudflare.";
 
                 }
 
@@ -2405,7 +2417,7 @@ if (chatForm) {
                 ) {
 
                     mensajeError =
-                        "🚫 La solicitud fue rechazada por el servidor.";
+                        "🚫 El servidor rechazó la solicitud.";
 
                 }
 
@@ -2414,8 +2426,17 @@ if (chatForm) {
                 ) {
 
                     mensajeError =
-                        "⏳ Se alcanzó un límite de solicitudes. " +
-                        "Espera unos segundos e inténtalo nuevamente.";
+                        "⏳ Se alcanzó el límite de solicitudes. " +
+                        "Espera un momento e inténtalo nuevamente.";
+
+                }
+
+                else if (
+                    textoError.includes("500")
+                ) {
+
+                    mensajeError =
+                        "⚠️ El Worker de Cloudflare encontró un error interno.";
 
                 }
 
@@ -2424,8 +2445,8 @@ if (chatForm) {
                 ) {
 
                     mensajeError =
-                        "🌐 No se pudo conectar con el Worker de Cloudflare. " +
-                        "Comprueba que esté desplegado.";
+                        "🌐 No se pudo conectar con Cloudflare Worker. " +
+                        "Comprueba que el Worker esté publicado.";
 
                 }
 
@@ -2523,11 +2544,6 @@ window.addEventListener(
                 }
 
 
-                /*
-                   No abrir automáticamente
-                   el simulador.
-                */
-
                 if (
                     simuladorPage &&
                     !simuladorPage.classList.contains(
@@ -2545,9 +2561,12 @@ window.addEventListener(
 
                 }
 
+
+                comprobarIA();
+
             },
 
-            300
+            500
 
         );
 
