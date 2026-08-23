@@ -1,16 +1,8 @@
 // ============================================================
 // RAPANUI FUTURO
 // SCRIPT PRINCIPAL
-// VERSION COMPLETA + IA
+// VERSION COMPLETA CORREGIDA
 // ============================================================
-
-
-// ============================================================
-// CONFIGURACIÓN
-// ============================================================
-
-const SERVIDOR_IA =
-    "https://rapa-nui-futuro-ia.renzo-b-s-escorpio.workers.dev/";
 
 
 // ============================================================
@@ -21,6 +13,7 @@ function mostrar(id) {
 
     const paneles =
         document.querySelectorAll(".panel");
+
 
     paneles.forEach(function(panel) {
 
@@ -34,12 +27,8 @@ function mostrar(id) {
     const panel =
         document.getElementById(id);
 
-    if (!panel) {
-        console.error(
-            "No existe el panel:",
-            id
-        );
 
+    if (!panel) {
         return;
     }
 
@@ -55,35 +44,36 @@ function mostrar(id) {
     });
 
 
-    /*
-       Si abrimos IA, comprobamos el servidor.
-    */
-
-    if (id === "ia") {
-        comprobarServidorIA();
-    }
-
-
-    /*
-       Si abrimos el panel del océano,
-       aseguramos que el gráfico tenga tamaño correcto.
-    */
+    // Si se abre el simulador, actualizar su tamaño
 
     if (
         id === "mar" &&
-        grafico
+        simuladorInicializado &&
+        simuladorPage &&
+        simuladorPage.style.display !== "none"
     ) {
+
+        setTimeout(
+            actualizarTamaño3D,
+            50
+        );
+
+    }
+
+
+    // Si se abre IA, enfocar entrada
+
+    if (id === "ia" && iaInput) {
 
         setTimeout(
             function() {
 
-                grafico.resize();
-
-                grafico.update("none");
+                iaInput.focus();
 
             },
             100
         );
+
     }
 
 }
@@ -111,6 +101,7 @@ async function cargarCondiciones() {
 
     const elementoTemp =
         document.getElementById("tempMar");
+
 
     const elementoOleaje =
         document.getElementById("oleaje");
@@ -323,9 +314,7 @@ document.addEventListener(
     function() {
 
         const salinidad =
-            document.getElementById(
-                "salinidad"
-            );
+            document.getElementById("salinidad");
 
 
         if (salinidad) {
@@ -346,6 +335,11 @@ document.addEventListener(
 
 // ============================================================
 // DATOS CIENTÍFICOS
+// ============================================================
+
+
+// ============================================================
+// NIVEL DEL MAR SSP2-4.5
 // ============================================================
 
 const nivelMarSSP245 = {
@@ -375,6 +369,10 @@ const nivelMarSSP245 = {
 };
 
 
+// ============================================================
+// NIVEL DEL MAR SSP5-8.5
+// ============================================================
+
 const nivelMarSSP585 = {
 
     2000: 0,
@@ -401,6 +399,10 @@ const nivelMarSSP585 = {
 
 };
 
+
+// ============================================================
+// CO2 NOAA
+// ============================================================
 
 const co2NOAA = {
 
@@ -434,6 +436,10 @@ const co2NOAA = {
 };
 
 
+// ============================================================
+// CO2 PROYECCIÓN
+// ============================================================
+
 const co2Proyeccion = {
 
     2030: 438,
@@ -447,6 +453,10 @@ const co2Proyeccion = {
 
 };
 
+
+// ============================================================
+// TEMPERATURA
+// ============================================================
 
 const temperaturaReferencia = {
 
@@ -532,6 +542,7 @@ function interpolar(objeto, año) {
         const año1 =
             años[i];
 
+
         const año2 =
             años[i + 1];
 
@@ -545,6 +556,7 @@ function interpolar(objeto, año) {
                 Number(
                     objeto[año1]
                 );
+
 
             const valor2 =
                 Number(
@@ -575,6 +587,7 @@ function interpolar(objeto, año) {
 
 
     return null;
+
 }
 
 
@@ -692,9 +705,7 @@ function crearGrafico() {
 
 
     const canvas =
-        document.getElementById(
-            "grafico"
-        );
+        document.getElementById("grafico");
 
 
     if (!canvas) {
@@ -702,10 +713,7 @@ function crearGrafico() {
     }
 
 
-    if (
-        typeof Chart ===
-        "undefined"
-    ) {
+    if (typeof Chart === "undefined") {
 
         console.error(
             "Chart.js no está disponible."
@@ -736,8 +744,7 @@ function crearGrafico() {
 
                             data: [],
 
-                            borderColor:
-                                "#1565c0",
+                            borderColor: "#1565c0",
 
                             backgroundColor:
                                 "rgba(21, 101, 192, 0.10)",
@@ -763,16 +770,13 @@ function crearGrafico() {
 
                         {
 
-                            label:
-                                "Año seleccionado",
+                            label: "Año seleccionado",
 
                             data: [],
 
-                            borderColor:
-                                "#e53935",
+                            borderColor: "#e53935",
 
-                            backgroundColor:
-                                "#e53935",
+                            backgroundColor: "#e53935",
 
                             pointBackgroundColor:
                                 "#e53935",
@@ -869,7 +873,8 @@ function crearGrafico() {
         );
 
 
-    graficoInicializado = true;
+    graficoInicializado =
+        true;
 
 
     actualizarGrafico();
@@ -986,8 +991,11 @@ function actualizarGrafico() {
         ) {
 
             puntos.push({
+
                 x: y,
+
                 y: valor
+
             });
 
         }
@@ -1002,7 +1010,8 @@ function actualizarGrafico() {
         );
 
 
-    const puntoSeleccionado = [];
+    const puntoSeleccionado =
+        [];
 
 
     if (
@@ -1133,7 +1142,11 @@ document.addEventListener(
 // SIMULADOR 3D
 // ============================================================
 
-let contenedor3D = null;
+const contenedor3D =
+    document.getElementById(
+        "escena3D"
+    );
+
 
 let escena = null;
 
@@ -1145,7 +1158,8 @@ let mar3D = null;
 
 let isla3D = null;
 
-let simuladorInicializado = false;
+let simuladorInicializado =
+    false;
 
 
 // ============================================================
@@ -1153,12 +1167,6 @@ let simuladorInicializado = false;
 // ============================================================
 
 function crearSimulador3D() {
-
-    contenedor3D =
-        document.getElementById(
-            "escena3D"
-        );
-
 
     if (simuladorInicializado) {
         return;
@@ -1185,6 +1193,10 @@ function crearSimulador3D() {
         );
 
 
+    // ========================================================
+    // CÁMARA
+    // ========================================================
+
     camara =
         new THREE.PerspectiveCamera(
             60,
@@ -1207,6 +1219,10 @@ function crearSimulador3D() {
         0
     );
 
+
+    // ========================================================
+    // RENDERER
+    // ========================================================
 
     renderer =
         new THREE.WebGLRenderer({
@@ -1231,13 +1247,18 @@ function crearSimulador3D() {
     );
 
 
-    contenedor3D.innerHTML = "";
+    contenedor3D.innerHTML =
+        "";
 
 
     contenedor3D.appendChild(
         renderer.domElement
     );
 
+
+    // ========================================================
+    // LUCES
+    // ========================================================
 
     const luz =
         new THREE.DirectionalLight(
@@ -1263,10 +1284,12 @@ function crearSimulador3D() {
         );
 
 
-    escena.add(
-        luzAmbiente
-    );
+    escena.add(luzAmbiente);
 
+
+    // ========================================================
+    // MAR
+    // ========================================================
 
     const marGeometry =
         new THREE.BoxGeometry(
@@ -1295,13 +1318,16 @@ function crearSimulador3D() {
         );
 
 
-    mar3D.position.y = 0;
+    mar3D.position.y =
+        0;
 
 
-    escena.add(
-        mar3D
-    );
+    escena.add(mar3D);
 
+
+    // ========================================================
+    // PLAYA
+    // ========================================================
 
     const playa =
         new THREE.Mesh(
@@ -1326,10 +1352,12 @@ function crearSimulador3D() {
         0.25;
 
 
-    escena.add(
-        playa
-    );
+    escena.add(playa);
 
+
+    // ========================================================
+    // ISLA
+    // ========================================================
 
     const islaGeometry =
         new THREE.CylinderGeometry(
@@ -1359,10 +1387,12 @@ function crearSimulador3D() {
         1.5;
 
 
-    escena.add(
-        isla3D
-    );
+    escena.add(isla3D);
 
+
+    // ========================================================
+    // MOÁI
+    // ========================================================
 
     const moaiGroup =
         new THREE.Group();
@@ -1375,6 +1405,8 @@ function crearSimulador3D() {
 
         });
 
+
+    // CABEZA
 
     const cabeza =
         new THREE.Mesh(
@@ -1400,6 +1432,8 @@ function crearSimulador3D() {
     );
 
 
+    // CUERPO
+
     const cuerpo =
         new THREE.Mesh(
 
@@ -1423,6 +1457,8 @@ function crearSimulador3D() {
         cuerpo
     );
 
+
+    // NARIZ
 
     const nariz =
         new THREE.Mesh(
@@ -1464,6 +1500,9 @@ function crearSimulador3D() {
 
 
     actualizarTamaño3D();
+
+
+    actualizarSimuladorMar();
 
 
     animar3D();
@@ -1564,79 +1603,52 @@ function animar3D() {
 // ELEMENTOS SIMULADOR
 // ============================================================
 
-let abrirSimulador = null;
-
-let cerrarSimulador = null;
-
-let simuladorPage = null;
-
-let slider3D = null;
-
-let anio3D = null;
-
-let nivel3D = null;
-
-let riesgo = null;
-
-let selectorMar = null;
+const abrirSimulador =
+    document.getElementById(
+        "abrirSimulador"
+    );
 
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
-
-        abrirSimulador =
-            document.getElementById(
-                "abrirSimulador"
-            );
+const cerrarSimulador =
+    document.getElementById(
+        "cerrarSimulador"
+    );
 
 
-        cerrarSimulador =
-            document.getElementById(
-                "cerrarSimulador"
-            );
+const simuladorPage =
+    document.getElementById(
+        "simuladorPage"
+    );
 
 
-        simuladorPage =
-            document.getElementById(
-                "simuladorPage"
-            );
+const slider3D =
+    document.getElementById(
+        "simuladorSlider"
+    );
 
 
-        slider3D =
-            document.getElementById(
-                "simuladorSlider"
-            );
+const anio3D =
+    document.getElementById(
+        "simuladorAnio"
+    );
 
 
-        anio3D =
-            document.getElementById(
-                "simuladorAnio"
-            );
+const nivel3D =
+    document.getElementById(
+        "simuladorNivel"
+    );
 
 
-        nivel3D =
-            document.getElementById(
-                "simuladorNivel"
-            );
+const riesgo =
+    document.getElementById(
+        "riesgoCosta"
+    );
 
 
-        riesgo =
-            document.getElementById(
-                "riesgoCosta"
-            );
-
-
-        selectorMar =
-            document.getElementById(
-                "escenarioMar"
-            );
-
-
-        configurarSimulador();
-
-    }
-);
+const selectorMar =
+    document.getElementById(
+        "escenarioMar"
+    );
 
 
 // ============================================================
@@ -1735,23 +1747,20 @@ function actualizarSimuladorMar() {
             riesgo.innerHTML =
                 "🟢 Riesgo costero: Bajo";
 
-        }
 
-        else if (aumento < 50) {
+        } else if (aumento < 50) {
 
             riesgo.innerHTML =
                 "🟡 Riesgo costero: Moderado";
 
-        }
 
-        else if (aumento < 80) {
+        } else if (aumento < 80) {
 
             riesgo.innerHTML =
                 "🟠 Riesgo costero: Alto";
 
-        }
 
-        else {
+        } else {
 
             riesgo.innerHTML =
                 "🔴 Riesgo costero: Muy alto";
@@ -1764,104 +1773,108 @@ function actualizarSimuladorMar() {
 
 
 // ============================================================
-// CONFIGURAR SIMULADOR
+// ABRIR SIMULADOR
 // ============================================================
 
-function configurarSimulador() {
+if (abrirSimulador) {
 
-    if (abrirSimulador) {
+    abrirSimulador.addEventListener(
+        "click",
+        function() {
 
-        abrirSimulador.addEventListener(
-            "click",
-            function() {
-
-                if (!simuladorPage) {
-                    return;
-                }
-
-
-                simuladorPage.classList.remove(
-                    "simuladorOculto"
-                );
-
-
-                simuladorPage.classList.add(
-                    "simuladorVisible"
-                );
-
-
-                simuladorPage.style.display =
-                    "block";
-
-
-                crearSimulador3D();
-
-
-                setTimeout(
-                    function() {
-
-                        actualizarTamaño3D();
-
-                        actualizarSimuladorMar();
-
-                    },
-                    100
-                );
-
+            if (!simuladorPage) {
+                return;
             }
-        );
-
-    }
 
 
-    if (cerrarSimulador) {
-
-        cerrarSimulador.addEventListener(
-            "click",
-            function() {
-
-                if (!simuladorPage) {
-                    return;
-                }
+            simuladorPage.classList.remove(
+                "simuladorOculto"
+            );
 
 
-                simuladorPage.classList.remove(
-                    "simuladorVisible"
-                );
+            simuladorPage.classList.add(
+                "simuladorVisible"
+            );
 
 
-                simuladorPage.classList.add(
-                    "simuladorOculto"
-                );
+            simuladorPage.style.display =
+                "block";
 
 
-                simuladorPage.style.display =
-                    "none";
+            crearSimulador3D();
 
+
+            setTimeout(
+                function() {
+
+                    actualizarTamaño3D();
+
+                    actualizarSimuladorMar();
+
+                },
+                50
+            );
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// CERRAR SIMULADOR
+// ============================================================
+
+if (cerrarSimulador) {
+
+    cerrarSimulador.addEventListener(
+        "click",
+        function() {
+
+            if (!simuladorPage) {
+                return;
             }
-        );
-
-    }
 
 
-    if (slider3D) {
-
-        slider3D.addEventListener(
-            "input",
-            actualizarSimuladorMar
-        );
-
-    }
+            simuladorPage.classList.remove(
+                "simuladorVisible"
+            );
 
 
-    if (selectorMar) {
+            simuladorPage.classList.add(
+                "simuladorOculto"
+            );
 
-        selectorMar.addEventListener(
-            "change",
-            actualizarSimuladorMar
-        );
 
-    }
+            simuladorPage.style.display =
+                "none";
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// EVENTOS SIMULADOR
+// ============================================================
+
+if (slider3D) {
+
+    slider3D.addEventListener(
+        "input",
+        actualizarSimuladorMar
+    );
+
+}
+
+
+if (selectorMar) {
+
+    selectorMar.addEventListener(
+        "change",
+        actualizarSimuladorMar
+    );
 
 }
 
@@ -1870,62 +1883,29 @@ function configurarSimulador() {
 // IMPACTO EN LA COMUNIDAD
 // ============================================================
 
-let impactoSlider = null;
-
-let impactoAnio = null;
-
-let impactoNivel = null;
-
-let impactoDescripcion = null;
+const impactoSlider =
+    document.getElementById(
+        "impactoSlider"
+    );
 
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
-
-        impactoSlider =
-            document.getElementById(
-                "impactoSlider"
-            );
+const impactoAnio =
+    document.getElementById(
+        "impactoAnio"
+    );
 
 
-        impactoAnio =
-            document.getElementById(
-                "impactoAnio"
-            );
+const impactoNivel =
+    document.getElementById(
+        "impactoNivel"
+    );
 
 
-        impactoNivel =
-            document.getElementById(
-                "impactoNivel"
-            );
+const impactoDescripcion =
+    document.getElementById(
+        "impactoDescripcion"
+    );
 
-
-        impactoDescripcion =
-            document.getElementById(
-                "impactoDescripcion"
-            );
-
-
-        if (impactoSlider) {
-
-            impactoSlider.addEventListener(
-                "input",
-                actualizarImpacto
-            );
-
-
-            actualizarImpacto();
-
-        }
-
-    }
-);
-
-
-// ============================================================
-// ACTUALIZAR IMPACTO
-// ============================================================
 
 function actualizarImpacto() {
 
@@ -1972,10 +1952,8 @@ function actualizarImpacto() {
 
         }
 
-    }
 
-
-    else if (progreso < 0.50) {
+    } else if (progreso < 0.50) {
 
         if (impactoNivel) {
 
@@ -1994,10 +1972,8 @@ function actualizarImpacto() {
 
         }
 
-    }
 
-
-    else if (progreso < 0.75) {
+    } else if (progreso < 0.75) {
 
         if (impactoNivel) {
 
@@ -2016,10 +1992,8 @@ function actualizarImpacto() {
 
         }
 
-    }
 
-
-    else {
+    } else {
 
         if (impactoNivel) {
 
@@ -2044,457 +2018,308 @@ function actualizarImpacto() {
 }
 
 
-// ============================================================
-// ============================================================
-//                    RAPA NUI FUTURO IA
-// ============================================================
-// ============================================================
+if (impactoSlider) {
+
+    impactoSlider.addEventListener(
+        "input",
+        actualizarImpacto
+    );
+
+
+    actualizarImpacto();
+
+}
 
 
 // ============================================================
-// ELEMENTOS IA
+// REDIMENSIONAR SOLAMENTE EL SIMULADOR
 // ============================================================
 
-let estadoIA = null;
-
-let chatIA = null;
-
-let preguntaIA = null;
-
-let enviarIA = null;
-
-let estadoPreguntaIA = null;
-
-
-document.addEventListener(
-    "DOMContentLoaded",
+window.addEventListener(
+    "resize",
     function() {
 
-        estadoIA =
-            document.getElementById(
-                "estadoIA"
-            );
+        if (
+            simuladorPage &&
+            simuladorPage.style.display !== "none" &&
+            simuladorInicializado
+        ) {
 
+            actualizarTamaño3D();
 
-        chatIA =
-            document.getElementById(
-                "chatIA"
-            );
-
-
-        preguntaIA =
-            document.getElementById(
-                "preguntaIA"
-            );
-
-
-        enviarIA =
-            document.getElementById(
-                "enviarIA"
-            );
-
-
-        estadoPreguntaIA =
-            document.getElementById(
-                "estadoPreguntaIA"
-            );
-
-
-        configurarIA();
+        }
 
     }
 );
 
 
+
 // ============================================================
-// CONFIGURAR IA
 // ============================================================
-
-function configurarIA() {
-
-    if (enviarIA) {
-
-        enviarIA.addEventListener(
-            "click",
-            enviarPreguntaIA
-        );
-
-    }
-
-
-    if (preguntaIA) {
-
-        preguntaIA.addEventListener(
-            "keydown",
-            function(event) {
-
-                /*
-                   Enter = enviar.
-                   Shift + Enter = nueva línea.
-                */
-
-                if (
-                    event.key === "Enter" &&
-                    !event.shiftKey
-                ) {
-
-                    event.preventDefault();
-
-                    enviarPreguntaIA();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /*
-       Comprobamos el servidor al cargar
-       la página.
-    */
-
-    comprobarServidorIA();
-
-}
+// RAPANUI FUTURO IA
+// CONEXIÓN CON EL SERVIDOR SEGURO
+// ============================================================
+// ============================================================
 
 
 // ============================================================
-// COMPROBAR SERVIDOR IA
+// URL DEL SERVIDOR
 // ============================================================
 
-async function comprobarServidorIA() {
-
-    if (!estadoIA) {
-        return;
-    }
-
-
-    estadoIA.className =
-        "estadoIA";
-
-
-    estadoIA.innerHTML =
-        "🟡 Comprobando conexión con el servidor...";
-
-
-    try {
-
-        const respuesta =
-            await fetch(
-                SERVIDOR_IA,
-                {
-                    method: "GET",
-                    cache: "no-store"
-                }
-            );
-
-
-        const texto =
-            await respuesta.text();
-
-
-        console.log(
-            "Estado servidor IA:",
-            respuesta.status,
-            texto
-        );
-
-
-        if (!respuesta.ok) {
-
-            throw new Error(
-                "Servidor respondió HTTP " +
-                respuesta.status
-            );
-
-        }
-
-
-        let datos = null;
-
-
-        try {
-
-            datos =
-                JSON.parse(texto);
-
-        } catch (error) {
-
-            datos = null;
-
-        }
-
-
-        if (
-            datos &&
-            datos.api_key_configurada === true
-        ) {
-
-            estadoIA.className =
-                "estadoIA servidorOK";
-
-
-            estadoIA.innerHTML =
-                "🟢 Servidor de Rapa Nui Futuro listo";
-
-            return;
-
-        }
-
-
-        if (
-            datos &&
-            datos.ok === true
-        ) {
-
-            estadoIA.className =
-                "estadoIA servidorOK";
-
-
-            estadoIA.innerHTML =
-                "🟢 Servidor de Rapa Nui Futuro listo";
-
-            return;
-
-        }
-
-
-        estadoIA.className =
-            "estadoIA servidorError";
-
-
-        estadoIA.innerHTML =
-            "🔴 El servidor respondió, pero no entregó " +
-            "el estado esperado.";
-
-    }
-
-
-    catch (error) {
-
-        console.error(
-            "Error conectando al servidor IA:",
-            error
-        );
-
-
-        estadoIA.className =
-            "estadoIA servidorError";
-
-
-        estadoIA.innerHTML =
-            "🔴 No se pudo conectar con el servidor IA.";
-
-    }
-
-}
+const IA_SERVIDOR =
+    "https://rapa-nui-futuro-ia.renzo-b-s-escorpio.workers.dev/";
 
 
 // ============================================================
-// AGREGAR MENSAJE USUARIO
+// ELEMENTOS DE LA IA
 // ============================================================
 
-function agregarMensajeUsuario(
-    texto
-) {
-
-    if (!chatIA) {
-        return;
-    }
-
-
-    const contenedor =
-        document.createElement(
-            "div"
-        );
-
-
-    contenedor.className =
-        "mensajeUsuario";
-
-
-    contenedor.innerHTML =
-
-        '<div class="mensajeTitulo">' +
-        "👤 Tú" +
-        "</div>" +
-
-        '<div class="mensajeTexto"></div>';
-
-
-    const textoElemento =
-        contenedor.querySelector(
-            ".mensajeTexto"
-        );
-
-
-    textoElemento.textContent =
-        texto;
-
-
-    chatIA.appendChild(
-        contenedor
+const iaInput =
+    document.getElementById(
+        "iaInput"
     );
 
 
-    chatIA.scrollTop =
-        chatIA.scrollHeight;
+const iaEnviar =
+    document.getElementById(
+        "iaEnviar"
+    );
 
-}
+
+const iaRespuesta =
+    document.getElementById(
+        "iaRespuesta"
+    );
+
+
+const iaEstado =
+    document.getElementById(
+        "iaEstado"
+    );
 
 
 // ============================================================
-// AGREGAR MENSAJE IA
+// MOSTRAR MENSAJE
 // ============================================================
 
 function agregarMensajeIA(
+    tipo,
     texto
 ) {
 
-    if (!chatIA) {
+    if (!iaRespuesta) {
         return;
     }
 
 
-    const contenedor =
+    const mensaje =
         document.createElement(
             "div"
         );
 
 
-    contenedor.className =
-        "mensajeIA";
+    mensaje.className =
+        "iaMensaje " + tipo;
 
 
-    contenedor.innerHTML =
-
-        '<div class="mensajeTitulo">' +
-        "🤖 Rapa Nui Futuro IA" +
-        "</div>" +
-
-        '<div class="mensajeTexto"></div>';
-
-
-    const textoElemento =
-        contenedor.querySelector(
-            ".mensajeTexto"
-        );
-
-
-    textoElemento.textContent =
+    mensaje.textContent =
         texto;
 
 
-    chatIA.appendChild(
-        contenedor
+    iaRespuesta.appendChild(
+        mensaje
     );
 
 
-    chatIA.scrollTop =
-        chatIA.scrollHeight;
-
-
-    return contenedor;
+    iaRespuesta.scrollTop =
+        iaRespuesta.scrollHeight;
 
 }
 
 
 // ============================================================
-// ENVIAR PREGUNTA IA
+// ESTADO
+// ============================================================
+
+function cambiarEstadoIA(
+    texto,
+    tipo
+) {
+
+    if (!iaEstado) {
+        return;
+    }
+
+
+    iaEstado.textContent =
+        texto;
+
+
+    iaEstado.className =
+        "iaEstado " +
+        (
+            tipo || ""
+        );
+
+}
+
+
+// ============================================================
+// ENVIAR PREGUNTA A LA IA
 // ============================================================
 
 async function enviarPreguntaIA() {
 
-    if (!preguntaIA) {
+    if (!iaInput) {
         return;
     }
 
 
     const pregunta =
-        preguntaIA.value.trim();
+        iaInput.value.trim();
 
 
     if (!pregunta) {
 
-        if (estadoPreguntaIA) {
-
-            estadoPreguntaIA.innerHTML =
-                "⚠️ Escribe una pregunta.";
-
-        }
+        iaInput.focus();
 
         return;
 
     }
 
 
-    if (pregunta.length > 2000) {
+    // ========================================================
+    // MOSTRAR PREGUNTA
+    // ========================================================
 
-        if (estadoPreguntaIA) {
-
-            estadoPreguntaIA.innerHTML =
-                "⚠️ La pregunta es demasiado larga.";
-
-        }
-
-        return;
-
-    }
-
-
-    /*
-       Mostramos inmediatamente
-       el mensaje del usuario.
-    */
-
-    agregarMensajeUsuario(
+    agregarMensajeIA(
+        "usuario",
+        "👤 Tú: " +
         pregunta
     );
 
 
-    /*
-       Limpiamos el campo.
-    */
+    // ========================================================
+    // LIMPIAR INPUT
+    // ========================================================
 
-    preguntaIA.value = "";
+    iaInput.value =
+        "";
 
 
-    /*
-       Bloqueamos el botón mientras
-       esperamos la respuesta.
-    */
+    // ========================================================
+    // DESACTIVAR BOTÓN
+    // ========================================================
 
-    if (enviarIA) {
+    if (iaEnviar) {
 
-        enviarIA.disabled =
+        iaEnviar.disabled =
             true;
-
-        enviarIA.innerHTML =
-            "⏳ Pensando...";
 
     }
 
 
-    if (estadoPreguntaIA) {
+    // ========================================================
+    // ESTADO
+    // ========================================================
 
-        estadoPreguntaIA.innerHTML =
-            "🤖 Rapa Nui Futuro IA está procesando tu pregunta...";
+    cambiarEstadoIA(
+        "🟡 Rapa Nui Futuro IA está pensando...",
+        "cargando"
+    );
+
+
+    // ========================================================
+    // MENSAJE TEMPORAL
+    // ========================================================
+
+    const mensajeCargando =
+        document.createElement(
+            "div"
+        );
+
+
+    mensajeCargando.className =
+        "iaMensaje cargandoIA";
+
+
+    mensajeCargando.textContent =
+        "🤖 Rapa Nui Futuro IA: Pensando...";
+
+
+    if (iaRespuesta) {
+
+        iaRespuesta.appendChild(
+            mensajeCargando
+        );
+
+
+        iaRespuesta.scrollTop =
+            iaRespuesta.scrollHeight;
 
     }
 
 
     try {
 
+
+        // ====================================================
+        // DATOS ENVIADOS AL WORKER
+        // ====================================================
+        //
+        // IMPORTANTE:
+        //
+        // El servidor espera:
+        //
+        // {
+        //     "messages": [...]
+        // }
+        //
+        // Este era el problema anterior.
+        //
+        // ====================================================
+
+        const datosEnviar = {
+
+            messages: [
+
+                {
+
+                    role: "system",
+
+                    content:
+                        "Eres Rapa Nui Futuro IA, una inteligencia artificial educativa especializada en Rapa Nui, Isla de Pascua, océano, biodiversidad, cambio climático, medio ambiente, patrimonio y comunidad. Responde en español de forma clara, educativa y responsable. Cuando corresponda, reconoce que Rapa Nui también es conocida como Isla de Pascua. Si no conoces un dato con seguridad, indícalo claramente y no inventes información."
+
+                },
+
+
+                {
+
+                    role: "user",
+
+                    content:
+                        pregunta
+
+                }
+
+            ]
+
+        };
+
+
         console.log(
-            "Enviando pregunta al servidor IA..."
+            "Enviando a Rapa Nui Futuro IA:",
+            datosEnviar
         );
 
 
+        // ====================================================
+        // PETICIÓN AL SERVIDOR
+        // ====================================================
+
         const respuesta =
             await fetch(
-                SERVIDOR_IA,
+                IA_SERVIDOR,
                 {
 
                     method: "POST",
@@ -2509,16 +2334,18 @@ async function enviarPreguntaIA() {
 
                     },
 
-                    body: JSON.stringify({
-
-                        pregunta:
-                            pregunta
-
-                    })
+                    body:
+                        JSON.stringify(
+                            datosEnviar
+                        )
 
                 }
             );
 
+
+        // ====================================================
+        // LEER RESPUESTA
+        // ====================================================
 
         const texto =
             await respuesta.text();
@@ -2536,18 +2363,21 @@ async function enviarPreguntaIA() {
         );
 
 
+        // ====================================================
+        // CONVERTIR A JSON
+        // ====================================================
+
         let datos;
 
 
         try {
 
             datos =
-                JSON.parse(texto);
+                JSON.parse(
+                    texto
+                );
 
-        }
-
-
-        catch (error) {
+        } catch (error) {
 
             throw new Error(
                 "El servidor no devolvió JSON válido."
@@ -2556,20 +2386,19 @@ async function enviarPreguntaIA() {
         }
 
 
-        /*
-           Si el Worker devuelve ok:false,
-           mostramos su mensaje.
-        */
+        // ====================================================
+        // COMPROBAR ERROR DEL SERVIDOR
+        // ====================================================
 
         if (
             !respuesta.ok ||
             datos.ok === false
         ) {
 
-            let detalle =
+            const detalle =
                 datos.detalle ||
                 datos.error ||
-                "Error desconocido.";
+                "Error desconocido del servidor.";
 
 
             throw new Error(
@@ -2579,127 +2408,147 @@ async function enviarPreguntaIA() {
         }
 
 
-        /*
-           El Worker debe entregar:
-           
-           {
-             "ok": true,
-             "respuesta": "..."
-           }
-        */
+        // ====================================================
+        // OBTENER RESPUESTA DE LA IA
+        // ====================================================
 
         let respuestaIA =
             datos.respuesta;
 
 
-        /*
-           Compatibilidad adicional por si
-           el Worker entrega otro nombre.
-        */
-
         if (
-            !respuestaIA &&
-            datos.message
+            respuestaIA === undefined ||
+            respuestaIA === null
         ) {
 
             respuestaIA =
-                datos.message;
+                datos.message ||
+                datos.content ||
+                datos.output ||
+                "";
+
 
         }
 
 
-        if (
-            !respuestaIA &&
-            datos.answer
-        ) {
+        // ====================================================
+        // CONVERTIR A TEXTO
+        // ====================================================
 
-            respuestaIA =
-                datos.answer;
-
-        }
-
-
-        if (
-            !respuestaIA &&
-            datos.text
-        ) {
-
-            respuestaIA =
-                datos.text;
-
-        }
+        respuestaIA =
+            String(
+                respuestaIA
+            ).trim();
 
 
-        if (
-            !respuestaIA ||
-            typeof respuestaIA !== "string"
-        ) {
+        // ====================================================
+        // COMPROBAR RESPUESTA VACÍA
+        // ====================================================
+
+        if (!respuestaIA) {
 
             throw new Error(
-                "El servidor respondió correctamente, " +
-                "pero no entregó el campo 'respuesta'."
+                "La IA devolvió una respuesta vacía."
             );
 
         }
 
 
-        /*
-           Mostramos respuesta.
-        */
+        // ====================================================
+        // ELIMINAR "PENSANDO"
+        // ====================================================
+
+        if (mensajeCargando) {
+
+            mensajeCargando.remove();
+
+        }
+
+
+        // ====================================================
+        // MOSTRAR RESPUESTA
+        // ====================================================
 
         agregarMensajeIA(
+            "asistente",
+            "🤖 Rapa Nui Futuro IA:\n\n" +
             respuestaIA
         );
 
 
-        if (estadoPreguntaIA) {
+        // ====================================================
+        // ESTADO CORRECTO
+        // ====================================================
 
-            estadoPreguntaIA.innerHTML =
-                "🟢 Respuesta recibida.";
-
-        }
-
-    }
+        cambiarEstadoIA(
+            "🟢 Servidor de Rapa Nui Futuro listo",
+            "ok"
+        );
 
 
-    catch (error) {
+    } catch (error) {
+
+
+        // ====================================================
+        // MOSTRAR ERROR EN CONSOLA
+        // ====================================================
 
         console.error(
-            "Error IA:",
+            "Error Rapa Nui Futuro IA:",
             error
         );
 
 
-        agregarMensajeIA(
+        // ====================================================
+        // QUITAR "PENSANDO"
+        // ====================================================
 
-            "❌ No pude obtener una respuesta de " +
-            "Rapa Nui Futuro IA.\n\n" +
+        if (mensajeCargando) {
 
-            "Detalle: " +
-            error.message
-
-        );
-
-
-        if (estadoPreguntaIA) {
-
-            estadoPreguntaIA.innerHTML =
-                "🔴 Ocurrió un error al consultar la IA.";
+            mensajeCargando.remove();
 
         }
 
-    }
+
+        // ====================================================
+        // MOSTRAR ERROR
+        // ====================================================
+
+        agregarMensajeIA(
+            "error",
+            "❌ No pude obtener una respuesta de Rapa Nui Futuro IA.\n\n" +
+            "Detalle: " +
+            error.message
+        );
 
 
-    finally {
+        // ====================================================
+        // ESTADO
+        // ====================================================
 
-        if (enviarIA) {
+        cambiarEstadoIA(
+            "🔴 Error al conectar con la IA",
+            "error"
+        );
 
-            enviarIA.disabled =
+    } finally {
+
+
+        // ====================================================
+        // ACTIVAR BOTÓN NUEVAMENTE
+        // ====================================================
+
+        if (iaEnviar) {
+
+            iaEnviar.disabled =
                 false;
 
-            enviarIA.innerHTML =
-                "🚀 Preguntar";
+        }
+
+
+        if (iaInput) {
+
+            iaInput.focus();
 
         }
 
@@ -2709,47 +2558,166 @@ async function enviarPreguntaIA() {
 
 
 // ============================================================
-// REDIMENSIONAR
+// BOTÓN ENVIAR
 // ============================================================
 
-window.addEventListener(
-    "resize",
-    function() {
+if (iaEnviar) {
 
-        /*
-           Three.js
-        */
+    iaEnviar.addEventListener(
+        "click",
+        enviarPreguntaIA
+    );
 
-        if (
-            simuladorPage &&
-            simuladorPage.style.display !== "none" &&
-            simuladorInicializado
-        ) {
+}
 
-            actualizarTamaño3D();
+
+// ============================================================
+// ENTER PARA ENVIAR
+// ============================================================
+
+if (iaInput) {
+
+    iaInput.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Enter" &&
+                !event.shiftKey
+            ) {
+
+                event.preventDefault();
+
+                enviarPreguntaIA();
+
+            }
 
         }
+    );
+
+}
 
 
-        /*
-           Chart.js
-        */
+// ============================================================
+// COMPROBAR SERVIDOR IA
+// ============================================================
 
-        if (
-            grafico &&
-            document.getElementById("mar")?.classList.contains("activo")
-        ) {
+async function comprobarServidorIA() {
 
-            setTimeout(
-                function() {
+    if (!iaEstado) {
+        return;
+    }
 
-                    grafico.resize();
 
-                },
-                50
+    cambiarEstadoIA(
+        "🟡 Comprobando servidor...",
+        "cargando"
+    );
+
+
+    try {
+
+        const respuesta =
+            await fetch(
+                IA_SERVIDOR,
+                {
+
+                    method: "GET",
+
+                    headers: {
+
+                        "Accept":
+                            "application/json"
+
+                    }
+
+                }
+            );
+
+
+        const texto =
+            await respuesta.text();
+
+
+        console.log(
+            "Estado servidor IA:",
+            texto
+        );
+
+
+        if (!respuesta.ok) {
+
+            throw new Error(
+                "Servidor respondió HTTP " +
+                respuesta.status
             );
 
         }
+
+
+        let datos;
+
+
+        try {
+
+            datos =
+                JSON.parse(
+                    texto
+                );
+
+        } catch {
+
+            throw new Error(
+                "Respuesta del servidor no válida."
+            );
+
+        }
+
+
+        if (datos.ok) {
+
+            cambiarEstadoIA(
+                "🟢 Servidor de Rapa Nui Futuro listo",
+                "ok"
+            );
+
+        } else {
+
+            cambiarEstadoIA(
+                "🔴 API Key no configurada",
+                "error"
+            );
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "No se pudo comprobar el servidor IA:",
+            error
+        );
+
+
+        cambiarEstadoIA(
+            "🔴 No se pudo conectar con el servidor",
+            "error"
+        );
+
+    }
+
+}
+
+
+// ============================================================
+// INICIAR IA
+// ============================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        comprobarServidorIA();
 
     }
 );
