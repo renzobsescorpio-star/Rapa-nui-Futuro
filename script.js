@@ -1578,37 +1578,62 @@ window.addEventListener(
 // 🤖 RAPA NUI FUTURO IA
 // ============================================================
 
-// ============================================================
-// ⚠️ CAMBIA ESTA URL POR LA URL DE TU WORKER
-// ============================================================
-
+// URL DEL WORKER DE CLOUDFLARE
 const IA_RAPA_NUI_URL =
     "https://rapa-nui-futuro-ia.renzo-b-s-escorpio.workers.dev";
 
 
 // ============================================================
-// HISTORIAL
+// HISTORIAL DE LA CONVERSACIÓN
 // ============================================================
 
 let historialIA = [];
 
 
 // ============================================================
-// PREGUNTAR A LA IA
+// PREGUNTAR A RAPA NUI FUTURO IA
 // ============================================================
 
 async function preguntarRapaNuiIA(mensaje) {
 
-    console.log("🤖 Rapa Nui Futuro IA");
+    console.log("=================================");
+    console.log("🤖 RAPA NUI FUTURO IA");
     console.log("💬 Mensaje:", mensaje);
+    console.log("🌐 Worker:", IA_RAPA_NUI_URL);
+    console.log("=================================");
 
-    // Agregar mensaje al historial
+
+    // ----------------------------------------------------------
+    // Validar mensaje
+    // ----------------------------------------------------------
+
+    if (!mensaje || !mensaje.trim()) {
+
+        throw new Error(
+            "Escribe una pregunta antes de enviar."
+        );
+
+    }
+
+
+    // ----------------------------------------------------------
+    // Agregar mensaje del usuario
+    // ----------------------------------------------------------
+
     historialIA.push({
+
         role: "user",
-        content: mensaje
+
+        content: mensaje.trim()
+
     });
 
+
     try {
+
+        // ------------------------------------------------------
+        // ENVIAR AL WORKER
+        // ------------------------------------------------------
 
         const respuesta = await fetch(
             IA_RAPA_NUI_URL,
@@ -1616,34 +1641,48 @@ async function preguntarRapaNuiIA(mensaje) {
                 method: "POST",
 
                 headers: {
-                    "Content-Type": "application/json"
+
+                    "Content-Type":
+                        "application/json"
+
                 },
 
                 body: JSON.stringify({
-                    messages: historialIA
+
+                    messages:
+                        historialIA.slice(-10)
+
                 })
+
             }
         );
 
 
         console.log(
-            "📡 Estado:",
+            "📡 Estado HTTP:",
             respuesta.status
         );
 
+
+        // ------------------------------------------------------
+        // LEER RESPUESTA
+        // ------------------------------------------------------
 
         const texto =
             await respuesta.text();
 
 
         console.log(
-            "📦 Servidor:",
+            "📦 Respuesta del Worker:",
             texto
         );
 
 
-        let datos;
+        // ------------------------------------------------------
+        // CONVERTIR JSON
+        // ------------------------------------------------------
 
+        let datos;
 
         try {
 
@@ -1651,34 +1690,78 @@ async function preguntarRapaNuiIA(mensaje) {
 
         } catch (error) {
 
-            throw new Error(
-                "El servidor no devolvió una respuesta válida."
+            console.error(
+                "❌ Respuesta no válida:",
+                texto
             );
+
+            throw new Error(
+                "El servidor no devolvió JSON válido."
+            );
+
         }
 
 
-        // ========================================================
-        // ERROR
-        // ========================================================
+        // ------------------------------------------------------
+        // ERROR DEL SERVIDOR
+        // ------------------------------------------------------
 
         if (!respuesta.ok) {
 
             console.error(
-                "❌ Error:",
+                "❌ Error HTTP:",
+                respuesta.status
+            );
+
+            console.error(
+                "❌ Detalles:",
                 datos
             );
 
+
+            // Mostrar errores específicos
+
+            if (respuesta.status === 401) {
+
+                throw new Error(
+                    "API Key inválida o no configurada."
+                );
+
+            }
+
+
+            if (respuesta.status === 403) {
+
+                throw new Error(
+                    "OpenAI rechazó el acceso."
+                );
+
+            }
+
+
+            if (respuesta.status === 429) {
+
+                throw new Error(
+                    "Se alcanzó el límite de uso de la API."
+                );
+
+            }
+
+
             throw new Error(
-                datos.detalle ||
-                datos.error ||
-                "Error del servidor"
+
+                datos?.detalle ||
+                datos?.error ||
+                `Error del servidor (${respuesta.status})`
+
             );
+
         }
 
 
-        // ========================================================
-        // RESPUESTA
-        // ========================================================
+        // ------------------------------------------------------
+        // OBTENER RESPUESTA DE LA IA
+        // ------------------------------------------------------
 
         const respuestaIA =
             datos?.choices?.[0]?.message?.content;
@@ -1687,21 +1770,34 @@ async function preguntarRapaNuiIA(mensaje) {
         if (!respuestaIA) {
 
             console.error(
-                "Respuesta completa:",
+                "❌ Respuesta completa:",
                 datos
             );
 
             throw new Error(
-                "La IA no devolvió ningún mensaje."
+                "La IA respondió, pero no devolvió texto."
             );
+
         }
 
 
-        // Guardar respuesta
+        // ------------------------------------------------------
+        // GUARDAR RESPUESTA
+        // ------------------------------------------------------
+
         historialIA.push({
+
             role: "assistant",
+
             content: respuestaIA
+
         });
+
+
+        console.log(
+            "🤖 IA:",
+            respuestaIA
+        );
 
 
         return respuestaIA;
@@ -1710,10 +1806,28 @@ async function preguntarRapaNuiIA(mensaje) {
     } catch (error) {
 
         console.error(
-            "🔥 Error Rapa Nui Futuro IA:",
+            "🔥 ERROR RAPA NUI FUTURO IA"
+        );
+
+        console.error(
             error
         );
 
+
+        // Si fue error de conexión
+        if (
+            error instanceof TypeError
+        ) {
+
+            throw new Error(
+                "No se pudo conectar con el servidor de Rapa Nui Futuro."
+            );
+
+        }
+
+
         throw error;
+
     }
+
 }
