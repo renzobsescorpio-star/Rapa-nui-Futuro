@@ -5,24 +5,6 @@
 
 
 // ============================================================
-// VARIABLES GLOBALES
-// ============================================================
-
-let grafico = null;
-
-let escena = null;
-let camara = null;
-let renderer = null;
-
-let mar3D = null;
-let isla3D = null;
-
-let simuladorInicializado = false;
-
-let animacion3DActiva = false;
-
-
-// ============================================================
 // NAVEGACIÓN
 // ============================================================
 
@@ -30,53 +12,20 @@ function mostrar(id) {
 
     const paneles = document.querySelectorAll(".panel");
 
-    paneles.forEach(function(panel) {
-
+    paneles.forEach(function (panel) {
         panel.style.display = "none";
-        panel.classList.remove("activo");
-
     });
 
+    const panel = document.getElementById(id);
 
-    const panelSeleccionado =
-        document.getElementById(id);
-
-
-    if (!panelSeleccionado) {
-        return;
+    if (panel) {
+        panel.style.display = "block";
     }
-
-
-    panelSeleccionado.style.display = "block";
-    panelSeleccionado.classList.add("activo");
-
-
-    /*
-       Si cambiamos de sección, cerramos el simulador.
-       Así nunca queda abierto accidentalmente al volver.
-    */
-
-    cerrarSimuladorInterno();
-
-
-    /*
-       No hacemos scroll automático.
-       Esto evita que la página salte
-       constantemente hacia estadísticas o simulador.
-    */
-
 }
 
 
-// ============================================================
-// PANEL INICIAL
-// ============================================================
-
-document.addEventListener("DOMContentLoaded", function() {
-
-    mostrar("mar");
-
-});
+// Panel inicial
+mostrar("mar");
 
 
 // ============================================================
@@ -136,13 +85,13 @@ async function cargarCondiciones() {
                 Number.isFinite(Number(temperatura))
             ) {
 
-                elementoTemp.textContent =
+                elementoTemp.innerHTML =
                     Number(temperatura).toFixed(1) +
                     " °C";
 
             } else {
 
-                elementoTemp.textContent =
+                elementoTemp.innerHTML =
                     "No disponible";
 
             }
@@ -158,13 +107,13 @@ async function cargarCondiciones() {
                 Number.isFinite(Number(oleaje))
             ) {
 
-                elementoOleaje.textContent =
+                elementoOleaje.innerHTML =
                     Number(oleaje).toFixed(2) +
                     " m";
 
             } else {
 
-                elementoOleaje.textContent =
+                elementoOleaje.innerHTML =
                     "No disponible";
 
             }
@@ -182,18 +131,12 @@ async function cargarCondiciones() {
 
 
         if (elementoTemp) {
-
-            elementoTemp.textContent =
-                "No disponible";
-
+            elementoTemp.innerHTML = "No disponible";
         }
 
 
         if (elementoOleaje) {
-
-            elementoOleaje.textContent =
-                "No disponible";
-
+            elementoOleaje.innerHTML = "No disponible";
         }
 
     }
@@ -251,13 +194,13 @@ async function cargarViento() {
                 Number.isFinite(Number(viento))
             ) {
 
-                elemento.textContent =
+                elemento.innerHTML =
                     Number(viento).toFixed(1) +
                     " km/h";
 
             } else {
 
-                elemento.textContent =
+                elemento.innerHTML =
                     "No disponible";
 
             }
@@ -275,10 +218,7 @@ async function cargarViento() {
 
 
         if (elemento) {
-
-            elemento.textContent =
-                "No disponible";
-
+            elemento.innerHTML = "No disponible";
         }
 
     }
@@ -287,23 +227,20 @@ async function cargarViento() {
 
 
 // ============================================================
-// SALINIDAD
+// INICIAR CONDICIONES
 // ============================================================
 
-function cargarSalinidad() {
-
-    const salinidad =
-        document.getElementById("salinidad");
+const salinidad =
+    document.getElementById("salinidad");
 
 
-    if (salinidad) {
-
-        salinidad.textContent =
-            "≈ 35 PSU";
-
-    }
-
+if (salinidad) {
+    salinidad.innerHTML = "≈ 35 PSU";
 }
+
+
+cargarCondiciones();
+cargarViento();
 
 
 // ============================================================
@@ -424,7 +361,7 @@ const co2Proyeccion = {
 
 
 // ============================================================
-// TEMPERATURA DEL OCÉANO
+// TEMPERATURA
 // ============================================================
 
 const temperaturaReferencia = {
@@ -463,31 +400,25 @@ function interpolar(objeto, año) {
     const años =
         Object.keys(objeto)
             .map(Number)
-            .sort(function(a, b) {
+            .sort(function (a, b) {
                 return a - b;
             });
 
 
     if (objeto[año] !== undefined) {
-
         return Number(objeto[año]);
-
     }
 
 
     if (año <= años[0]) {
-
         return Number(objeto[años[0]]);
-
     }
 
 
     if (año >= años[años.length - 1]) {
-
         return Number(
             objeto[años[años.length - 1]]
         );
-
     }
 
 
@@ -498,7 +429,6 @@ function interpolar(objeto, año) {
     ) {
 
         const año1 = años[i];
-
         const año2 = años[i + 1];
 
 
@@ -519,11 +449,9 @@ function interpolar(objeto, año) {
                 (año2 - año1);
 
 
-            return (
-                valor1 +
+            return valor1 +
                 (valor2 - valor1) *
-                porcentaje
-            );
+                porcentaje;
 
         }
 
@@ -531,7 +459,6 @@ function interpolar(objeto, año) {
 
 
     return null;
-
 }
 
 
@@ -589,11 +516,10 @@ const datos = {
         unidad:
             "ppm",
 
-        objeto:
-            {
-                ...co2NOAA,
-                ...co2Proyeccion
-            },
+        objeto: {
+            ...co2NOAA,
+            ...co2Proyeccion
+        },
 
         inicio:
             2000,
@@ -634,32 +560,23 @@ const descripciones = {
 
 
 // ============================================================
-// CREAR GRÁFICO — UNA SOLA VEZ
+// GRÁFICO
 // ============================================================
 
-function crearGrafico() {
-
-    if (grafico) {
-        return;
-    }
+const canvasGrafico =
+    document.getElementById("grafico");
 
 
-    const canvas =
-        document.getElementById("grafico");
+let grafico = null;
 
 
-    if (
-        !canvas ||
-        typeof Chart === "undefined"
-    ) {
-
-        return;
-
-    }
-
+if (
+    canvasGrafico &&
+    typeof Chart !== "undefined"
+) {
 
     const ctx =
-        canvas.getContext("2d");
+        canvasGrafico.getContext("2d");
 
 
     grafico = new Chart(
@@ -701,6 +618,7 @@ function crearGrafico() {
 
                     },
 
+
                     {
 
                         label:
@@ -708,9 +626,11 @@ function crearGrafico() {
 
                         data: [],
 
-                        borderColor: "#e53935",
+                        borderColor:
+                            "#e53935",
 
-                        backgroundColor: "#e53935",
+                        backgroundColor:
+                            "#e53935",
 
                         pointBackgroundColor:
                             "#e53935",
@@ -730,6 +650,7 @@ function crearGrafico() {
 
             },
 
+
             options: {
 
                 responsive: true,
@@ -746,6 +667,7 @@ function crearGrafico() {
 
                 },
 
+
                 plugins: {
 
                     legend: {
@@ -755,6 +677,7 @@ function crearGrafico() {
                     }
 
                 },
+
 
                 scales: {
 
@@ -777,6 +700,7 @@ function crearGrafico() {
                         }
 
                     },
+
 
                     y: {
 
@@ -814,42 +738,26 @@ function actualizarGrafico() {
 
 
     const variableElement =
-        document.getElementById(
-            "variableSelect"
-        );
-
+        document.getElementById("variableSelect");
 
     const yearElement =
-        document.getElementById(
-            "yearSlider"
-        );
-
+        document.getElementById("yearSlider");
 
     const selectedYearElement =
-        document.getElementById(
-            "selectedYear"
-        );
-
+        document.getElementById("selectedYear");
 
     const valorSeleccionado =
-        document.getElementById(
-            "valorSeleccionado"
-        );
-
+        document.getElementById("valorSeleccionado");
 
     const descripcionDatos =
-        document.getElementById(
-            "descripcionDatos"
-        );
+        document.getElementById("descripcionDatos");
 
 
     if (
         !variableElement ||
         !yearElement
     ) {
-
         return;
-
     }
 
 
@@ -875,7 +783,7 @@ function actualizarGrafico() {
 
     if (selectedYearElement) {
 
-        selectedYearElement.textContent =
+        selectedYearElement.innerHTML =
             "Año: " + año;
 
     }
@@ -883,7 +791,7 @@ function actualizarGrafico() {
 
     if (descripcionDatos) {
 
-        descripcionDatos.textContent =
+        descripcionDatos.innerHTML =
             descripciones[variable];
 
     }
@@ -946,11 +854,14 @@ function actualizarGrafico() {
     grafico.data.datasets[0].data =
         puntos;
 
+
     grafico.data.datasets[0].label =
         dataset.nombre;
 
+
     grafico.data.datasets[1].data =
         puntoSeleccionado;
+
 
     grafico.data.datasets[1].label =
         "Año " + año;
@@ -972,7 +883,7 @@ function actualizarGrafico() {
                 dataset.nombre +
                 "</div>" +
 
-                '<div class="valorGrande">' +
+                "<div class=\"valorGrande\">" +
                 valorActual.toFixed(1) +
                 " " +
                 dataset.unidad +
@@ -985,7 +896,7 @@ function actualizarGrafico() {
 
         } else {
 
-            valorSeleccionado.textContent =
+            valorSeleccionado.innerHTML =
                 "No disponible";
 
         }
@@ -994,7 +905,6 @@ function actualizarGrafico() {
 
 
     grafico.update("none");
-
 }
 
 
@@ -1002,85 +912,56 @@ function actualizarGrafico() {
 // EVENTOS DEL GRÁFICO
 // ============================================================
 
-function configurarGrafico() {
-
-    const yearSlider =
-        document.getElementById(
-            "yearSlider"
-        );
+const yearSlider =
+    document.getElementById("yearSlider");
 
 
-    const variableSelect =
-        document.getElementById(
-            "variableSelect"
-        );
+const variableSelect =
+    document.getElementById("variableSelect");
 
 
-    if (yearSlider) {
+if (yearSlider) {
 
-        yearSlider.addEventListener(
-            "input",
-            actualizarGrafico
-        );
-
-    }
-
-
-    if (variableSelect) {
-
-        variableSelect.addEventListener(
-            "change",
-            actualizarGrafico
-        );
-
-    }
+    yearSlider.addEventListener(
+        "input",
+        actualizarGrafico
+    );
 
 }
 
 
-// ============================================================
-// INICIALIZAR GRÁFICO
-// ============================================================
+if (variableSelect) {
 
-function inicializarGrafico() {
-
-    crearGrafico();
-
-    actualizarGrafico();
+    variableSelect.addEventListener(
+        "change",
+        actualizarGrafico
+    );
 
 }
+
+
+actualizarGrafico();
 
 
 // ============================================================
 // SIMULADOR 3D
 // ============================================================
 
-function crearSimulador3D() {
-
-    if (simuladorInicializado) {
-        return;
-    }
+const contenedor3D =
+    document.getElementById("escena3D");
 
 
-    const contenedor3D =
-        document.getElementById(
-            "escena3D"
-        );
+let escena = null;
+let camara = null;
+let renderer = null;
+let mar3D = null;
+let isla3D = null;
 
 
-    if (
-        !contenedor3D ||
-        typeof THREE === "undefined"
-    ) {
-
-        console.error(
-            "Three.js no está disponible."
-        );
-
-        return;
-
-    }
-
+if (
+    contenedor3D &&
+    typeof THREE !== "undefined"
+) {
 
     escena =
         new THREE.Scene();
@@ -1128,21 +1009,15 @@ function crearSimulador3D() {
 
 
     renderer.setSize(
-        contenedor3D.clientWidth || 800,
-        contenedor3D.clientHeight || 500
+        1,
+        1
     );
 
-
-    contenedor3D.innerHTML = "";
 
     contenedor3D.appendChild(
         renderer.domElement
     );
 
-
-    // ========================================================
-    // LUCES
-    // ========================================================
 
     const luz =
         new THREE.DirectionalLight(
@@ -1168,12 +1043,12 @@ function crearSimulador3D() {
         );
 
 
-    escena.add(luzAmbiente);
+    escena.add(
+        luzAmbiente
+    );
 
 
-    // ========================================================
     // MAR
-    // ========================================================
 
     const marGeometry =
         new THREE.BoxGeometry(
@@ -1208,9 +1083,7 @@ function crearSimulador3D() {
     escena.add(mar3D);
 
 
-    // ========================================================
     // PLAYA
-    // ========================================================
 
     const playa =
         new THREE.Mesh(
@@ -1235,9 +1108,7 @@ function crearSimulador3D() {
     escena.add(playa);
 
 
-    // ========================================================
     // ISLA
-    // ========================================================
 
     const islaGeometry =
         new THREE.CylinderGeometry(
@@ -1267,9 +1138,7 @@ function crearSimulador3D() {
     escena.add(isla3D);
 
 
-    // ========================================================
     // MOÁI
-    // ========================================================
 
     const moaiGroup =
         new THREE.Group();
@@ -1353,119 +1222,87 @@ function crearSimulador3D() {
     escena.add(moaiGroup);
 
 
-    simuladorInicializado = true;
+    // ========================================================
+    // REDIMENSIONAR 3D
+    // ========================================================
 
+    function redimensionar3D() {
 
-    redimensionar3D();
-
-}
-
-
-// ============================================================
-// REDIMENSIONAR 3D
-// ============================================================
-
-function redimensionar3D() {
-
-    const contenedor3D =
-        document.getElementById(
-            "escena3D"
-        );
-
-
-    if (
-        !contenedor3D ||
-        !renderer ||
-        !camara
-    ) {
-
-        return;
-
-    }
-
-
-    const ancho =
-        contenedor3D.clientWidth;
-
-
-    const alto =
-        contenedor3D.clientHeight;
-
-
-    if (
-        ancho <= 0 ||
-        alto <= 0
-    ) {
-
-        return;
-
-    }
-
-
-    renderer.setSize(
-        ancho,
-        alto,
-        false
-    );
-
-
-    camara.aspect =
-        ancho / alto;
-
-
-    camara.updateProjectionMatrix();
-
-}
-
-
-// ============================================================
-// ANIMACIÓN 3D
-// ============================================================
-
-function iniciarAnimacion3D() {
-
-    if (animacion3DActiva) {
-        return;
-    }
-
-
-    animacion3DActiva = true;
-
-
-    function animar() {
-
-        if (!animacion3DActiva) {
+        if (
+            !contenedor3D ||
+            !renderer ||
+            !camara
+        ) {
             return;
         }
 
 
-        requestAnimationFrame(animar);
+        const ancho =
+            contenedor3D.clientWidth;
 
 
-        if (isla3D) {
-
-            isla3D.rotation.y += 0.002;
-
-        }
+        const alto =
+            contenedor3D.clientHeight;
 
 
         if (
-            renderer &&
-            escena &&
-            camara
+            ancho <= 0 ||
+            alto <= 0
         ) {
-
-            renderer.render(
-                escena,
-                camara
-            );
-
+            return;
         }
+
+
+        renderer.setSize(
+            ancho,
+            alto,
+            false
+        );
+
+
+        camara.aspect =
+            ancho / alto;
+
+
+        camara.updateProjectionMatrix();
 
     }
 
 
-    animar();
+    // ========================================================
+    // ANIMACIÓN
+    // ========================================================
+
+    function animar3D() {
+
+        requestAnimationFrame(
+            animar3D
+        );
+
+
+        if (isla3D) {
+
+            isla3D.rotation.y +=
+                0.002;
+
+        }
+
+
+        renderer.render(
+            escena,
+            camara
+        );
+
+    }
+
+
+    animar3D();
+
+
+    window.addEventListener(
+        "resize",
+        redimensionar3D
+    );
 
 }
 
@@ -1541,7 +1378,6 @@ function obtenerAumentoMar(
         datosEscenario,
         año
     );
-
 }
 
 
@@ -1583,7 +1419,7 @@ function actualizarSimuladorMar() {
 
     if (anio3D) {
 
-        anio3D.textContent =
+        anio3D.innerHTML =
             "Año: " + año;
 
     }
@@ -1591,7 +1427,7 @@ function actualizarSimuladorMar() {
 
     if (nivel3D) {
 
-        nivel3D.textContent =
+        nivel3D.innerHTML =
             "Aumento estimado: " +
             aumento.toFixed(1) +
             " cm";
@@ -1615,28 +1451,28 @@ function actualizarSimuladorMar() {
 
         if (aumento < 20) {
 
-            riesgo.textContent =
+            riesgo.innerHTML =
                 "🟢 Riesgo costero: Bajo";
 
         }
 
         else if (aumento < 50) {
 
-            riesgo.textContent =
+            riesgo.innerHTML =
                 "🟡 Riesgo costero: Moderado";
 
         }
 
         else if (aumento < 80) {
 
-            riesgo.textContent =
+            riesgo.innerHTML =
                 "🟠 Riesgo costero: Alto";
 
         }
 
         else {
 
-            riesgo.textContent =
+            riesgo.innerHTML =
                 "🔴 Riesgo costero: Muy alto";
 
         }
@@ -1647,124 +1483,8 @@ function actualizarSimuladorMar() {
 
 
 // ============================================================
-// ABRIR SIMULADOR
-// ============================================================
-
-function abrirSimuladorInterno() {
-
-    if (!simuladorPage) {
-        return;
-    }
-
-
-    /*
-       Primero hacemos visible el contenedor.
-       Esto permite que Three.js pueda obtener
-       correctamente su ancho y alto.
-    */
-
-    simuladorPage.hidden = false;
-
-    simuladorPage.classList.remove(
-        "simuladorOculto"
-    );
-
-    simuladorPage.classList.add(
-        "simuladorVisible"
-    );
-
-
-    crearSimulador3D();
-
-    iniciarAnimacion3D();
-
-    actualizarSimuladorMar();
-
-
-    setTimeout(function() {
-
-        redimensionar3D();
-
-    }, 100);
-
-
-    /*
-       Ahora sí hacemos scroll una sola vez,
-       solamente porque el usuario pulsó el botón.
-    */
-
-    setTimeout(function() {
-
-        simuladorPage.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        });
-
-    }, 50);
-
-}
-
-
-// ============================================================
-// CERRAR SIMULADOR
-// ============================================================
-
-function cerrarSimuladorInterno() {
-
-    if (!simuladorPage) {
-        return;
-    }
-
-
-    simuladorPage.hidden = true;
-
-    simuladorPage.classList.add(
-        "simuladorOculto"
-    );
-
-    simuladorPage.classList.remove(
-        "simuladorVisible"
-    );
-
-}
-
-
-// ============================================================
 // EVENTOS DEL SIMULADOR
 // ============================================================
-
-if (abrirSimulador) {
-
-    abrirSimulador.addEventListener(
-        "click",
-        abrirSimuladorInterno
-    );
-
-}
-
-
-if (cerrarSimulador) {
-
-    cerrarSimulador.addEventListener(
-        "click",
-        function() {
-
-            cerrarSimuladorInterno();
-
-            if (abrirSimulador) {
-
-                abrirSimulador.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center"
-                });
-
-            }
-
-        }
-    );
-
-}
-
 
 if (slider3D) {
 
@@ -1781,6 +1501,102 @@ if (selectorMar) {
     selectorMar.addEventListener(
         "change",
         actualizarSimuladorMar
+    );
+
+}
+
+
+// ============================================================
+// ABRIR SIMULADOR
+// ============================================================
+
+if (abrirSimulador) {
+
+    abrirSimulador.addEventListener(
+        "click",
+        function () {
+
+            if (!simuladorPage) {
+                return;
+            }
+
+
+            simuladorPage.classList.remove(
+                "simuladorOculto"
+            );
+
+
+            setTimeout(
+                function () {
+
+                    if (
+                        renderer &&
+                        camara &&
+                        contenedor3D
+                    ) {
+
+                        const ancho =
+                            contenedor3D.clientWidth;
+
+
+                        const alto =
+                            contenedor3D.clientHeight;
+
+
+                        if (
+                            ancho > 0 &&
+                            alto > 0
+                        ) {
+
+                            renderer.setSize(
+                                ancho,
+                                alto,
+                                false
+                            );
+
+
+                            camara.aspect =
+                                ancho / alto;
+
+
+                            camara.updateProjectionMatrix();
+
+                        }
+
+                    }
+
+
+                    actualizarSimuladorMar();
+
+                },
+                50
+            );
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// CERRAR SIMULADOR
+// ============================================================
+
+if (cerrarSimulador) {
+
+    cerrarSimulador.addEventListener(
+        "click",
+        function () {
+
+            if (simuladorPage) {
+
+                simuladorPage.classList.add(
+                    "simuladorOculto"
+                );
+
+            }
+
+        }
     );
 
 }
@@ -1834,7 +1650,7 @@ function actualizarImpacto() {
 
     if (impactoAnio) {
 
-        impactoAnio.textContent =
+        impactoAnio.innerHTML =
             "Año: " + año;
 
     }
@@ -1848,7 +1664,7 @@ function actualizarImpacto() {
 
         if (impactoNivel) {
 
-            impactoNivel.textContent =
+            impactoNivel.innerHTML =
                 "🟢 Impacto: Bajo";
 
         }
@@ -1856,7 +1672,7 @@ function actualizarImpacto() {
 
         if (impactoDescripcion) {
 
-            impactoDescripcion.textContent =
+            impactoDescripcion.innerHTML =
                 "Las condiciones proyectadas " +
                 "presentan un impacto relativamente " +
                 "bajo sobre la comunidad.";
@@ -1869,7 +1685,7 @@ function actualizarImpacto() {
 
         if (impactoNivel) {
 
-            impactoNivel.textContent =
+            impactoNivel.innerHTML =
                 "🟡 Impacto: Moderado";
 
         }
@@ -1877,7 +1693,7 @@ function actualizarImpacto() {
 
         if (impactoDescripcion) {
 
-            impactoDescripcion.textContent =
+            impactoDescripcion.innerHTML =
                 "Comienzan a aumentar los posibles " +
                 "efectos sobre recursos, infraestructura " +
                 "y actividades de la comunidad.";
@@ -1890,7 +1706,7 @@ function actualizarImpacto() {
 
         if (impactoNivel) {
 
-            impactoNivel.textContent =
+            impactoNivel.innerHTML =
                 "🟠 Impacto: Alto";
 
         }
@@ -1898,7 +1714,7 @@ function actualizarImpacto() {
 
         if (impactoDescripcion) {
 
-            impactoDescripcion.textContent =
+            impactoDescripcion.innerHTML =
                 "La comunidad podría enfrentar una " +
                 "mayor exposición a riesgos costeros " +
                 "y presión sobre recursos naturales.";
@@ -1911,7 +1727,7 @@ function actualizarImpacto() {
 
         if (impactoNivel) {
 
-            impactoNivel.textContent =
+            impactoNivel.innerHTML =
                 "🔴 Impacto: Muy alto";
 
         }
@@ -1919,7 +1735,7 @@ function actualizarImpacto() {
 
         if (impactoDescripcion) {
 
-            impactoDescripcion.textContent =
+            impactoDescripcion.innerHTML =
                 "Las proyecciones indican una mayor " +
                 "necesidad de adaptación de infraestructura, " +
                 "gestión de recursos y protección de " +
@@ -1942,60 +1758,20 @@ if (impactoSlider) {
 }
 
 
-// ============================================================
-// INICIALIZACIÓN GENERAL
-// ============================================================
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
-
-        /*
-           Inicializamos solamente una vez.
-        */
-
-        cargarSalinidad();
-
-        cargarCondiciones();
-
-        cargarViento();
-
-        inicializarGrafico();
-
-        configurarGrafico();
-
-        actualizarImpacto();
-
-
-        /*
-           MUY IMPORTANTE:
-           El simulador queda cerrado al comenzar.
-        */
-
-        cerrarSimuladorInterno();
-
-    }
-);
+actualizarImpacto();
 
 
 // ============================================================
-// RESIZE
+// REDIMENSIONAR GRÁFICO
 // ============================================================
 
 window.addEventListener(
     "resize",
-    function() {
+    function () {
 
         if (grafico) {
 
             grafico.resize();
-
-        }
-
-
-        if (simuladorInicializado) {
-
-            redimensionar3D();
 
         }
 

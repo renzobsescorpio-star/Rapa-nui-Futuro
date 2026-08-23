@@ -1,6 +1,6 @@
 /* =========================================================
    RAPANUI FUTURO
-   STYLE.CSS
+   style.css
    ========================================================= */
 
 * {
@@ -11,7 +11,7 @@ html {
     margin: 0;
     padding: 0;
     width: 100%;
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
 }
 
 body {
@@ -125,10 +125,6 @@ body {
     margin: 0 auto;
 }
 
-.panel.activo {
-    display: block;
-}
-
 
 /* =========================================================
    CARDS
@@ -153,7 +149,6 @@ body {
 
 .card h1 {
     margin-top: 0;
-
     color: #0f172a;
 }
 
@@ -257,7 +252,6 @@ select {
     padding: 11px;
 
     margin-top: 8px;
-
     margin-bottom: 15px;
 
     border-radius: 8px;
@@ -284,7 +278,6 @@ input[type="range"] {
     display: block;
 
     margin-top: 15px;
-
     margin-bottom: 15px;
 
     cursor: pointer;
@@ -315,7 +308,6 @@ input[type="range"] {
     display: block;
 
     width: 100% !important;
-
     height: 100% !important;
 }
 
@@ -374,22 +366,12 @@ input[type="range"] {
     min-height: 800px;
 }
 
-/*
-   IMPORTANTE:
-   hidden tiene prioridad absoluta.
-   Así el simulador jamás aparece al cargar la página.
+/* IMPORTANTE:
+   El simulador está completamente oculto al iniciar.
 */
 
-#simuladorPage[hidden] {
-    display: none !important;
-}
-
 .simuladorOculto {
-    display: none;
-}
-
-.simuladorVisible {
-    display: block;
+    display: none !important;
 }
 
 #escena3D {
@@ -412,7 +394,6 @@ input[type="range"] {
     display: block;
 
     width: 100% !important;
-
     height: 100% !important;
 }
 
