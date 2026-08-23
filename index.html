@@ -9,32 +9,27 @@
           content="width=device-width, initial-scale=1.0">
 
     <meta name="description"
-          content="Rapa Nui Futuro: plataforma educativa sobre cambio climático, océano, biodiversidad, impacto en la comunidad y acciones ambientales en Rapa Nui.">
+          content="Rapa Nui Futuro: plataforma educativa sobre cambio climático, océano, biodiversidad, impacto en la comunidad, acciones ambientales e inteligencia artificial en Rapa Nui.">
 
     <meta name="keywords"
-          content="Rapa Nui, Isla de Pascua, cambio climático, océano, biodiversidad, nivel del mar, medio ambiente">
+          content="Rapa Nui, Isla de Pascua, cambio climático, océano, biodiversidad, nivel del mar, medio ambiente, inteligencia artificial">
 
     <meta name="author"
           content="Rapa Nui Futuro">
 
-    <meta name="theme-color"
-          content="#0b7285">
-
     <title>🗿 Rapa Nui Futuro | Cambio climático y medio ambiente</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+          href="style.css">
 
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 </head>
 
 
 <body>
-
 
     <!-- =====================================================
          SIDEBAR
@@ -61,11 +56,10 @@
         </button>
 
         <button type="button" onclick="mostrar('ia')">
-            🤖 IA Rapa Nui Futuro
+            🤖 Rapa Nui Futuro IA
         </button>
 
     </aside>
-
 
 
     <!-- =====================================================
@@ -83,9 +77,7 @@
 
             <div class="card">
 
-                <h1>
-                    🌊 Océano y cambio climático
-                </h1>
+                <h1>🌊 Océano y cambio climático</h1>
 
                 <p>
                     Rapa Nui es una isla oceánica ubicada en el
@@ -103,13 +95,9 @@
             </div>
 
 
-            <!-- CONDICIONES ACTUALES -->
-
             <div class="card">
 
-                <h2>
-                    🌡️ Condiciones actuales
-                </h2>
+                <h2>🌡️ Condiciones actuales</h2>
 
                 <p>
                     Datos consultados mediante servicios
@@ -120,9 +108,7 @@
 
                     <div class="dato">
 
-                        <h3>
-                            🌡️ Temperatura del océano
-                        </h3>
+                        <h3>🌡️ Temperatura del océano</h3>
 
                         <p id="tempMar">
                             Cargando...
@@ -133,9 +119,7 @@
 
                     <div class="dato">
 
-                        <h3>
-                            🌊 Oleaje
-                        </h3>
+                        <h3>🌊 Oleaje</h3>
 
                         <p id="oleaje">
                             Cargando...
@@ -146,9 +130,7 @@
 
                     <div class="dato">
 
-                        <h3>
-                            💨 Viento
-                        </h3>
+                        <h3>💨 Viento</h3>
 
                         <p id="viento">
                             Cargando...
@@ -159,9 +141,7 @@
 
                     <div class="dato">
 
-                        <h3>
-                            🧂 Salinidad
-                        </h3>
+                        <h3>🧂 Salinidad</h3>
 
                         <p id="salinidad">
                             ≈ 35 PSU
@@ -178,13 +158,9 @@
             </div>
 
 
-            <!-- ESTADÍSTICAS -->
-
             <div class="card">
 
-                <h2>
-                    📊 Estadísticas Interactivas
-                </h2>
+                <h2>📊 Estadísticas Interactivas</h2>
 
                 <p>
                     Selecciona una variable para explorar
@@ -225,6 +201,7 @@
                     value="2025"
                 >
 
+
                 <h3 id="selectedYear">
                     Año: 2025
                 </h3>
@@ -262,13 +239,9 @@
             </div>
 
 
-            <!-- SIMULADOR -->
-
             <div class="card">
 
-                <h2>
-                    🌊 Nivel del mar
-                </h2>
+                <h2>🌊 Nivel del mar</h2>
 
                 <p>
                     Explora visualmente cómo cambiaría el nivel
@@ -287,8 +260,6 @@
             </div>
 
 
-            <!-- SIMULADOR 3D -->
-
             <div
                 id="simuladorPage"
                 class="card simuladorOculto">
@@ -297,9 +268,11 @@
                     🌊 Simulador 3D del Nivel del Mar
                 </h2>
 
+
                 <h3>
                     🌍 Escenario climático
                 </h3>
+
 
                 <select id="escenarioMar">
 
@@ -375,13 +348,9 @@
             </div>
 
 
-            <!-- FUENTES -->
-
             <div class="card">
 
-                <h2>
-                    📚 Fuentes científicas
-                </h2>
+                <h2>📚 Fuentes científicas</h2>
 
                 <ul>
 
@@ -412,12 +381,13 @@
         </section>
 
 
-
         <!-- =================================================
              BIODIVERSIDAD
         ================================================== -->
 
-        <section id="biodiversidad" class="panel">
+        <section
+            id="biodiversidad"
+            class="panel">
 
             <div class="card">
 
@@ -519,7 +489,7 @@
                     </li>
 
                     <li>
-                        Cambio climático.
+                        Cambios climáticos.
                     </li>
 
                 </ul>
@@ -529,12 +499,13 @@
         </section>
 
 
-
         <!-- =================================================
              IMPACTO
         ================================================== -->
 
-        <section id="impacto" class="panel">
+        <section
+            id="impacto"
+            class="panel">
 
             <div class="card">
 
@@ -636,9 +607,11 @@
                     value="2025"
                 >
 
+
                 <h3 id="impactoAnio">
                     Año: 2025
                 </h3>
+
 
                 <div class="indicador">
 
@@ -657,12 +630,13 @@
         </section>
 
 
-
         <!-- =================================================
              ACCIONES
         ================================================== -->
 
-        <section id="acciones" class="panel">
+        <section
+            id="acciones"
+            class="panel">
 
             <div class="card">
 
@@ -734,6 +708,20 @@
 
                     </ul>
 
+                    <div class="accionProyeccion">
+
+                        <strong>
+                            🔮 Pensando en el futuro
+                        </strong>
+
+                        <p>
+                            Será importante identificar anticipadamente
+                            los sectores costeros más vulnerables y
+                            planificar medidas de adaptación.
+                        </p>
+
+                    </div>
+
                 </div>
 
             </div>
@@ -763,27 +751,31 @@
 
                     <ul>
 
-                        <li>
-                            Reducir el desperdicio de agua.
-                        </li>
+                        <li>Reducir el desperdicio de agua.</li>
 
-                        <li>
-                            Reparar rápidamente fugas.
-                        </li>
+                        <li>Reparar rápidamente fugas.</li>
 
-                        <li>
-                            Promover sistemas de recolección de agua lluvia.
-                        </li>
+                        <li>Promover sistemas de recolección de agua lluvia.</li>
 
-                        <li>
-                            Reutilizar agua cuando sea seguro.
-                        </li>
+                        <li>Reutilizar agua cuando sea seguro.</li>
 
-                        <li>
-                            Monitorear el consumo de agua.
-                        </li>
+                        <li>Monitorear el consumo de agua.</li>
 
                     </ul>
+
+                    <div class="accionProyeccion">
+
+                        <strong>
+                            🔮 Pensando en el futuro
+                        </strong>
+
+                        <p>
+                            Una mejor gestión del agua puede aumentar
+                            la capacidad de la comunidad para enfrentar
+                            períodos de menor disponibilidad hídrica.
+                        </p>
+
+                    </div>
 
                 </div>
 
@@ -813,29 +805,17 @@
 
                     <ul>
 
-                        <li>
-                            Reducir los residuos que llegan al mar.
-                        </li>
+                        <li>Reducir los residuos que llegan al mar.</li>
 
-                        <li>
-                            Disminuir el uso de plásticos desechables.
-                        </li>
+                        <li>Disminuir el uso de plásticos desechables.</li>
 
-                        <li>
-                            No arrojar basura en playas.
-                        </li>
+                        <li>No arrojar basura en playas.</li>
 
-                        <li>
-                            Participar en limpiezas de playas.
-                        </li>
+                        <li>Participar en limpiezas de playas.</li>
 
-                        <li>
-                            Promover prácticas de pesca responsables.
-                        </li>
+                        <li>Promover prácticas de pesca responsables.</li>
 
-                        <li>
-                            Monitorear cambios en las especies marinas.
-                        </li>
+                        <li>Monitorear cambios en las especies marinas.</li>
 
                     </ul>
 
@@ -868,25 +848,15 @@
 
                     <ul>
 
-                        <li>
-                            Reforestar con especies apropiadas para Rapa Nui.
-                        </li>
+                        <li>Reforestar con especies apropiadas para Rapa Nui.</li>
 
-                        <li>
-                            Proteger áreas con vegetación.
-                        </li>
+                        <li>Proteger áreas con vegetación.</li>
 
-                        <li>
-                            Evitar la degradación innecesaria del suelo.
-                        </li>
+                        <li>Evitar la degradación innecesaria del suelo.</li>
 
-                        <li>
-                            Utilizar prácticas agrícolas que reduzcan la erosión.
-                        </li>
+                        <li>Utilizar prácticas agrícolas que reduzcan la erosión.</li>
 
-                        <li>
-                            Restaurar sectores degradados.
-                        </li>
+                        <li>Restaurar sectores degradados.</li>
 
                     </ul>
 
@@ -919,29 +889,17 @@
 
                     <ul>
 
-                        <li>
-                            Reducir productos de un solo uso.
-                        </li>
+                        <li>Reducir productos de un solo uso.</li>
 
-                        <li>
-                            Reutilizar materiales.
-                        </li>
+                        <li>Reutilizar materiales.</li>
 
-                        <li>
-                            Separar correctamente los residuos.
-                        </li>
+                        <li>Separar correctamente los residuos.</li>
 
-                        <li>
-                            Reciclar cuando exista un sistema disponible.
-                        </li>
+                        <li>Reciclar cuando exista un sistema disponible.</li>
 
-                        <li>
-                            Evitar que los residuos lleguen al océano.
-                        </li>
+                        <li>Evitar que los residuos lleguen al océano.</li>
 
-                        <li>
-                            Realizar campañas de educación ambiental.
-                        </li>
+                        <li>Realizar campañas de educación ambiental.</li>
 
                     </ul>
 
@@ -974,25 +932,15 @@
 
                     <ul>
 
-                        <li>
-                            Mejorar la eficiencia energética.
-                        </li>
+                        <li>Mejorar la eficiencia energética.</li>
 
-                        <li>
-                            Reducir el consumo innecesario de electricidad.
-                        </li>
+                        <li>Reducir el consumo innecesario de electricidad.</li>
 
-                        <li>
-                            Promover energías renovables apropiadas para la isla.
-                        </li>
+                        <li>Promover energías renovables apropiadas para la isla.</li>
 
-                        <li>
-                            Utilizar tecnologías eficientes.
-                        </li>
+                        <li>Utilizar tecnologías eficientes.</li>
 
-                        <li>
-                            Promover el transporte sostenible.
-                        </li>
+                        <li>Promover el transporte sostenible.</li>
 
                     </ul>
 
@@ -1025,25 +973,15 @@
 
                     <ul>
 
-                        <li>
-                            Monitorear sitios arqueológicos vulnerables.
-                        </li>
+                        <li>Monitorear sitios arqueológicos vulnerables.</li>
 
-                        <li>
-                            Evitar actividades que deterioren el patrimonio.
-                        </li>
+                        <li>Evitar actividades que deterioren el patrimonio.</li>
 
-                        <li>
-                            Documentar digitalmente sitios y estructuras.
-                        </li>
+                        <li>Documentar digitalmente sitios y estructuras.</li>
 
-                        <li>
-                            Proteger sectores especialmente expuestos.
-                        </li>
+                        <li>Proteger sectores especialmente expuestos.</li>
 
-                        <li>
-                            Integrar conocimiento científico y conocimiento local.
-                        </li>
+                        <li>Integrar conocimiento científico y conocimiento local.</li>
 
                     </ul>
 
@@ -1076,31 +1014,33 @@
 
                     <ul>
 
-                        <li>
-                            Monitorear temperatura, oleaje y nivel del mar.
-                        </li>
+                        <li>Monitorear temperatura, oleaje y nivel del mar.</li>
 
-                        <li>
-                            Actualizar periódicamente los datos ambientales.
-                        </li>
+                        <li>Actualizar periódicamente los datos ambientales.</li>
 
-                        <li>
-                            Identificar zonas de mayor riesgo.
-                        </li>
+                        <li>Identificar zonas de mayor riesgo.</li>
 
-                        <li>
-                            Crear planes de emergencia.
-                        </li>
+                        <li>Crear planes de emergencia.</li>
 
-                        <li>
-                            Educar a la comunidad sobre cambio climático.
-                        </li>
+                        <li>Educar a la comunidad sobre cambio climático.</li>
 
-                        <li>
-                            Utilizar escenarios climáticos para planificar.
-                        </li>
+                        <li>Utilizar escenarios climáticos para planificar.</li>
 
                     </ul>
+
+                    <div class="accionProyeccion">
+
+                        <strong>
+                            🔮 2030 → 2050 → 2100
+                        </strong>
+
+                        <p>
+                            Las decisiones tomadas actualmente pueden influir
+                            en la capacidad de Rapa Nui para adaptarse a los
+                            cambios ambientales.
+                        </p>
+
+                    </div>
 
                 </div>
 
@@ -1131,29 +1071,17 @@
 
                     <ul>
 
-                        <li>
-                            Organizar jornadas de limpieza.
-                        </li>
+                        <li>Organizar jornadas de limpieza.</li>
 
-                        <li>
-                            Crear campañas de educación ambiental.
-                        </li>
+                        <li>Crear campañas de educación ambiental.</li>
 
-                        <li>
-                            Participar en proyectos científicos escolares.
-                        </li>
+                        <li>Participar en proyectos científicos escolares.</li>
 
-                        <li>
-                            Registrar cambios observados en el ambiente.
-                        </li>
+                        <li>Registrar cambios observados en el ambiente.</li>
 
-                        <li>
-                            Proteger playas, ecosistemas y patrimonio.
-                        </li>
+                        <li>Proteger playas, ecosistemas y patrimonio.</li>
 
-                        <li>
-                            Compartir información científica confiable.
-                        </li>
+                        <li>Compartir información científica confiable.</li>
 
                     </ul>
 
@@ -1199,164 +1127,115 @@
 
             </div>
 
+        </section>
 
-            <div class="fuente">
 
-                <strong>
-                    📚 Enfoque científico
-                </strong>
+        <!-- =================================================
+             IA
+        ================================================== -->
 
-                <p>
-                    Las acciones propuestas están relacionadas con
-                    riesgos asociados al cambio climático como aumento
-                    del nivel del mar, calentamiento oceánico, erosión,
-                    presión sobre los recursos hídricos, pérdida de
-                    biodiversidad y eventos climáticos.
+        <section
+            id="ia"
+            class="panel">
+
+            <div class="card iaCard">
+
+                <h1>
+                    🤖 Rapa Nui Futuro IA
+                </h1>
+
+                <p class="iaIntro">
+                    ¡Iorana! 👋 Soy la inteligencia artificial
+                    de Rapa Nui Futuro.
                 </p>
 
                 <p>
-                    Las proyecciones mostradas en Rapa Nui Futuro son
-                    escenarios utilizados para comprender posibles
-                    cambios y apoyar la educación y planificación
-                    ambiental.
-                    No representan predicciones exactas.
+                    Puedes preguntarme sobre Rapa Nui, el océano,
+                    biodiversidad, cambio climático, patrimonio,
+                    medio ambiente y otros temas relacionados
+                    con la isla.
                 </p>
 
             </div>
 
-        </section>
 
+            <!-- ESTADO -->
 
+            <div class="card">
 
-        <!-- =================================================
-             🤖 IA RAPA NUI FUTURO
-        ================================================== -->
+                <h2>
+                    ⚙️ Estado de la IA
+                </h2>
 
-        <section id="ia" class="panel">
+                <p>
+                    La inteligencia artificial funciona mediante
+                    un servidor seguro de Rapa Nui Futuro.
+                </p>
 
-            <div class="card iaCard">
+                <div
+                    id="estadoIA"
+                    class="estadoIA">
 
-
-                <!-- CABECERA -->
-
-                <div class="iaTitulo">
-
-                    <div class="iaIcono">
-                        🤖
-                    </div>
-
-                    <div>
-
-                        <h1>
-                            IA Rapa Nui Futuro
-                        </h1>
-
-                        <p>
-                            Asistente inteligente especializado en
-                            Rapa Nui, medio ambiente y cambio climático.
-                        </p>
-
-                    </div>
+                    🟡 Comprobando servidor...
 
                 </div>
 
-
-                <!-- INFORMACIÓN -->
-
-                <div class="iaAviso">
-
-                    <strong>
-                        🧠 ¿Qué puede hacer?
-                    </strong>
-
-                    <p>
-                        Puedes preguntarle sobre cambio climático,
-                        océano, biodiversidad, contaminación,
-                        nivel del mar, acciones ambientales,
-                        datos de Rapa Nui y el contenido de esta página.
-                    </p>
-
-                </div>
+            </div>
 
 
-                <!-- ESTADO -->
+            <!-- CHAT -->
 
-                <div class="iaConfiguracion">
+            <div class="card chatCard">
 
-                    <h3>
-                        ⚙️ Estado de la IA
-                    </h3>
+                <div
+                    id="chatIA"
+                    class="chatIA">
 
-                    <p>
-                        La inteligencia artificial funciona mediante
-                        un servidor seguro de Rapa Nui Futuro.
-                    </p>
+                    <div class="mensajeIA">
 
-                    <p
-                        id="estadoApiKey"
-                        class="estadoApiKey">
+                        <div class="mensajeTitulo">
+                            🤖 Rapa Nui Futuro IA
+                        </div>
 
-                        🟡 Comprobando conexión...
+                        <div class="mensajeTexto">
 
-                    </p>
+                            ¡Iorana! 👋 Soy la IA de Rapa Nui Futuro.
 
-                </div>
+                            <br><br>
 
-
-                <!-- CHAT -->
-
-                <div class="chat">
-
-
-                    <!-- MENSAJES -->
-
-                    <div
-                        id="chatMensajes"
-                        class="chatMensajes">
-
-                        <div class="mensaje iaMensaje">
-
-                            <div class="mensajeNombre">
-                                🤖 Rapa Nui Futuro IA
-                            </div>
-
-                            <div class="mensajeTexto">
-                                ¡Iorana! 👋 Soy la IA de Rapa Nui Futuro.
-
-                                Pregúntame algo sobre Rapa Nui,
-                                el océano, biodiversidad o cambio climático.
-                            </div>
+                            Pregúntame algo sobre Rapa Nui,
+                            el océano, biodiversidad o cambio climático.
 
                         </div>
 
                     </div>
 
+                </div>
 
-                    <!-- ENTRADA -->
 
-                    <div
-                        id="chatFormulario"
-                        class="chatFormulario">
+                <div class="chatInputArea">
 
-                        <input
-                            type="text"
-                            id="chatInput"
-                            placeholder="Escribe tu pregunta..."
-                            autocomplete="off"
-                            maxlength="1000"
-                        >
+                    <textarea
+                        id="preguntaIA"
+                        rows="2"
+                        maxlength="2000"
+                        placeholder="Escribe tu pregunta..."></textarea>
 
-                        <button
-                            type="button"
-                            id="chatEnviar"
-                            class="simBtn">
+                    <button
+                        id="enviarIA"
+                        class="iaEnviar"
+                        type="button">
 
-                            ➤ Enviar
+                        🚀 Preguntar
 
-                        </button>
+                    </button>
 
-                    </div>
+                </div>
 
+
+                <div
+                    id="estadoPreguntaIA"
+                    class="estadoPreguntaIA">
 
                 </div>
 
@@ -1364,11 +1243,12 @@
 
         </section>
 
-
     </main>
 
 
-    <!-- SCRIPT PRINCIPAL -->
+    <!-- =====================================================
+         SCRIPT
+    ====================================================== -->
 
     <script src="script.js"></script>
 
