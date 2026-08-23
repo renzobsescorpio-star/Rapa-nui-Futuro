@@ -1583,7 +1583,7 @@ const IA_RAPA_NUI_URL =
 
 
 // ============================================================
-// HISTORIAL DE CONVERSACIÓN
+// HISTORIAL
 // ============================================================
 
 let historialIA = [];
@@ -1605,15 +1605,12 @@ const chatMensajes =
 const estadoApiKey =
     document.getElementById("estadoApiKey");
 
-const chatEnviar =
-    document.getElementById("chatEnviar");
-
 
 // ============================================================
-// MOSTRAR MENSAJE EN EL CHAT
+// MOSTRAR MENSAJE
 // ============================================================
 
-function agregarMensajeChat(
+function agregarMensajeIA(
     tipo,
     texto
 ) {
@@ -1622,14 +1619,16 @@ function agregarMensajeChat(
         return;
     }
 
-
     const mensaje =
         document.createElement("div");
 
     mensaje.className =
-        tipo === "usuario"
-            ? "mensaje usuarioMensaje"
-            : "mensaje iaMensaje";
+        "mensaje " +
+        (
+            tipo === "user"
+                ? "usuarioMensaje"
+                : "iaMensaje"
+        );
 
 
     const nombre =
@@ -1639,17 +1638,10 @@ function agregarMensajeChat(
         "mensajeNombre";
 
 
-    if (tipo === "usuario") {
-
-        nombre.textContent =
-            "👤 Tú";
-
-    } else {
-
-        nombre.textContent =
-            "🤖 Rapa Nui Futuro IA";
-
-    }
+    nombre.textContent =
+        tipo === "user"
+            ? "👤 Tú"
+            : "🤖 Rapa Nui Futuro IA";
 
 
     const contenido =
@@ -1664,7 +1656,6 @@ function agregarMensajeChat(
 
 
     mensaje.appendChild(nombre);
-
     mensaje.appendChild(contenido);
 
     chatMensajes.appendChild(mensaje);
@@ -1679,104 +1670,7 @@ function agregarMensajeChat(
 
 
 // ============================================================
-// MENSAJE TEMPORAL DE CARGA
-// ============================================================
-
-function mostrarCargando() {
-
-    if (!chatMensajes) {
-        return null;
-    }
-
-
-    const mensaje =
-        document.createElement("div");
-
-    mensaje.className =
-        "mensaje iaMensaje";
-
-    mensaje.id =
-        "mensajeCargando";
-
-
-    mensaje.innerHTML = `
-        <div class="mensajeNombre">
-            🤖 Rapa Nui Futuro IA
-        </div>
-
-        <div class="mensajeTexto">
-            🧠 Pensando...
-        </div>
-    `;
-
-
-    chatMensajes.appendChild(mensaje);
-
-
-    chatMensajes.scrollTop =
-        chatMensajes.scrollHeight;
-
-
-    return mensaje;
-}
-
-
-// ============================================================
-// ELIMINAR MENSAJE DE CARGA
-// ============================================================
-
-function eliminarCargando() {
-
-    const mensaje =
-        document.getElementById(
-            "mensajeCargando"
-        );
-
-    if (mensaje) {
-        mensaje.remove();
-    }
-
-}
-
-
-// ============================================================
-// ESTADO DE LA IA
-// ============================================================
-
-function actualizarEstadoIA(
-    texto,
-    clase
-) {
-
-    if (!estadoApiKey) {
-        return;
-    }
-
-
-    estadoApiKey.textContent =
-        texto;
-
-
-    estadoApiKey.classList.remove(
-        "estadoOk",
-        "estadoError",
-        "estadoCargando"
-    );
-
-
-    if (clase) {
-
-        estadoApiKey.classList.add(
-            clase
-        );
-
-    }
-
-}
-
-
-// ============================================================
-// PREGUNTAR A RAPA NUI FUTURO IA
+// PREGUNTAR A LA IA
 // ============================================================
 
 async function preguntarRapaNuiIA(
@@ -1784,16 +1678,12 @@ async function preguntarRapaNuiIA(
 ) {
 
     console.log(
-        "🤖 Rapa Nui Futuro IA"
-    );
-
-    console.log(
-        "💬 Mensaje:",
+        "🤖 Pregunta:",
         mensaje
     );
 
 
-    // Agregar pregunta al historial
+    // Guardar pregunta
 
     historialIA.push({
 
@@ -1804,158 +1694,139 @@ async function preguntarRapaNuiIA(
     });
 
 
+    const respuesta =
+        await fetch(
+
+            IA_RAPA_NUI_URL,
+
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json"
+
+                },
+
+                body: JSON.stringify({
+
+                    messages:
+                        historialIA
+
+                })
+
+            }
+
+        );
+
+
+    console.log(
+        "📡 Estado:",
+        respuesta.status
+    );
+
+
+    const texto =
+        await respuesta.text();
+
+
+    console.log(
+        "📦 Respuesta:",
+        texto
+    );
+
+
+    let datos;
+
+
     try {
 
-        const respuesta =
-            await fetch(
-                IA_RAPA_NUI_URL,
-                {
-
-                    method: "POST",
-
-                    headers: {
-
-                        "Content-Type":
-                            "application/json"
-
-                    },
-
-                    body:
-                        JSON.stringify({
-
-                            messages:
-                                historialIA
-
-                        })
-
-                }
-            );
-
-
-        console.log(
-            "📡 Estado HTTP:",
-            respuesta.status
-        );
-
-
-        const texto =
-            await respuesta.text();
-
-
-        console.log(
-            "📦 Respuesta del Worker:",
-            texto
-        );
-
-
-        let datos;
-
-
-        try {
-
-            datos =
-                JSON.parse(texto);
-
-        }
-
-        catch (error) {
-
-            throw new Error(
-                "El servidor no devolvió JSON válido."
-            );
-
-        }
-
-
-        // ====================================================
-        // ERROR DEL WORKER
-        // ====================================================
-
-        if (!respuesta.ok) {
-
-            console.error(
-                "❌ Error del Worker:",
-                datos
-            );
-
-
-            throw new Error(
-
-                datos.detalle ||
-
-                datos.error ||
-
-                `Error HTTP ${respuesta.status}`
-
-            );
-
-        }
-
-
-        // ====================================================
-        // RESPUESTA DE OPENROUTER
-        // ====================================================
-
-        const respuestaIA =
-
-            datos?.choices?.[0]
-                ?.message?.content;
-
-
-        if (!respuestaIA) {
-
-            console.error(
-                "❌ Respuesta completa:",
-                datos
-            );
-
-
-            throw new Error(
-                "La IA no devolvió ningún mensaje."
-            );
-
-        }
-
-
-        // Guardar respuesta
-
-        historialIA.push({
-
-            role: "assistant",
-
-            content: respuestaIA
-
-        });
-
-
-        return respuestaIA;
-
+        datos =
+            JSON.parse(texto);
 
     }
 
-    catch (error) {
+    catch {
+
+        throw new Error(
+            "El servidor no devolvió JSON válido."
+        );
+
+    }
+
+
+    // ========================================================
+    // ERROR
+    // ========================================================
+
+    if (!respuesta.ok) {
 
         console.error(
-            "🔥 Error Rapa Nui Futuro IA:",
-            error
+            "❌ Error del Worker:",
+            datos
         );
 
 
-        // Si hubo error, quitamos la pregunta
-        // para no dejar una conversación rota.
+        throw new Error(
 
-        historialIA.pop();
+            datos.detalle ||
+            datos.error ||
+            "Error del servidor."
 
-
-        throw error;
+        );
 
     }
+
+
+    // ========================================================
+    // RESPUESTA DE LA IA
+    // ========================================================
+
+    const respuestaIA =
+
+        datos
+            ?.choices
+            ?.[0]
+            ?.message
+            ?.content;
+
+
+    if (!respuestaIA) {
+
+        console.error(
+            "Respuesta completa:",
+            datos
+        );
+
+
+        throw new Error(
+            "La IA no devolvió ningún mensaje."
+        );
+
+    }
+
+
+    // Guardar respuesta
+
+    historialIA.push({
+
+        role: "assistant",
+
+        content:
+            respuestaIA
+
+    });
+
+
+    return respuestaIA;
 
 }
 
 
 // ============================================================
-// ENVÍO DEL FORMULARIO
+// EVENTO DEL FORMULARIO
 // ============================================================
 
 if (chatForm) {
@@ -1965,7 +1836,7 @@ if (chatForm) {
         async function(event) {
 
             // ==================================================
-            // 🚨 MUY IMPORTANTE
+            // MUY IMPORTANTE
             // EVITA QUE LA PÁGINA SE RECARGUE
             // ==================================================
 
@@ -1994,33 +1865,18 @@ if (chatForm) {
             }
 
 
-            // ==================================================
-            // DESACTIVAR BOTÓN
-            // ==================================================
-
-            if (chatEnviar) {
-
-                chatEnviar.disabled =
-                    true;
-
-                chatEnviar.textContent =
-                    "⏳ Enviando...";
-
-            }
-
-
-            // Desactivar input
-
-            chatInput.disabled =
-                true;
+            console.log(
+                "📨 Enviando:",
+                mensaje
+            );
 
 
             // ==================================================
             // MOSTRAR MENSAJE DEL USUARIO
             // ==================================================
 
-            agregarMensajeChat(
-                "usuario",
+            agregarMensajeIA(
+                "user",
                 mensaje
             );
 
@@ -2031,70 +1887,116 @@ if (chatForm) {
 
 
             // ==================================================
-            // MOSTRAR CARGANDO
+            // DESACTIVAR BOTÓN
             // ==================================================
 
-            const cargando =
-                mostrarCargando();
+            const boton =
+                chatForm.querySelector(
+                    "button"
+                );
 
+
+            if (boton) {
+
+                boton.disabled =
+                    true;
+
+                boton.textContent =
+                    "⏳ Pensando...";
+
+            }
+
+
+            // ==================================================
+            // MENSAJE TEMPORAL
+            // ==================================================
+
+            let mensajeCargando =
+                null;
+
+
+            if (chatMensajes) {
+
+                mensajeCargando =
+                    document.createElement(
+                        "div"
+                    );
+
+                mensajeCargando.className =
+                    "mensaje iaMensaje";
+
+                mensajeCargando.innerHTML =
+
+                    `
+                    <div class="mensajeNombre">
+                        🤖 Rapa Nui Futuro IA
+                    </div>
+
+                    <div class="mensajeTexto">
+                        ⏳ Estoy pensando...
+                    </div>
+                    `;
+
+
+                chatMensajes.appendChild(
+                    mensajeCargando
+                );
+
+
+                chatMensajes.scrollTop =
+                    chatMensajes.scrollHeight;
+
+            }
+
+
+            // ==================================================
+            // CONSULTAR IA
+            // ==================================================
 
             try {
 
-                // =================================================
-                // CONSULTAR IA
-                // =================================================
-
-                const respuestaIA =
+                const respuesta =
                     await preguntarRapaNuiIA(
                         mensaje
                     );
 
 
-                // Eliminar "Pensando..."
+                // Eliminar "Estoy pensando..."
 
-                if (cargando) {
-                    cargando.remove();
+                if (mensajeCargando) {
+
+                    mensajeCargando.remove();
+
                 }
 
 
-                // =================================================
-                // MOSTRAR RESPUESTA
-                // =================================================
+                // Mostrar respuesta
 
-                agregarMensajeChat(
+                agregarMensajeIA(
                     "ia",
-                    respuestaIA
+                    respuesta
                 );
 
-
-                // Estado correcto
-
-                actualizarEstadoIA(
-                    "🟢 IA conectada y funcionando",
-                    "estadoOk"
-                );
 
             }
 
             catch (error) {
 
                 console.error(
-                    "❌ Error enviando mensaje:",
+                    "🔥 Error IA:",
                     error
                 );
 
 
-                if (cargando) {
-                    cargando.remove();
+                if (mensajeCargando) {
+
+                    mensajeCargando.remove();
+
                 }
 
 
-                // =================================================
-                // MOSTRAR ERROR
-                // =================================================
-
-                let mensajeError =
-                    "No pude conectarme con Rapa Nui Futuro IA.";
+                let textoError =
+                    "❌ No pude conectarme con Rapa Nui Futuro IA.";
 
 
                 if (
@@ -2102,54 +2004,39 @@ if (chatForm) {
                     error.message
                 ) {
 
-                    mensajeError +=
+                    textoError +=
                         "\n\nDetalle: " +
                         error.message;
 
                 }
 
 
-                agregarMensajeChat(
+                agregarMensajeIA(
                     "ia",
-                    "❌ " + mensajeError
-                );
-
-
-                actualizarEstadoIA(
-                    "🔴 Error de conexión con la IA",
-                    "estadoError"
+                    textoError
                 );
 
             }
 
 
-            finally {
+            // ==================================================
+            // ACTIVAR BOTÓN NUEVAMENTE
+            // ==================================================
 
-                // =================================================
-                // VOLVER A ACTIVAR
-                // =================================================
+            if (boton) {
 
-                if (chatInput) {
+                boton.disabled =
+                    false;
 
-                    chatInput.disabled =
-                        false;
-
-                    chatInput.focus();
-
-                }
-
-
-                if (chatEnviar) {
-
-                    chatEnviar.disabled =
-                        false;
-
-                    chatEnviar.textContent =
-                        "➤ Enviar";
-
-                }
+                boton.textContent =
+                    "➤ Enviar";
 
             }
+
+
+            // Mantener el cursor en el input
+
+            chatInput.focus();
 
         }
     );
@@ -2158,48 +2045,73 @@ if (chatForm) {
 
 
 // ============================================================
-// ESTADO INICIAL
-// ============================================================
-//
-// Aquí NO hacemos una petición automática a OpenRouter.
-// Por lo tanto, no gastamos una consulta solamente para
-// comprobar si la página cargó.
-//
-// La conexión real se comprueba cuando el usuario envía
-// el primer mensaje.
+// COMPROBAR SERVIDOR
 // ============================================================
 
-if (estadoApiKey) {
+async function comprobarServidorIA() {
 
-    actualizarEstadoIA(
-        "🟢 Servidor de Rapa Nui Futuro listo",
-        "estadoOk"
-    );
+    if (!estadoApiKey) {
+        return;
+    }
+
+
+    estadoApiKey.textContent =
+        "🟡 Comprobando conexión...";
+
+
+    try {
+
+        const respuesta =
+            await fetch(
+                IA_RAPA_NUI_URL,
+                {
+                    method: "GET"
+                }
+            );
+
+
+        const datos =
+            await respuesta.json();
+
+
+        if (
+            respuesta.ok &&
+            datos.ok
+        ) {
+
+            estadoApiKey.textContent =
+                "🟢 Servidor de Rapa Nui Futuro listo";
+
+        }
+
+        else {
+
+            estadoApiKey.textContent =
+                "🔴 Error de conexión con la IA";
+
+        }
+
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Error comprobando IA:",
+            error
+        );
+
+
+        estadoApiKey.textContent =
+            "🔴 Error de conexión con la IA";
+
+    }
 
 }
 
 
 // ============================================================
-// ENTER
-// ============================================================
-//
-// Como el input está dentro de un <form>, presionar ENTER
-// automáticamente ejecutará el evento submit de arriba.
-//
-// NO hace falta agregar otro listener para ENTER.
+// INICIAR COMPROBACIÓN
 // ============================================================
 
-
-// ============================================================
-// LIMPIAR HISTORIAL
-// ============================================================
-
-function limpiarHistorialIA() {
-
-    historialIA = [];
-
-    console.log(
-        "🧹 Historial de IA limpiado."
-    );
-
-}
+comprobarServidorIA();
