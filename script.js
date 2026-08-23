@@ -1576,36 +1576,7 @@ window.addEventListener(
 
 
 // ============================================================
-// 🤖 RAPA NUI FUTURO IA
-// ============================================================
-//
-// IMPORTANTE:
-//
-// NO colocar OPENAI_API_KEY aquí.
-//
-// La clave está protegida en Cloudflare Worker.
-//
-// Arquitectura:
-//
-//     SITIO WEB
-//          ↓
-//     CLOUDFLARE WORKER
-//          ↓
-//        OPENAI
-//
-// ============================================================
-
-
-// ============================================================
-// CONFIGURACIÓN IA
-// ============================================================
-
-const IA_ENDPOINT =
-    "https://rapa-nui-futuro-ia.renzo-b-s-escorpio.workers.dev";
-
-
-// ============================================================
-// ELEMENTOS DEL CHAT
+// 🤖 IA — RAPANUI FUTURO
 // ============================================================
 
 const chatForm =
@@ -1618,7 +1589,15 @@ const chatMensajes =
     document.getElementById("chatMensajes");
 
 const estadoIA =
-    document.getElementById("estadoApiKey");
+    document.getElementById("estadoIA");
+
+
+// ============================================================
+// CLOUDFLARE WORKER
+// ============================================================
+
+const IA_ENDPOINT =
+    "https://rapa-nui-futuro-ia.renzo-b-s-escorpio.workers.dev";
 
 
 // ============================================================
@@ -1629,125 +1608,43 @@ let historialIA = [];
 
 
 // ============================================================
-// PERSONALIDAD
+// MOSTRAR ESTADO
 // ============================================================
 
-const IA_SYSTEM_PROMPT = `
+function actualizarEstadoIA(
+    texto,
+    tipo
+) {
 
-Eres "Rapa Nui Futuro IA".
+    if (!estadoIA) {
+        return;
+    }
 
-Eres una inteligencia artificial educativa
-integrada en la plataforma Rapa Nui Futuro.
+    estadoIA.textContent =
+        texto;
 
-Tu especialidad es:
-
-- Rapa Nui
-- Isla de Pascua
-- Cambio climático
-- Océano
-- Biodiversidad
-- Contaminación
-- Patrimonio
-- Turismo sostenible
-- Conservación
-- Agua
-- Energías limpias
-- Adaptación climática
-- Educación ambiental
-- Ciencia
-
-Tu objetivo es ayudar a estudiantes,
-visitantes y personas interesadas en Rapa Nui.
-
-Responde siempre en español.
-
-Utiliza un lenguaje claro,
-educativo, natural y cercano.
-
-Puedes utilizar emojis moderadamente.
-
-IMPORTANTE:
-
-Las simulaciones de Rapa Nui Futuro
-son educativas.
-
-No debes presentarlas como predicciones
-exactas del futuro.
-
-Si no conoces un dato,
-debes decirlo claramente.
-
-No inventes fuentes científicas.
-
-DATOS EDUCATIVOS DE LA PLATAFORMA:
-
-Nivel del mar SSP2-4.5:
-
-2025 = 10 cm
-2050 = 25 cm
-2100 = 66 cm
-
-Nivel del mar SSP5-8.5:
-
-2025 = 11 cm
-2050 = 32 cm
-2100 = 86 cm
-
-Temperatura oceánica de referencia:
-
-2025 = 23.2 °C
-2050 = 24.2 °C
-2100 = 25.6 °C
-
-CO₂:
-
-2025 = 427.35 ppm
-
-Estos datos pertenecen a las
-visualizaciones educativas
-de la plataforma.
-
-Cuando sea apropiado, recomienda acciones
-para proteger Rapa Nui:
-
-- reducir residuos
-- proteger el océano
-- cuidar el agua
-- proteger la biodiversidad
-- reducir emisiones
-- utilizar energía eficientemente
-- proteger la costa
-- restaurar ecosistemas
-- fomentar turismo sostenible
-- participar en iniciativas comunitarias
-
-Tu identidad es:
-
-"Rapa Nui Futuro IA"
-
-No afirmes que eres ChatGPT.
-
-Si una persona pregunta por algo
-que requiere datos en tiempo real
-que no están disponibles en la página,
-explica que no tienes acceso automático
-a todas las mediciones actuales.
-
-`;
+    estadoIA.className =
+        "estadoApiKey " + tipo;
+}
 
 
 // ============================================================
-// MENSAJE
+// AGREGAR MENSAJE
 // ============================================================
 
-function agregarMensaje(texto, tipo) {
+function agregarMensaje(
+    texto,
+    tipo
+) {
 
     if (!chatMensajes) {
         return null;
     }
 
+
     const mensaje =
         document.createElement("div");
+
 
     mensaje.className =
         "mensaje " +
@@ -1761,8 +1658,10 @@ function agregarMensaje(texto, tipo) {
     const nombre =
         document.createElement("div");
 
+
     nombre.className =
         "mensajeNombre";
+
 
     nombre.textContent =
         tipo === "usuario"
@@ -1773,20 +1672,33 @@ function agregarMensaje(texto, tipo) {
     const contenido =
         document.createElement("div");
 
+
     contenido.className =
         "mensajeTexto";
+
 
     contenido.textContent =
         texto;
 
 
-    mensaje.appendChild(nombre);
-    mensaje.appendChild(contenido);
+    mensaje.appendChild(
+        nombre
+    );
 
-    chatMensajes.appendChild(mensaje);
+
+    mensaje.appendChild(
+        contenido
+    );
+
+
+    chatMensajes.appendChild(
+        mensaje
+    );
+
 
     chatMensajes.scrollTop =
         chatMensajes.scrollHeight;
+
 
     return mensaje;
 
@@ -1794,7 +1706,7 @@ function agregarMensaje(texto, tipo) {
 
 
 // ============================================================
-// MENSAJE CARGANDO
+// MENSAJE DE CARGA
 // ============================================================
 
 function agregarMensajeCarga() {
@@ -1803,13 +1715,17 @@ function agregarMensajeCarga() {
         return null;
     }
 
+
     const mensaje =
         document.createElement("div");
+
 
     mensaje.className =
         "mensaje iaMensaje";
 
+
     mensaje.innerHTML = `
+
         <div class="mensajeNombre">
             🤖 Rapa Nui Futuro IA
         </div>
@@ -1817,12 +1733,18 @@ function agregarMensajeCarga() {
         <div class="mensajeTexto">
             Pensando... 🧠
         </div>
+
     `;
 
-    chatMensajes.appendChild(mensaje);
+
+    chatMensajes.appendChild(
+        mensaje
+    );
+
 
     chatMensajes.scrollTop =
         chatMensajes.scrollHeight;
+
 
     return mensaje;
 
@@ -1830,10 +1752,12 @@ function agregarMensajeCarga() {
 
 
 // ============================================================
-// PREGUNTAR IA
+// PREGUNTAR A LA IA
 // ============================================================
 
-async function preguntarIA(pregunta) {
+async function preguntarIA(
+    pregunta
+) {
 
     historialIA.push({
 
@@ -1844,71 +1768,98 @@ async function preguntarIA(pregunta) {
     });
 
 
-    const historialReciente =
+    const mensajes =
         historialIA.slice(-10);
 
 
-    const messages = [
-
-        {
-            role: "system",
-            content: IA_SYSTEM_PROMPT
-        },
-
-        ...historialReciente
-
-    ];
-
-
-    const respuesta =
-        await fetch(
-            IA_ENDPOINT,
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type":
-                        "application/json"
-                },
-
-                body: JSON.stringify({
-                    messages: messages
-                })
-            }
-        );
-
-
-    let datosRespuesta = null;
+    let respuesta;
 
 
     try {
 
-        datosRespuesta =
+        respuesta =
+            await fetch(
+
+                IA_ENDPOINT,
+
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            messages:
+                                mensajes
+
+                        })
+
+                }
+
+            );
+
+    }
+
+    catch (error) {
+
+        throw new Error(
+            "No se pudo conectar con Cloudflare."
+        );
+
+    }
+
+
+    let datos;
+
+    try {
+
+        datos =
             await respuesta.json();
 
     }
+
     catch {
 
-        datosRespuesta = null;
+        throw new Error(
+            "El servidor devolvió una respuesta inválida."
+        );
 
     }
 
 
     if (!respuesta.ok) {
 
-        throw new Error(
-            datosRespuesta?.error ||
-            "Error conectando con el servidor de IA."
-        );
+        const error =
+            new Error(
+                datos?.error ||
+                "Error del servidor."
+            );
+
+
+        error.status =
+            respuesta.status;
+
+
+        error.detalle =
+            datos?.detalle || "";
+
+
+        throw error;
 
     }
 
 
-    const contenido =
-        datosRespuesta?.respuesta;
-
-
-    if (!contenido) {
+    if (
+        !datos ||
+        !datos.respuesta
+    ) {
 
         throw new Error(
             "La IA no devolvió una respuesta."
@@ -1921,78 +1872,27 @@ async function preguntarIA(pregunta) {
 
         role: "assistant",
 
-        content: contenido
+        content:
+            datos.respuesta
 
     });
 
 
-    return contenido;
+    return datos.respuesta;
 
 }
 
 
 // ============================================================
-// ESTADO DEL SERVIDOR
-// ============================================================
-
-async function comprobarIA() {
-
-    if (!estadoIA) {
-        return;
-    }
-
-    estadoIA.textContent =
-        "🟡 Comprobando conexión con la IA...";
-
-
-    try {
-
-        const respuesta =
-            await fetch(
-                IA_ENDPOINT,
-                {
-                    method: "GET"
-                }
-            );
-
-
-        if (respuesta.ok) {
-
-            estadoIA.textContent =
-                "🟢 IA conectada y lista";
-
-        }
-        else {
-
-            estadoIA.textContent =
-                "🔴 IA no disponible";
-
-        }
-
-    }
-    catch (error) {
-
-        console.error(
-            "Error comprobando IA:",
-            error
-        );
-
-        estadoIA.textContent =
-            "🔴 No se pudo conectar con la IA";
-
-    }
-
-}
-
-
-// ============================================================
-// FORMULARIO
+// CHAT
 // ============================================================
 
 if (chatForm) {
 
     chatForm.addEventListener(
+
         "submit",
+
         async function(evento) {
 
             evento.preventDefault();
@@ -2018,18 +1918,24 @@ if (chatForm) {
             );
 
 
-            chatInput.value = "";
+            chatInput.value =
+                "";
 
-            chatInput.disabled = true;
+
+            chatInput.disabled =
+                true;
 
 
             const botonEnviar =
-                chatForm.querySelector("button");
+                chatForm.querySelector(
+                    "button"
+                );
 
 
             if (botonEnviar) {
 
-                botonEnviar.disabled = true;
+                botonEnviar.disabled =
+                    true;
 
                 botonEnviar.textContent =
                     "🧠 Pensando...";
@@ -2050,7 +1956,9 @@ if (chatForm) {
 
 
                 if (mensajeCarga) {
+
                     mensajeCarga.remove();
+
                 }
 
 
@@ -2060,14 +1968,14 @@ if (chatForm) {
                 );
 
 
-                if (estadoIA) {
-
-                    estadoIA.textContent =
-                        "🟢 IA conectada y funcionando";
-
-                }
+                actualizarEstadoIA(
+                    "🟢 IA conectada",
+                    "estadoOK"
+                );
 
             }
+
+
             catch (error) {
 
                 console.error(
@@ -2089,7 +1997,9 @@ if (chatForm) {
 
 
                 if (mensajeCarga) {
+
                     mensajeCarga.remove();
+
                 }
 
 
@@ -2097,45 +2007,39 @@ if (chatForm) {
                     "❌ No pude conectarme con Rapa Nui Futuro IA.";
 
 
-                const textoError =
-                    String(
-                        error?.message || ""
-                    );
-
-
                 if (
-                    textoError.includes("401")
+                    error.status === 401
                 ) {
 
                     mensajeError =
-                        "🔑 El servidor rechazó la API Key. Revisa el secreto OPENAI_API_KEY del Worker.";
+                        "🔑 La API Key de OpenAI fue rechazada. Revisa OPENAI_API_KEY en Cloudflare.";
 
                 }
 
                 else if (
-                    textoError.includes("403")
+                    error.status === 403
                 ) {
 
                     mensajeError =
-                        "🚫 El servidor rechazó la solicitud.";
+                        "🚫 OpenAI rechazó la solicitud.";
 
                 }
 
                 else if (
-                    textoError.includes("429")
+                    error.status === 429
                 ) {
 
                     mensajeError =
-                        "⏳ Se alcanzó el límite de solicitudes. Intenta nuevamente en unos segundos.";
+                        "⏳ Se alcanzó un límite de solicitudes o créditos.";
 
                 }
 
                 else if (
-                    textoError.includes("Failed to fetch")
+                    error.status === 500
                 ) {
 
                     mensajeError =
-                        "🌐 No se pudo conectar con Cloudflare Worker. Revisa que el Worker esté desplegado y que la URL sea correcta.";
+                        "⚠️ El servidor de Rapa Nui Futuro tuvo un error.";
 
                 }
 
@@ -2146,14 +2050,14 @@ if (chatForm) {
                 );
 
 
-                if (estadoIA) {
-
-                    estadoIA.textContent =
-                        "🔴 Error de conexión";
-
-                }
+                actualizarEstadoIA(
+                    "🔴 Error del servidor",
+                    "estadoError"
+                );
 
             }
+
+
             finally {
 
                 chatInput.disabled =
@@ -2176,19 +2080,22 @@ if (chatForm) {
             }
 
         }
+
     );
 
 }
 
 
 // ============================================================
-// ENTER PARA ENVIAR
+// ENTER
 // ============================================================
 
 if (chatInput) {
 
     chatInput.addEventListener(
+
         "keydown",
+
         function(evento) {
 
             if (
@@ -2198,62 +2105,27 @@ if (chatInput) {
 
                 evento.preventDefault();
 
+
                 if (chatForm) {
+
                     chatForm.requestSubmit();
+
                 }
 
             }
 
         }
+
     );
 
 }
 
 
 // ============================================================
-// CARGA FINAL
+// ESTADO INICIAL
 // ============================================================
 
-window.addEventListener(
-    "load",
-    function() {
-
-        setTimeout(
-            function() {
-
-                if (grafico) {
-
-                    grafico.resize();
-
-                    grafico.update("none");
-
-                }
-
-
-                if (
-                    simuladorPage &&
-                    !simuladorPage.classList.contains(
-                        "simuladorOculto"
-                    )
-                ) {
-
-                    simuladorPage.classList.add(
-                        "simuladorOculto"
-                    );
-
-                    simuladorPage.style.display =
-                        "none";
-
-                }
-
-
-                // Comprobar IA
-
-                comprobarIA();
-
-            },
-            500
-        );
-
-    }
+actualizarEstadoIA(
+    "🟡 Comprobando conexión...",
+    "estadoCargando"
 );
