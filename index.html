@@ -22,25 +22,12 @@
 
     <title>🗿 Rapa Nui Futuro | Cambio climático y medio ambiente</title>
 
-
-    <!-- =====================================================
-         CSS
-    ====================================================== -->
-
     <link rel="stylesheet" href="style.css">
 
-
-    <!-- =====================================================
-         CHART.JS
-    ====================================================== -->
-
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-
-    <!-- =====================================================
-         THREE.JS
-    ====================================================== -->
-
+    <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 </head>
@@ -57,49 +44,24 @@
 
         <h1>🗿 Rapa Nui Futuro</h1>
 
-
-        <button
-            type="button"
-            onclick="mostrar('mar')">
-
+        <button type="button" onclick="mostrar('mar')">
             🌊 Océano y cambio climático
-
         </button>
 
-
-        <button
-            type="button"
-            onclick="mostrar('biodiversidad')">
-
+        <button type="button" onclick="mostrar('biodiversidad')">
             🐠 Biodiversidad
-
         </button>
 
-
-        <button
-            type="button"
-            onclick="mostrar('impacto')">
-
+        <button type="button" onclick="mostrar('impacto')">
             🌍 Impacto en la Comunidad
-
         </button>
 
-
-        <button
-            type="button"
-            onclick="mostrar('acciones')">
-
+        <button type="button" onclick="mostrar('acciones')">
             🌱 Acción por el medio ambiente
-
         </button>
 
-
-        <button
-            type="button"
-            onclick="mostrar('ia')">
-
+        <button type="button" onclick="mostrar('ia')">
             🤖 IA Rapa Nui Futuro
-
         </button>
 
     </aside>
@@ -107,7 +69,7 @@
 
 
     <!-- =====================================================
-         CONTENIDO PRINCIPAL
+         CONTENIDO
     ====================================================== -->
 
     <main id="contenido">
@@ -117,10 +79,7 @@
              OCÉANO
         ================================================== -->
 
-        <section
-            id="mar"
-            class="panel">
-
+        <section id="mar" class="panel">
 
             <div class="card">
 
@@ -128,14 +87,12 @@
                     🌊 Océano y cambio climático
                 </h1>
 
-
                 <p>
                     Rapa Nui es una isla oceánica ubicada en el
                     Pacífico Sur. El océano regula gran parte de
                     las condiciones climáticas de la isla y puede
                     verse afectado por el calentamiento global.
                 </p>
-
 
                 <p>
                     En esta sección se muestran datos ambientales
@@ -146,7 +103,6 @@
             </div>
 
 
-
             <!-- CONDICIONES ACTUALES -->
 
             <div class="card">
@@ -155,15 +111,12 @@
                     🌡️ Condiciones actuales
                 </h2>
 
-
                 <p>
                     Datos consultados mediante servicios
                     meteorológicos y oceanográficos.
                 </p>
 
-
                 <div class="condiciones">
-
 
                     <div class="dato">
 
@@ -176,7 +129,6 @@
                         </p>
 
                     </div>
-
 
 
                     <div class="dato">
@@ -192,7 +144,6 @@
                     </div>
 
 
-
                     <div class="dato">
 
                         <h3>
@@ -204,7 +155,6 @@
                         </p>
 
                     </div>
-
 
 
                     <div class="dato">
@@ -228,7 +178,6 @@
             </div>
 
 
-
             <!-- ESTADÍSTICAS -->
 
             <div class="card">
@@ -237,17 +186,14 @@
                     📊 Estadísticas Interactivas
                 </h2>
 
-
                 <p>
                     Selecciona una variable para explorar
                     datos y proyecciones.
                 </p>
 
-
                 <label for="variableSelect">
                     Variable
                 </label>
-
 
                 <select id="variableSelect">
 
@@ -270,7 +216,6 @@
                     Año
                 </label>
 
-
                 <input
                     type="range"
                     id="yearSlider"
@@ -279,7 +224,6 @@
                     step="1"
                     value="2025"
                 >
-
 
                 <h3 id="selectedYear">
                     Año: 2025
@@ -318,7 +262,6 @@
             </div>
 
 
-
             <!-- SIMULADOR -->
 
             <div class="card">
@@ -327,12 +270,10 @@
                     🌊 Nivel del mar
                 </h2>
 
-
                 <p>
                     Explora visualmente cómo cambiaría el nivel
                     del mar bajo diferentes escenarios climáticos.
                 </p>
-
 
                 <button
                     id="abrirSimulador"
@@ -346,7 +287,6 @@
             </div>
 
 
-
             <!-- SIMULADOR 3D -->
 
             <div
@@ -357,11 +297,9 @@
                     🌊 Simulador 3D del Nivel del Mar
                 </h2>
 
-
                 <h3>
                     🌍 Escenario climático
                 </h3>
-
 
                 <select id="escenarioMar">
 
@@ -410,13 +348,11 @@
                         📚 Fuente científica
                     </strong>
 
-
                     <p>
                         Las proyecciones de nivel del mar se
                         presentan como una representación educativa
                         basada en escenarios climáticos SSP.
                     </p>
-
 
                     <p>
                         Los valores son una representación educativa
@@ -439,7 +375,6 @@
             </div>
 
 
-
             <!-- FUENTES -->
 
             <div class="card">
@@ -447,7 +382,6 @@
                 <h2>
                     📚 Fuentes científicas
                 </h2>
-
 
                 <ul>
 
@@ -483,10 +417,7 @@
              BIODIVERSIDAD
         ================================================== -->
 
-        <section
-            id="biodiversidad"
-            class="panel">
-
+        <section id="biodiversidad" class="panel">
 
             <div class="card">
 
@@ -494,13 +425,11 @@
                     🐠 Biodiversidad de Rapa Nui
                 </h1>
 
-
                 <p>
                     Rapa Nui posee ecosistemas marinos y terrestres
                     adaptados a las condiciones particulares de una
                     isla oceánica.
                 </p>
-
 
                 <p>
                     El calentamiento del océano, la contaminación,
@@ -511,16 +440,13 @@
             </div>
 
 
-
             <div class="card">
 
                 <h2>
                     🌊 Ecosistemas marinos
                 </h2>
 
-
                 <div class="condiciones">
-
 
                     <div class="dato">
 
@@ -536,7 +462,6 @@
                     </div>
 
 
-
                     <div class="dato">
 
                         <h3>
@@ -549,7 +474,6 @@
                         </p>
 
                     </div>
-
 
 
                     <div class="dato">
@@ -570,13 +494,11 @@
             </div>
 
 
-
             <div class="card">
 
                 <h2>
                     ⚠️ Amenazas
                 </h2>
-
 
                 <ul>
 
@@ -597,7 +519,7 @@
                     </li>
 
                     <li>
-                        Cambios climáticos.
+                        Cambio climático.
                     </li>
 
                 </ul>
@@ -612,17 +534,13 @@
              IMPACTO
         ================================================== -->
 
-        <section
-            id="impacto"
-            class="panel">
-
+        <section id="impacto" class="panel">
 
             <div class="card">
 
                 <h1>
                     🌍 Impacto en la Comunidad
                 </h1>
-
 
                 <p>
                     El cambio climático puede generar impactos
@@ -633,16 +551,13 @@
             </div>
 
 
-
             <div class="card">
 
                 <h2>
                     🏝️ Áreas afectadas
                 </h2>
 
-
                 <div class="condiciones">
-
 
                     <div class="dato">
 
@@ -657,7 +572,6 @@
                         </p>
 
                     </div>
-
 
 
                     <div class="dato">
@@ -675,7 +589,6 @@
                     </div>
 
 
-
                     <div class="dato">
 
                         <h3>
@@ -688,7 +601,6 @@
                         </p>
 
                     </div>
-
 
 
                     <div class="dato">
@@ -709,13 +621,11 @@
             </div>
 
 
-
             <div class="card">
 
                 <h2>
                     📊 Impacto proyectado
                 </h2>
-
 
                 <input
                     type="range"
@@ -726,18 +636,15 @@
                     value="2025"
                 >
 
-
                 <h3 id="impactoAnio">
                     Año: 2025
                 </h3>
-
 
                 <div class="indicador">
 
                     <h2 id="impactoNivel">
                         🟢 Impacto: Bajo
                     </h2>
-
 
                     <p id="impactoDescripcion">
                         La exposición proyectada es relativamente baja.
@@ -755,10 +662,7 @@
              ACCIONES
         ================================================== -->
 
-        <section
-            id="acciones"
-            class="panel">
-
+        <section id="acciones" class="panel">
 
             <div class="card">
 
@@ -766,13 +670,11 @@
                     🌱 Acción por el medio ambiente — Rapa Nui
                 </h1>
 
-
                 <p>
                     El futuro de Rapa Nui no depende solamente de
                     conocer cómo puede cambiar el clima, sino también
                     de las acciones que se tomen desde el presente.
                 </p>
-
 
                 <p>
                     Las siguientes propuestas relacionan los posibles
@@ -784,15 +686,11 @@
             </div>
 
 
-
-            <!-- ACCIÓN 1 -->
-
             <div class="card">
 
                 <h2>
                     🌊 1. Proteger la costa
                 </h2>
-
 
                 <div class="accion">
 
@@ -800,18 +698,15 @@
                         🏝️ Frente a la erosión y el aumento del nivel del mar
                     </h3>
 
-
                     <p>
                         Los sectores costeros pueden quedar cada vez más
                         expuestos a erosión, oleaje extremo y aumento del
                         nivel del mar.
                     </p>
 
-
                     <h4>
                         💡 ¿Qué podemos hacer?
                     </h4>
-
 
                     <ul>
 
@@ -844,15 +739,11 @@
             </div>
 
 
-
-            <!-- ACCIÓN 2 -->
-
             <div class="card">
 
                 <h2>
                     💧 2. Proteger el agua
                 </h2>
-
 
                 <div class="accion">
 
@@ -860,18 +751,15 @@
                         🚰 Prepararse para períodos secos
                     </h3>
 
-
                     <p>
                         El agua dulce es un recurso fundamental para la
                         comunidad, los ecosistemas y las actividades
                         productivas de Rapa Nui.
                     </p>
 
-
                     <h4>
                         💡 ¿Qué podemos hacer?
                     </h4>
-
 
                     <ul>
 
@@ -902,15 +790,11 @@
             </div>
 
 
-
-            <!-- ACCIÓN 3 -->
-
             <div class="card">
 
                 <h2>
                     🐠 3. Proteger el océano
                 </h2>
-
 
                 <div class="accion">
 
@@ -918,17 +802,14 @@
                         🌊 Un océano saludable es fundamental para Rapa Nui
                     </h3>
 
-
                     <p>
                         El océano es parte fundamental del ecosistema,
                         la alimentación, la cultura y la economía de la isla.
                     </p>
 
-
                     <h4>
                         💡 ¿Qué podemos hacer?
                     </h4>
-
 
                     <ul>
 
@@ -963,15 +844,11 @@
             </div>
 
 
-
-            <!-- ACCIÓN 4 -->
-
             <div class="card">
 
                 <h2>
                     🌱 4. Restaurar y proteger los suelos
                 </h2>
-
 
                 <div class="accion">
 
@@ -979,18 +856,15 @@
                         🌿 Reducir la erosión
                     </h3>
 
-
                     <p>
                         La vegetación ayuda a proteger el suelo frente
                         a la erosión y contribuye al funcionamiento
                         de los ecosistemas terrestres.
                     </p>
 
-
                     <h4>
                         💡 ¿Qué podemos hacer?
                     </h4>
-
 
                     <ul>
 
@@ -1021,15 +895,11 @@
             </div>
 
 
-
-            <!-- ACCIÓN 5 -->
-
             <div class="card">
 
                 <h2>
                     ♻️ 5. Reducir residuos y contaminación
                 </h2>
-
 
                 <div class="accion">
 
@@ -1037,18 +907,15 @@
                         🗑️ Menos residuos, menos contaminación
                     </h3>
 
-
                     <p>
                         En una isla oceánica, reducir la cantidad de residuos
                         es especialmente importante porque el transporte y
                         la gestión de materiales presentan desafíos.
                     </p>
 
-
                     <h4>
                         💡 ¿Qué podemos hacer?
                     </h4>
-
 
                     <ul>
 
@@ -1083,15 +950,11 @@
             </div>
 
 
-
-            <!-- ACCIÓN 6 -->
-
             <div class="card">
 
                 <h2>
                     ⚡ 6. Impulsar energías más limpias
                 </h2>
-
 
                 <div class="accion">
 
@@ -1099,18 +962,15 @@
                         🌎 Reducir emisiones
                     </h3>
 
-
                     <p>
                         La reducción de emisiones de gases de efecto
                         invernadero es una acción fundamental frente
                         al cambio climático.
                     </p>
 
-
                     <h4>
                         💡 ¿Qué podemos hacer?
                     </h4>
-
 
                     <ul>
 
@@ -1141,15 +1001,11 @@
             </div>
 
 
-
-            <!-- ACCIÓN 7 -->
-
             <div class="card">
 
                 <h2>
                     🗿 7. Proteger el patrimonio de Rapa Nui
                 </h2>
-
 
                 <div class="accion">
 
@@ -1157,18 +1013,15 @@
                         🏛️ Patrimonio cultural y cambio climático
                     </h3>
 
-
                     <p>
                         El patrimonio arqueológico y cultural de Rapa Nui
                         también puede verse afectado por procesos ambientales
                         como erosión, lluvias intensas y cambios costeros.
                     </p>
 
-
                     <h4>
                         💡 ¿Qué podemos hacer?
                     </h4>
-
 
                     <ul>
 
@@ -1199,15 +1052,11 @@
             </div>
 
 
-
-            <!-- ACCIÓN 8 -->
-
             <div class="card">
 
                 <h2>
                     🚨 8. Prepararse para el futuro
                 </h2>
-
 
                 <div class="accion">
 
@@ -1215,18 +1064,15 @@
                         📊 Utilizar los datos para tomar decisiones
                     </h3>
 
-
                     <p>
                         Las proyecciones climáticas no indican exactamente
                         qué ocurrirá en un año determinado, pero permiten
                         analizar posibles escenarios y prepararse.
                     </p>
 
-
                     <h4>
                         💡 ¿Qué podemos hacer?
                     </h4>
-
 
                     <ul>
 
@@ -1261,15 +1107,11 @@
             </div>
 
 
-
-            <!-- ACCIÓN 9 -->
-
             <div class="card">
 
                 <h2>
                     🤝 9. Acción de la comunidad
                 </h2>
-
 
                 <div class="accion">
 
@@ -1277,18 +1119,15 @@
                         🌺 Todos pueden participar
                     </h3>
 
-
                     <p>
                         La adaptación al cambio climático no depende
                         solamente de instituciones científicas o autoridades.
                         La comunidad también puede participar.
                     </p>
 
-
                     <h4>
                         💡 Acciones comunitarias
                     </h4>
-
 
                     <ul>
 
@@ -1323,13 +1162,11 @@
             </div>
 
 
-
             <div class="card">
 
                 <h2>
                     🌍 ¿Qué podemos hacer desde hoy?
                 </h2>
-
 
                 <div class="accionFinal">
 
@@ -1337,13 +1174,11 @@
                         🌱 Rapa Nui puede prepararse para el futuro
                     </h3>
 
-
                     <p>
                         El cambio climático representa desafíos importantes,
                         pero conocer los posibles escenarios permite tomar
                         mejores decisiones.
                     </p>
-
 
                     <p>
                         Proteger el océano, cuidar el agua, reducir residuos,
@@ -1352,21 +1187,17 @@
                         contribuir a una Rapa Nui más resiliente.
                     </p>
 
-
                     <p>
-
                         <strong>
                             El futuro no solamente se predice:
                             también se construye con las decisiones
                             que tomamos hoy.
                         </strong>
-
                     </p>
 
                 </div>
 
             </div>
-
 
 
             <div class="fuente">
@@ -1375,7 +1206,6 @@
                     📚 Enfoque científico
                 </strong>
 
-
                 <p>
                     Las acciones propuestas están relacionadas con
                     riesgos asociados al cambio climático como aumento
@@ -1383,7 +1213,6 @@
                     presión sobre los recursos hídricos, pérdida de
                     biodiversidad y eventos climáticos.
                 </p>
-
 
                 <p>
                     Las proyecciones mostradas en Rapa Nui Futuro son
@@ -1403,30 +1232,24 @@
              🤖 IA RAPA NUI FUTURO
         ================================================== -->
 
-        <section
-            id="ia"
-            class="panel">
-
+        <section id="ia" class="panel">
 
             <div class="card iaCard">
 
 
-                <!-- TÍTULO -->
+                <!-- CABECERA -->
 
                 <div class="iaTitulo">
-
 
                     <div class="iaIcono">
                         🤖
                     </div>
-
 
                     <div>
 
                         <h1>
                             IA Rapa Nui Futuro
                         </h1>
-
 
                         <p>
                             Asistente inteligente especializado en
@@ -1438,7 +1261,6 @@
                 </div>
 
 
-
                 <!-- INFORMACIÓN -->
 
                 <div class="iaAviso">
@@ -1446,7 +1268,6 @@
                     <strong>
                         🧠 ¿Qué puede hacer?
                     </strong>
-
 
                     <p>
                         Puedes preguntarle sobre cambio climático,
@@ -1458,7 +1279,6 @@
                 </div>
 
 
-
                 <!-- ESTADO -->
 
                 <div class="iaConfiguracion">
@@ -1467,12 +1287,10 @@
                         ⚙️ Estado de la IA
                     </h3>
 
-
                     <p>
                         La inteligencia artificial funciona mediante
                         un servidor seguro de Rapa Nui Futuro.
                     </p>
-
 
                     <p
                         id="estadoApiKey"
@@ -1485,10 +1303,7 @@
                 </div>
 
 
-
-                <!-- =================================================
-                     CHAT
-                ================================================== -->
+                <!-- CHAT -->
 
                 <div class="chat">
 
@@ -1499,27 +1314,17 @@
                         id="chatMensajes"
                         class="chatMensajes">
 
-
-                        <!-- MENSAJE INICIAL -->
-
-                        <div
-                            class="mensaje iaMensaje">
-
+                        <div class="mensaje iaMensaje">
 
                             <div class="mensajeNombre">
-
                                 🤖 Rapa Nui Futuro IA
-
                             </div>
 
-
                             <div class="mensajeTexto">
-
                                 ¡Iorana! 👋 Soy la IA de Rapa Nui Futuro.
 
                                 Pregúntame algo sobre Rapa Nui,
                                 el océano, biodiversidad o cambio climático.
-
                             </div>
 
                         </div>
@@ -1527,21 +1332,11 @@
                     </div>
 
 
-
-                    <!-- =================================================
-                         ENTRADA DEL CHAT
-
-                         IMPORTANTE:
-                         NO usamos <form>.
-
-                         Esto evita que Enter o el botón
-                         recarguen la página.
-                    ================================================== -->
+                    <!-- ENTRADA -->
 
                     <div
                         id="chatFormulario"
                         class="chatFormulario">
-
 
                         <input
                             type="text"
@@ -1550,7 +1345,6 @@
                             autocomplete="off"
                             maxlength="1000"
                         >
-
 
                         <button
                             type="button"
@@ -1572,6 +1366,9 @@
 
 
     </main>
+
+
+    <!-- SCRIPT PRINCIPAL -->
 
     <script src="script.js"></script>
 

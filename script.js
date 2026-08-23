@@ -13,10 +13,15 @@ function mostrar(id) {
     document
         .querySelectorAll(".panel")
         .forEach(panel => {
+
             panel.style.display = "none";
+
         });
 
-    const panel = document.getElementById(id);
+
+    const panel =
+        document.getElementById(id);
+
 
     if (panel) {
 
@@ -51,6 +56,7 @@ async function cargarCondiciones() {
     const elementoOleaje =
         document.getElementById("oleaje");
 
+
     try {
 
         const url =
@@ -60,18 +66,28 @@ async function cargarCondiciones() {
             "&current=wave_height,sea_surface_temperature" +
             "&timezone=auto";
 
-        const respuesta = await fetch(url);
+
+        const respuesta =
+            await fetch(url);
+
 
         if (!respuesta.ok) {
+
             throw new Error(
-                "Error Marine API: " + respuesta.status
+                "Error Marine API: " +
+                respuesta.status
             );
+
         }
 
-        const datos = await respuesta.json();
+
+        const datos =
+            await respuesta.json();
+
 
         const temperatura =
             datos.current?.sea_surface_temperature;
+
 
         const oleaje =
             datos.current?.wave_height;
@@ -86,9 +102,12 @@ async function cargarCondiciones() {
             ) {
 
                 elementoTemp.textContent =
-                    Number(temperatura).toFixed(1) + " °C";
+                    Number(temperatura).toFixed(1) +
+                    " °C";
 
-            } else {
+            }
+
+            else {
 
                 elementoTemp.textContent =
                     "No disponible";
@@ -107,9 +126,12 @@ async function cargarCondiciones() {
             ) {
 
                 elementoOleaje.textContent =
-                    Number(oleaje).toFixed(2) + " m";
+                    Number(oleaje).toFixed(2) +
+                    " m";
 
-            } else {
+            }
+
+            else {
 
                 elementoOleaje.textContent =
                     "No disponible";
@@ -119,6 +141,8 @@ async function cargarCondiciones() {
         }
 
     }
+
+
     catch (error) {
 
         console.error(
@@ -126,14 +150,20 @@ async function cargarCondiciones() {
             error
         );
 
+
         if (elementoTemp) {
+
             elementoTemp.textContent =
                 "No disponible";
+
         }
 
+
         if (elementoOleaje) {
+
             elementoOleaje.textContent =
                 "No disponible";
+
         }
 
     }
@@ -150,6 +180,7 @@ async function cargarViento() {
     const elemento =
         document.getElementById("viento");
 
+
     try {
 
         const url =
@@ -159,21 +190,28 @@ async function cargarViento() {
             "&current=wind_speed_10m" +
             "&timezone=auto";
 
+
         const respuesta =
             await fetch(url);
 
+
         if (!respuesta.ok) {
+
             throw new Error(
                 "Error Weather API: " +
                 respuesta.status
             );
+
         }
+
 
         const datos =
             await respuesta.json();
 
+
         const viento =
             datos.current?.wind_speed_10m;
+
 
         if (elemento) {
 
@@ -187,7 +225,9 @@ async function cargarViento() {
                     Number(viento).toFixed(1) +
                     " km/h";
 
-            } else {
+            }
+
+            else {
 
                 elemento.textContent =
                     "No disponible";
@@ -197,6 +237,8 @@ async function cargarViento() {
         }
 
     }
+
+
     catch (error) {
 
         console.error(
@@ -204,9 +246,12 @@ async function cargarViento() {
             error
         );
 
+
         if (elemento) {
+
             elemento.textContent =
                 "No disponible";
+
         }
 
     }
@@ -221,8 +266,12 @@ async function cargarViento() {
 const salinidad =
     document.getElementById("salinidad");
 
+
 if (salinidad) {
-    salinidad.textContent = "≈ 35 PSU";
+
+    salinidad.textContent =
+        "≈ 35 PSU";
+
 }
 
 
@@ -370,21 +419,44 @@ function interpolar(objeto, año) {
     const años =
         Object.keys(objeto)
             .map(Number)
-            .sort((a, b) => a - b);
+            .sort(
+                (a, b) => a - b
+            );
 
-    if (objeto[año] !== undefined) {
-        return Number(objeto[año]);
+
+    if (
+        objeto[año] !== undefined
+    ) {
+
+        return Number(
+            objeto[año]
+        );
+
     }
+
 
     if (año <= años[0]) {
-        return Number(objeto[años[0]]);
+
+        return Number(
+            objeto[años[0]]
+        );
+
     }
 
-    if (año >= años[años.length - 1]) {
+
+    if (
+        año >=
+        años[años.length - 1]
+    ) {
+
         return Number(
-            objeto[años[años.length - 1]]
+            objeto[
+                años[años.length - 1]
+            ]
         );
+
     }
+
 
     for (
         let i = 0;
@@ -392,8 +464,12 @@ function interpolar(objeto, año) {
         i++
     ) {
 
-        const año1 = años[i];
-        const año2 = años[i + 1];
+        const año1 =
+            años[i];
+
+        const año2 =
+            años[i + 1];
+
 
         if (
             año >= año1 &&
@@ -401,22 +477,32 @@ function interpolar(objeto, año) {
         ) {
 
             const valor1 =
-                Number(objeto[año1]);
+                Number(
+                    objeto[año1]
+                );
+
 
             const valor2 =
-                Number(objeto[año2]);
+                Number(
+                    objeto[año2]
+                );
+
 
             const porcentaje =
                 (año - año1) /
                 (año2 - año1);
 
-            return valor1 +
+
+            return (
+                valor1 +
                 (valor2 - valor1) *
-                porcentaje;
+                porcentaje
+            );
 
         }
 
     }
+
 
     return null;
 
@@ -448,6 +534,7 @@ const datos = {
 
     },
 
+
     temperatura: {
 
         nombre:
@@ -466,6 +553,7 @@ const datos = {
             2100
 
     },
+
 
     co2: {
 
@@ -503,10 +591,12 @@ const descripciones = {
         "climáticos y no representan una predicción exacta para una " +
         "propiedad determinada de Rapa Nui.",
 
+
     temperatura:
         "Serie de referencia utilizada para visualización educativa. " +
         "No debe interpretarse como una medición oficial local anual " +
         "de Rapa Nui.",
+
 
     co2:
         "Los valores históricos corresponden a concentraciones de CO₂ " +
@@ -523,7 +613,9 @@ const descripciones = {
 const canvasGrafico =
     document.getElementById("grafico");
 
+
 let grafico = null;
+
 
 if (
     canvasGrafico &&
@@ -533,125 +625,161 @@ if (
     const ctx =
         canvasGrafico.getContext("2d");
 
+
     grafico =
-        new Chart(ctx, {
+        new Chart(
+            ctx,
+            {
 
-            type: "line",
+                type: "line",
 
-            data: {
+                data: {
 
-                datasets: [
+                    datasets: [
 
-                    {
+                        {
 
-                        label: "",
+                            label: "",
 
-                        data: [],
+                            data: [],
 
-                        borderColor: "#1565c0",
+                            borderColor:
+                                "#1565c0",
 
-                        backgroundColor:
-                            "rgba(21,101,192,0.10)",
+                            backgroundColor:
+                                "rgba(21,101,192,0.10)",
 
-                        borderWidth: 3,
+                            borderWidth:
+                                3,
 
-                        pointRadius: 2,
+                            pointRadius:
+                                2,
 
-                        pointHoverRadius: 6,
+                            pointHoverRadius:
+                                6,
 
-                        tension: 0.25,
+                            tension:
+                                0.25,
 
-                        fill: false
-
-                    },
-
-                    {
-
-                        label: "Año seleccionado",
-
-                        data: [],
-
-                        borderColor: "#e53935",
-
-                        backgroundColor: "#e53935",
-
-                        pointRadius: 7,
-
-                        pointHoverRadius: 9,
-
-                        showLine: false
-
-                    }
-
-                ]
-
-            },
-
-            options: {
-
-                responsive: true,
-
-                maintainAspectRatio: false,
-
-                animation: false,
-
-                interaction: {
-
-                    mode: "nearest",
-
-                    intersect: false
-
-                },
-
-                plugins: {
-
-                    legend: {
-                        display: true
-                    }
-
-                },
-
-                scales: {
-
-                    x: {
-
-                        type: "linear",
-
-                        title: {
-
-                            display: true,
-
-                            text: "Año"
+                            fill:
+                                false
 
                         },
 
-                        ticks: {
 
-                            maxTicksLimit: 10
+                        {
+
+                            label:
+                                "Año seleccionado",
+
+                            data: [],
+
+                            borderColor:
+                                "#e53935",
+
+                            backgroundColor:
+                                "#e53935",
+
+                            pointRadius:
+                                7,
+
+                            pointHoverRadius:
+                                9,
+
+                            showLine:
+                                false
+
+                        }
+
+                    ]
+
+                },
+
+
+                options: {
+
+                    responsive:
+                        true,
+
+                    maintainAspectRatio:
+                        false,
+
+                    animation:
+                        false,
+
+                    interaction: {
+
+                        mode:
+                            "nearest",
+
+                        intersect:
+                            false
+
+                    },
+
+
+                    plugins: {
+
+                        legend: {
+
+                            display:
+                                true
 
                         }
 
                     },
 
-                    y: {
 
-                        title: {
+                    scales: {
 
-                            display: true,
+                        x: {
 
-                            text: "Valor"
+                            type:
+                                "linear",
+
+                            title: {
+
+                                display:
+                                    true,
+
+                                text:
+                                    "Año"
+
+                            },
+
+                            ticks: {
+
+                                maxTicksLimit:
+                                    10
+
+                            }
 
                         },
 
-                        beginAtZero: false
+
+                        y: {
+
+                            title: {
+
+                                display:
+                                    true,
+
+                                text:
+                                    "Valor"
+
+                            },
+
+                            beginAtZero:
+                                false
+
+                        }
 
                     }
 
                 }
 
             }
-
-        });
+        );
 
 }
 
@@ -666,30 +794,50 @@ function actualizarGrafico() {
         return;
     }
 
+
     const variableElement =
-        document.getElementById("variableSelect");
+        document.getElementById(
+            "variableSelect"
+        );
+
 
     const yearElement =
-        document.getElementById("yearSlider");
+        document.getElementById(
+            "yearSlider"
+        );
+
 
     const selectedYearElement =
-        document.getElementById("selectedYear");
+        document.getElementById(
+            "selectedYear"
+        );
+
 
     const valorSeleccionado =
-        document.getElementById("valorSeleccionado");
+        document.getElementById(
+            "valorSeleccionado"
+        );
+
 
     const descripcionDatos =
-        document.getElementById("descripcionDatos");
+        document.getElementById(
+            "descripcionDatos"
+        );
+
 
     if (
         !variableElement ||
         !yearElement
     ) {
+
         return;
+
     }
+
 
     const variable =
         variableElement.value;
+
 
     const año =
         parseInt(
@@ -697,12 +845,15 @@ function actualizarGrafico() {
             10
         );
 
+
     const dataset =
         datos[variable];
+
 
     if (!dataset) {
         return;
     }
+
 
     if (selectedYearElement) {
 
@@ -711,6 +862,7 @@ function actualizarGrafico() {
 
     }
 
+
     if (descripcionDatos) {
 
         descripcionDatos.textContent =
@@ -718,7 +870,9 @@ function actualizarGrafico() {
 
     }
 
+
     const puntos = [];
+
 
     for (
         let y = dataset.inicio;
@@ -732,19 +886,26 @@ function actualizarGrafico() {
                 y
             );
 
+
         if (
             valor !== null &&
             Number.isFinite(valor)
         ) {
 
             puntos.push({
-                x: y,
-                y: valor
+
+                x:
+                    y,
+
+                y:
+                    valor
+
             });
 
         }
 
     }
+
 
     const valorActual =
         interpolar(
@@ -752,7 +913,9 @@ function actualizarGrafico() {
             año
         );
 
+
     const puntoSeleccionado = [];
+
 
     if (
         valorActual !== null &&
@@ -760,26 +923,37 @@ function actualizarGrafico() {
     ) {
 
         puntoSeleccionado.push({
-            x: año,
-            y: valorActual
+
+            x:
+                año,
+
+            y:
+                valorActual
+
         });
 
     }
 
+
     grafico.data.datasets[0].data =
         puntos;
+
 
     grafico.data.datasets[0].label =
         dataset.nombre;
 
+
     grafico.data.datasets[1].data =
         puntoSeleccionado;
+
 
     grafico.data.datasets[1].label =
         "Año " + año;
 
+
     grafico.options.scales.y.title.text =
         dataset.unidad;
+
 
     if (valorSeleccionado) {
 
@@ -789,6 +963,7 @@ function actualizarGrafico() {
         ) {
 
             valorSeleccionado.innerHTML =
+
                 "<div>" +
                 dataset.nombre +
                 "</div>" +
@@ -803,7 +978,9 @@ function actualizarGrafico() {
                 año +
                 "</div>";
 
-        } else {
+        }
+
+        else {
 
             valorSeleccionado.textContent =
                 "No disponible";
@@ -812,20 +989,27 @@ function actualizarGrafico() {
 
     }
 
+
     grafico.update("none");
 
 }
 
 
 // ============================================================
-// EVENTOS DEL GRÁFICO
+// EVENTOS GRÁFICO
 // ============================================================
 
 const yearSlider =
-    document.getElementById("yearSlider");
+    document.getElementById(
+        "yearSlider"
+    );
+
 
 const variableSelect =
-    document.getElementById("variableSelect");
+    document.getElementById(
+        "variableSelect"
+    );
+
 
 if (yearSlider) {
 
@@ -836,6 +1020,7 @@ if (yearSlider) {
 
 }
 
+
 if (variableSelect) {
 
     variableSelect.addEventListener(
@@ -845,6 +1030,7 @@ if (variableSelect) {
 
 }
 
+
 actualizarGrafico();
 
 
@@ -853,7 +1039,10 @@ actualizarGrafico();
 // ============================================================
 
 const contenedor3D =
-    document.getElementById("escena3D");
+    document.getElementById(
+        "escena3D"
+    );
+
 
 let escena = null;
 let camara = null;
@@ -867,10 +1056,15 @@ if (
     typeof THREE !== "undefined"
 ) {
 
-    escena = new THREE.Scene();
+    escena =
+        new THREE.Scene();
+
 
     escena.background =
-        new THREE.Color(0x87ceeb);
+        new THREE.Color(
+            0x87ceeb
+        );
+
 
     camara =
         new THREE.PerspectiveCamera(
@@ -880,11 +1074,13 @@ if (
             1000
         );
 
+
     camara.position.set(
         10,
         8,
         10
     );
+
 
     camara.lookAt(
         0,
@@ -892,10 +1088,13 @@ if (
         0
     );
 
+
     renderer =
         new THREE.WebGLRenderer({
-            antialias: true
+            antialias:
+                true
         });
+
 
     renderer.setPixelRatio(
         Math.min(
@@ -904,7 +1103,12 @@ if (
         )
     );
 
-    renderer.setSize(1, 1);
+
+    renderer.setSize(
+        1,
+        1
+    );
+
 
     contenedor3D.appendChild(
         renderer.domElement
@@ -917,13 +1121,17 @@ if (
             1.2
         );
 
+
     luz.position.set(
         5,
         10,
         5
     );
 
-    escena.add(luz);
+
+    escena.add(
+        luz
+    );
 
 
     const luzAmbiente =
@@ -932,7 +1140,10 @@ if (
             0.65
         );
 
-    escena.add(luzAmbiente);
+
+    escena.add(
+        luzAmbiente
+    );
 
 
     const marGeometry =
@@ -942,12 +1153,21 @@ if (
             20
         );
 
+
     const marMaterial =
         new THREE.MeshPhongMaterial({
-            color: 0x2196f3,
-            transparent: true,
-            opacity: 0.75
+
+            color:
+                0x2196f3,
+
+            transparent:
+                true,
+
+            opacity:
+                0.75
+
         });
+
 
     mar3D =
         new THREE.Mesh(
@@ -955,9 +1175,14 @@ if (
             marMaterial
         );
 
-    mar3D.position.y = 0;
 
-    escena.add(mar3D);
+    mar3D.position.y =
+        0;
+
+
+    escena.add(
+        mar3D
+    );
 
 
     const playa =
@@ -971,14 +1196,20 @@ if (
             ),
 
             new THREE.MeshPhongMaterial({
-                color: 0xf4d28c
+                color:
+                    0xf4d28c
             })
 
         );
 
-    playa.position.y = 0.25;
 
-    escena.add(playa);
+    playa.position.y =
+        0.25;
+
+
+    escena.add(
+        playa
+    );
 
 
     const islaGeometry =
@@ -989,10 +1220,13 @@ if (
             32
         );
 
+
     const islaMaterial =
         new THREE.MeshPhongMaterial({
-            color: 0x3d8b37
+            color:
+                0x3d8b37
         });
+
 
     isla3D =
         new THREE.Mesh(
@@ -1000,17 +1234,24 @@ if (
             islaMaterial
         );
 
-    isla3D.position.y = 1.5;
 
-    escena.add(isla3D);
+    isla3D.position.y =
+        1.5;
+
+
+    escena.add(
+        isla3D
+    );
 
 
     const moaiGroup =
         new THREE.Group();
 
+
     const moaiMaterial =
         new THREE.MeshPhongMaterial({
-            color: 0x777777
+            color:
+                0x777777
         });
 
 
@@ -1028,9 +1269,14 @@ if (
 
         );
 
-    cabeza.position.y = 3.2;
 
-    moaiGroup.add(cabeza);
+    cabeza.position.y =
+        3.2;
+
+
+    moaiGroup.add(
+        cabeza
+    );
 
 
     const cuerpo =
@@ -1047,9 +1293,14 @@ if (
 
         );
 
-    cuerpo.position.y = 2.25;
 
-    moaiGroup.add(cuerpo);
+    cuerpo.position.y =
+        2.25;
+
+
+    moaiGroup.add(
+        cuerpo
+    );
 
 
     const nariz =
@@ -1065,17 +1316,26 @@ if (
 
         );
 
+
     nariz.position.set(
         0,
         3.15,
         -0.42
     );
 
-    moaiGroup.add(nariz);
 
-    moaiGroup.position.z = -1.2;
+    moaiGroup.add(
+        nariz
+    );
 
-    escena.add(moaiGroup);
+
+    moaiGroup.position.z =
+        -1.2;
+
+
+    escena.add(
+        moaiGroup
+    );
 
 
     function redimensionar3D() {
@@ -1085,21 +1345,29 @@ if (
             !renderer ||
             !camara
         ) {
+
             return;
+
         }
+
 
         const ancho =
             contenedor3D.clientWidth;
 
+
         const alto =
             contenedor3D.clientHeight;
+
 
         if (
             ancho <= 0 ||
             alto <= 0
         ) {
+
             return;
+
         }
+
 
         renderer.setSize(
             ancho,
@@ -1107,8 +1375,10 @@ if (
             false
         );
 
+
         camara.aspect =
             ancho / alto;
+
 
         camara.updateProjectionMatrix();
 
@@ -1121,9 +1391,14 @@ if (
             animar3D
         );
 
+
         if (isla3D) {
-            isla3D.rotation.y += 0.002;
+
+            isla3D.rotation.y +=
+                0.002;
+
         }
+
 
         if (
             renderer &&
@@ -1140,7 +1415,9 @@ if (
 
     }
 
+
     animar3D();
+
 
     window.addEventListener(
         "resize",
@@ -1159,35 +1436,42 @@ const abrirSimulador =
         "abrirSimulador"
     );
 
+
 const cerrarSimulador =
     document.getElementById(
         "cerrarSimulador"
     );
+
 
 const simuladorPage =
     document.getElementById(
         "simuladorPage"
     );
 
+
 const slider3D =
     document.getElementById(
         "simuladorSlider"
     );
+
 
 const anio3D =
     document.getElementById(
         "simuladorAnio"
     );
 
+
 const nivel3D =
     document.getElementById(
         "simuladorNivel"
     );
 
+
 const riesgo =
     document.getElementById(
         "riesgoCosta"
     );
+
 
 const selectorMar =
     document.getElementById(
@@ -1209,6 +1493,7 @@ function obtenerAumentoMar(
             ? nivelMarSSP585
             : nivelMarSSP245;
 
+
     return interpolar(
         datosEscenario,
         año
@@ -1227,16 +1512,19 @@ function actualizarSimuladorMar() {
         return;
     }
 
+
     const año =
         parseInt(
             slider3D.value,
             10
         );
 
+
     const escenario =
         selectorMar
             ? selectorMar.value
             : "SSP2-4.5";
+
 
     const aumento =
         obtenerAumentoMar(
@@ -1244,14 +1532,19 @@ function actualizarSimuladorMar() {
             escenario
         );
 
+
     if (aumento === null) {
         return;
     }
 
+
     if (anio3D) {
+
         anio3D.textContent =
             "Año: " + año;
+
     }
+
 
     if (nivel3D) {
 
@@ -1262,15 +1555,18 @@ function actualizarSimuladorMar() {
 
     }
 
+
     if (mar3D) {
 
         const alturaVisual =
             (aumento / 100) * 3;
 
+
         mar3D.position.y =
             alturaVisual;
 
     }
+
 
     if (riesgo) {
 
@@ -1320,6 +1616,7 @@ if (slider3D) {
 
 }
 
+
 if (selectorMar) {
 
     selectorMar.addEventListener(
@@ -1340,12 +1637,15 @@ if (abrirSimulador) {
                 return;
             }
 
+
             simuladorPage.classList.remove(
                 "simuladorOculto"
             );
 
+
             simuladorPage.style.display =
                 "block";
+
 
             setTimeout(
                 function () {
@@ -1359,8 +1659,10 @@ if (abrirSimulador) {
                         const ancho =
                             contenedor3D.clientWidth;
 
+
                         const alto =
                             contenedor3D.clientHeight;
+
 
                         if (
                             ancho > 0 &&
@@ -1373,8 +1675,10 @@ if (abrirSimulador) {
                                 false
                             );
 
+
                             camara.aspect =
                                 ancho / alto;
+
 
                             camara.updateProjectionMatrix();
 
@@ -1382,18 +1686,23 @@ if (abrirSimulador) {
 
                     }
 
+
                     actualizarSimuladorMar();
 
                 },
                 100
             );
 
+
             setTimeout(
                 function () {
 
                     simuladorPage.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
+                        behavior:
+                            "smooth",
+
+                        block:
+                            "start"
                     });
 
                 },
@@ -1416,9 +1725,11 @@ if (cerrarSimulador) {
                 return;
             }
 
+
             simuladorPage.classList.add(
                 "simuladorOculto"
             );
+
 
             simuladorPage.style.display =
                 "none";
@@ -1441,15 +1752,18 @@ const impactoSlider =
         "impactoSlider"
     );
 
+
 const impactoAnio =
     document.getElementById(
         "impactoAnio"
     );
 
+
 const impactoNivel =
     document.getElementById(
         "impactoNivel"
     );
+
 
 const impactoDescripcion =
     document.getElementById(
@@ -1463,16 +1777,21 @@ function actualizarImpacto() {
         return;
     }
 
+
     const año =
         parseInt(
             impactoSlider.value,
             10
         );
 
+
     if (impactoAnio) {
+
         impactoAnio.textContent =
             "Año: " + año;
+
     }
+
 
     const progreso =
         (año - 2000) / 100;
@@ -1481,55 +1800,78 @@ function actualizarImpacto() {
     if (progreso < 0.25) {
 
         if (impactoNivel) {
+
             impactoNivel.textContent =
                 "🟢 Impacto: Bajo";
+
         }
 
+
         if (impactoDescripcion) {
+
             impactoDescripcion.textContent =
                 "Las condiciones proyectadas presentan un impacto relativamente bajo sobre la comunidad.";
+
         }
 
     }
+
 
     else if (progreso < 0.50) {
 
         if (impactoNivel) {
+
             impactoNivel.textContent =
                 "🟡 Impacto: Moderado";
+
         }
 
+
         if (impactoDescripcion) {
+
             impactoDescripcion.textContent =
                 "Comienzan a aumentar los posibles efectos sobre recursos, infraestructura y actividades de la comunidad.";
+
         }
 
     }
+
 
     else if (progreso < 0.75) {
 
         if (impactoNivel) {
+
             impactoNivel.textContent =
                 "🟠 Impacto: Alto";
+
         }
 
+
         if (impactoDescripcion) {
+
             impactoDescripcion.textContent =
                 "La comunidad podría enfrentar una mayor exposición a riesgos costeros y presión sobre recursos naturales.";
+
         }
 
     }
 
+
     else {
 
         if (impactoNivel) {
+
             impactoNivel.textContent =
                 "🔴 Impacto: Muy alto";
+
         }
 
+
         if (impactoDescripcion) {
+
             impactoDescripcion.textContent =
                 "Las proyecciones indican una mayor necesidad de adaptación de infraestructura, gestión de recursos y protección de los ecosistemas.";
+
         }
 
     }
@@ -1545,6 +1887,7 @@ if (impactoSlider) {
     );
 
 }
+
 
 actualizarImpacto();
 
@@ -1563,7 +1906,10 @@ window.addEventListener(
                 function () {
 
                     grafico.resize();
-                    grafico.update("none");
+
+                    grafico.update(
+                        "none"
+                    );
 
                 },
                 100
@@ -1574,6 +1920,8 @@ window.addEventListener(
     }
 );
 
+
+
 // ============================================================
 // 🤖 RAPA NUI FUTURO IA
 // ============================================================
@@ -1581,11 +1929,15 @@ window.addEventListener(
 const IA_RAPA_NUI_URL =
     "https://rapa-nui-futuro-ia.renzo-b-s-escorpio.workers.dev";
 
+
 let historialIA = [];
+
+let enviandoIA = false;
+
 
 
 // ============================================================
-// OBTENER ELEMENTOS DE LA IA
+// ELEMENTOS IA
 // ============================================================
 
 function obtenerElementosIA() {
@@ -1593,45 +1945,65 @@ function obtenerElementosIA() {
     return {
 
         input:
-            document.getElementById("chatInput"),
+            document.getElementById(
+                "chatInput"
+            ),
 
         mensajes:
-            document.getElementById("chatMensajes"),
+            document.getElementById(
+                "chatMensajes"
+            ),
 
-        // IMPORTANTE:
-        // Este ID coincide con tu HTML
         formulario:
-            document.getElementById("chatFormulario"),
+            document.getElementById(
+                "chatFormulario"
+            ),
 
         estado:
-            document.getElementById("estadoApiKey"),
+            document.getElementById(
+                "estadoApiKey"
+            ),
 
-        // IMPORTANTE:
-        // Este ID coincide con tu HTML
         boton:
-            document.getElementById("chatEnviar")
+            document.getElementById(
+                "chatEnviar"
+            )
 
     };
 
 }
 
 
+
 // ============================================================
-// MOSTRAR MENSAJE
+// AGREGAR MENSAJE
 // ============================================================
 
-function agregarMensajeIA(tipo, texto) {
+function agregarMensajeIA(
+    tipo,
+    texto
+) {
 
-    const elementos = obtenerElementosIA();
+    const elementos =
+        obtenerElementosIA();
+
 
     if (!elementos.mensajes) {
 
-        console.error("❌ No existe #chatMensajes");
+        console.error(
+            "❌ No existe #chatMensajes"
+        );
 
         return;
+
     }
 
-    const mensaje = document.createElement("div");
+
+    const mensaje =
+        document.createElement(
+            "div"
+        );
+
 
     mensaje.className =
         tipo === "user"
@@ -1639,9 +2011,15 @@ function agregarMensajeIA(tipo, texto) {
             : "mensaje iaMensaje";
 
 
-    const nombre = document.createElement("div");
+    const nombre =
+        document.createElement(
+            "div"
+        );
 
-    nombre.className = "mensajeNombre";
+
+    nombre.className =
+        "mensajeNombre";
+
 
     nombre.textContent =
         tipo === "user"
@@ -1649,18 +2027,33 @@ function agregarMensajeIA(tipo, texto) {
             : "🤖 Rapa Nui Futuro IA";
 
 
-    const contenido = document.createElement("div");
+    const contenido =
+        document.createElement(
+            "div"
+        );
 
-    contenido.className = "mensajeTexto";
 
-    contenido.textContent = texto;
+    contenido.className =
+        "mensajeTexto";
 
 
-    mensaje.appendChild(nombre);
+    contenido.textContent =
+        texto;
 
-    mensaje.appendChild(contenido);
 
-    elementos.mensajes.appendChild(mensaje);
+    mensaje.appendChild(
+        nombre
+    );
+
+
+    mensaje.appendChild(
+        contenido
+    );
+
+
+    elementos.mensajes.appendChild(
+        mensaje
+    );
 
 
     elementos.mensajes.scrollTop =
@@ -1669,27 +2062,35 @@ function agregarMensajeIA(tipo, texto) {
 }
 
 
+
 // ============================================================
 // CONSULTAR IA
 // ============================================================
 
-async function preguntarRapaNuiIA(mensaje) {
+async function preguntarRapaNuiIA(
+    mensaje
+) {
 
-    console.log("📡 Enviando a Rapa Nui Futuro IA...");
-    console.log("📡 URL:", IA_RAPA_NUI_URL);
+    console.log(
+        "📡 Enviando pregunta..."
+    );
 
 
     historialIA.push({
 
-        role: "user",
+        role:
+            "user",
 
-        content: mensaje
+        content:
+            mensaje
 
     });
 
 
-    // Mantener máximo 20 mensajes
-    if (historialIA.length > 20) {
+    if (
+        historialIA.length >
+        20
+    ) {
 
         historialIA =
             historialIA.slice(-20);
@@ -1697,35 +2098,38 @@ async function preguntarRapaNuiIA(mensaje) {
     }
 
 
-    const respuesta = await fetch(
-        IA_RAPA_NUI_URL,
-        {
+    const respuesta =
+        await fetch(
+            IA_RAPA_NUI_URL,
+            {
 
-            method: "POST",
+                method:
+                    "POST",
 
-            headers: {
+                headers: {
 
-                "Content-Type":
-                    "application/json",
+                    "Content-Type":
+                        "application/json",
 
-                "Accept":
-                    "application/json"
+                    "Accept":
+                        "application/json"
 
-            },
+                },
 
-            body: JSON.stringify({
+                body:
+                    JSON.stringify({
 
-                messages:
-                    historialIA
+                        messages:
+                            historialIA
 
-            })
+                    })
 
-        }
-    );
+            }
+        );
 
 
     console.log(
-        "📡 Estado HTTP:",
+        "📡 HTTP:",
         respuesta.status
     );
 
@@ -1735,7 +2139,7 @@ async function preguntarRapaNuiIA(mensaje) {
 
 
     console.log(
-        "📦 Respuesta del servidor:",
+        "📦 Servidor:",
         texto
     );
 
@@ -1746,7 +2150,9 @@ async function preguntarRapaNuiIA(mensaje) {
     try {
 
         datos =
-            JSON.parse(texto);
+            JSON.parse(
+                texto
+            );
 
     }
 
@@ -1759,29 +2165,20 @@ async function preguntarRapaNuiIA(mensaje) {
     }
 
 
+
     // ========================================================
-    // ERROR DEL SERVIDOR
+    // ERROR
     // ========================================================
 
     if (!respuesta.ok) {
 
         let errorMensaje =
-            "Error del servidor";
+            "Error del servidor.";
 
 
         if (
-            datos.error &&
-            typeof datos.error === "object"
-        ) {
-
-            errorMensaje =
-                datos.error.message ||
-                "Error del servidor";
-
-        }
-
-        else if (
-            typeof datos.error === "string"
+            typeof datos.error ===
+            "string"
         ) {
 
             errorMensaje =
@@ -1789,29 +2186,45 @@ async function preguntarRapaNuiIA(mensaje) {
 
         }
 
-        else if (
-            typeof datos.detalle === "string"
+
+        if (
+            datos.detalle
         ) {
 
-            errorMensaje =
+            errorMensaje +=
+                "\n\nDetalle: " +
                 datos.detalle;
 
         }
 
 
-        throw new Error(errorMensaje);
+        if (
+            datos.status
+        ) {
+
+            errorMensaje +=
+                "\nCódigo HTTP: " +
+                datos.status;
+
+        }
+
+
+        throw new Error(
+            errorMensaje
+        );
 
     }
 
 
+
     // ========================================================
-    // OBTENER RESPUESTA DE LA IA
+    // RESPUESTA IA
     // ========================================================
 
-    let respuestaIA = null;
+    let respuestaIA =
+        null;
 
 
-    // OpenAI compatible
     if (
         datos.choices &&
         datos.choices[0] &&
@@ -1819,17 +2232,18 @@ async function preguntarRapaNuiIA(mensaje) {
     ) {
 
         respuestaIA =
-            datos.choices[0]
+            datos
+                .choices[0]
                 .message
                 .content;
 
     }
 
 
-    // Formato response
     if (
         !respuestaIA &&
-        typeof datos.response === "string"
+        typeof datos.response ===
+        "string"
     ) {
 
         respuestaIA =
@@ -1838,10 +2252,10 @@ async function preguntarRapaNuiIA(mensaje) {
     }
 
 
-    // Formato message
     if (
         !respuestaIA &&
-        typeof datos.message === "string"
+        typeof datos.message ===
+        "string"
     ) {
 
         respuestaIA =
@@ -1857,6 +2271,7 @@ async function preguntarRapaNuiIA(mensaje) {
             datos
         );
 
+
         throw new Error(
             "La IA no devolvió ningún mensaje."
         );
@@ -1864,12 +2279,13 @@ async function preguntarRapaNuiIA(mensaje) {
     }
 
 
-    // Guardar respuesta
     historialIA.push({
 
-        role: "assistant",
+        role:
+            "assistant",
 
-        content: respuestaIA
+        content:
+            respuestaIA
 
     });
 
@@ -1879,13 +2295,16 @@ async function preguntarRapaNuiIA(mensaje) {
 }
 
 
+
 // ============================================================
 // ENVIAR MENSAJE
 // ============================================================
 
 async function enviarMensajeIA() {
 
-    console.log("🚀 ENVIAR IA");
+    if (enviandoIA) {
+        return;
+    }
 
 
     const elementos =
@@ -1895,7 +2314,7 @@ async function enviarMensajeIA() {
     if (!elementos.input) {
 
         console.error(
-            "❌ No encuentro #chatInput"
+            "❌ No existe #chatInput"
         );
 
         return;
@@ -1907,7 +2326,6 @@ async function enviarMensajeIA() {
         elementos.input.value.trim();
 
 
-    // No enviar vacío
     if (!mensaje) {
 
         elementos.input.focus();
@@ -1917,14 +2335,12 @@ async function enviarMensajeIA() {
     }
 
 
-    console.log(
-        "👤 Pregunta:",
-        mensaje
-    );
+    enviandoIA =
+        true;
 
 
     // ========================================================
-    // MOSTRAR PREGUNTA DEL USUARIO
+    // MOSTRAR USUARIO
     // ========================================================
 
     agregarMensajeIA(
@@ -1933,17 +2349,18 @@ async function enviarMensajeIA() {
     );
 
 
-    // Limpiar campo
-    elementos.input.value = "";
+    elementos.input.value =
+        "";
 
 
     // ========================================================
-    // DESACTIVAR BOTÓN
+    // BOTÓN
     // ========================================================
 
     if (elementos.boton) {
 
-        elementos.boton.disabled = true;
+        elementos.boton.disabled =
+            true;
 
         elementos.boton.textContent =
             "⏳ Pensando...";
@@ -1952,31 +2369,42 @@ async function enviarMensajeIA() {
 
 
     // ========================================================
-    // MENSAJE CARGANDO
+    // CARGANDO
     // ========================================================
 
     const cargando =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     cargando.className =
         "mensaje iaMensaje";
 
 
     const nombreCargando =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     nombreCargando.className =
         "mensajeNombre";
+
 
     nombreCargando.textContent =
         "🤖 Rapa Nui Futuro IA";
 
 
     const textoCargando =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     textoCargando.className =
         "mensajeTexto";
+
 
     textoCargando.textContent =
         "⏳ Estoy pensando...";
@@ -1985,6 +2413,7 @@ async function enviarMensajeIA() {
     cargando.appendChild(
         nombreCargando
     );
+
 
     cargando.appendChild(
         textoCargando
@@ -1997,6 +2426,7 @@ async function enviarMensajeIA() {
             cargando
         );
 
+
         elementos.mensajes.scrollTop =
             elementos.mensajes.scrollHeight;
 
@@ -2004,7 +2434,7 @@ async function enviarMensajeIA() {
 
 
     // ========================================================
-    // CONSULTAR SERVIDOR
+    // CONSULTAR
     // ========================================================
 
     try {
@@ -2015,17 +2445,16 @@ async function enviarMensajeIA() {
             );
 
 
-        // Quitar "pensando"
         cargando.remove();
 
 
-        // Mostrar respuesta
         agregarMensajeIA(
             "ia",
             respuesta
         );
 
     }
+
 
     catch (error) {
 
@@ -2042,11 +2471,10 @@ async function enviarMensajeIA() {
 
             "ia",
 
-            "❌ No pude conectarme con Rapa Nui Futuro IA.\n\n" +
-            "Detalle: " +
+            "❌ No pude obtener una respuesta de la IA.\n\n" +
             (
                 error.message ||
-                "Error desconocido"
+                "Error desconocido."
             )
 
         );
@@ -2055,7 +2483,7 @@ async function enviarMensajeIA() {
 
 
     // ========================================================
-    // REACTIVAR BOTÓN
+    // REACTIVAR
     // ========================================================
 
     if (elementos.boton) {
@@ -2069,19 +2497,24 @@ async function enviarMensajeIA() {
     }
 
 
+    enviandoIA =
+        false;
+
+
     elementos.input.focus();
 
 }
 
 
+
 // ============================================================
-// INICIAR EVENTOS
+// INICIAR EVENTOS IA
 // ============================================================
 
 function iniciarEventosIA() {
 
     console.log(
-        "🤖 Iniciando Rapa Nui Futuro IA..."
+        "🤖 Rapa Nui Futuro IA iniciando..."
     );
 
 
@@ -2094,24 +2527,21 @@ function iniciarEventosIA() {
         elementos.input
     );
 
+
     console.log(
         "Botón:",
         elementos.boton
     );
+
 
     console.log(
         "Mensajes:",
         elementos.mensajes
     );
 
-    console.log(
-        "Formulario:",
-        elementos.formulario
-    );
-
 
     // ========================================================
-    // BOTÓN ENVIAR
+    // BOTÓN
     // ========================================================
 
     if (elementos.boton) {
@@ -2129,16 +2559,12 @@ function iniciarEventosIA() {
             }
         );
 
-        console.log(
-            "🟢 Botón de IA conectado correctamente"
-        );
-
     }
 
     else {
 
         console.error(
-            "❌ NO SE ENCONTRÓ #chatEnviar"
+            "❌ No se encontró #chatEnviar"
         );
 
     }
@@ -2161,25 +2587,11 @@ function iniciarEventosIA() {
 
                     event.preventDefault();
 
-                    event.stopPropagation();
-
                     enviarMensajeIA();
 
                 }
 
             }
-        );
-
-        console.log(
-            "🟢 Enter conectado correctamente"
-        );
-
-    }
-
-    else {
-
-        console.error(
-            "❌ NO SE ENCONTRÓ #chatInput"
         );
 
     }
@@ -2192,6 +2604,7 @@ function iniciarEventosIA() {
     comprobarServidorIA();
 
 }
+
 
 
 // ============================================================
@@ -2207,9 +2620,7 @@ async function comprobarServidorIA() {
 
 
     if (!estado) {
-
         return;
-
     }
 
 
@@ -2223,7 +2634,8 @@ async function comprobarServidorIA() {
             await fetch(
                 IA_RAPA_NUI_URL,
                 {
-                    method: "GET"
+                    method:
+                        "GET"
                 }
             );
 
@@ -2238,21 +2650,23 @@ async function comprobarServidorIA() {
         try {
 
             datos =
-                JSON.parse(texto);
+                JSON.parse(
+                    texto
+                );
 
         }
 
         catch {
 
             throw new Error(
-                "El servidor no devolvió JSON."
+                "El servidor no devolvió JSON válido."
             );
 
         }
 
 
         console.log(
-            "🟢 Servidor IA:",
+            "🟢 Estado servidor:",
             datos
         );
 
@@ -2262,8 +2676,22 @@ async function comprobarServidorIA() {
             datos.ok === true
         ) {
 
-            estado.textContent =
-                "🟢 Servidor de Rapa Nui Futuro listo";
+            if (
+                datos.estado ===
+                "API KEY configurada"
+            ) {
+
+                estado.textContent =
+                    "🟢 Servidor de Rapa Nui Futuro listo";
+
+            }
+
+            else {
+
+                estado.textContent =
+                    "🔴 API Key no configurada";
+
+            }
 
         }
 
@@ -2275,6 +2703,7 @@ async function comprobarServidorIA() {
         }
 
     }
+
 
     catch (error) {
 
@@ -2292,12 +2721,14 @@ async function comprobarServidorIA() {
 }
 
 
+
 // ============================================================
-// INICIAR CUANDO LA PÁGINA ESTÉ LISTA
+// INICIO
 // ============================================================
 
 if (
-    document.readyState === "loading"
+    document.readyState ===
+    "loading"
 ) {
 
     document.addEventListener(
