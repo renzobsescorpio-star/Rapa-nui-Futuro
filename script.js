@@ -19,7 +19,8 @@ function mostrar(id) {
         });
 
 
-    const panel = document.getElementById(id);
+    const panel =
+        document.getElementById(id);
 
 
     if (panel) {
@@ -443,7 +444,6 @@ function interpolar(objeto, año) {
     ) {
 
         const año1 = años[i];
-
         const año2 = años[i + 1];
 
 
@@ -532,11 +532,10 @@ const datos = {
         unidad:
             "ppm",
 
-        objeto:
-            {
-                ...co2NOAA,
-                ...co2Proyeccion
-            },
+        objeto: {
+            ...co2NOAA,
+            ...co2Proyeccion
+        },
 
         inicio:
             2000,
@@ -645,9 +644,11 @@ if (
 
                         backgroundColor: "#e53935",
 
-                        pointBackgroundColor: "#e53935",
+                        pointBackgroundColor:
+                            "#e53935",
 
-                        pointBorderColor: "#e53935",
+                        pointBorderColor:
+                            "#e53935",
 
                         pointRadius: 7,
 
@@ -750,14 +751,18 @@ function actualizarGrafico() {
     const variableElement =
         document.getElementById("variableSelect");
 
+
     const yearElement =
         document.getElementById("yearSlider");
+
 
     const selectedYearElement =
         document.getElementById("selectedYear");
 
+
     const valorSeleccionado =
         document.getElementById("valorSeleccionado");
+
 
     const descripcionDatos =
         document.getElementById("descripcionDatos");
@@ -870,14 +875,18 @@ function actualizarGrafico() {
     grafico.data.datasets[0].data =
         puntos;
 
+
     grafico.data.datasets[0].label =
         dataset.nombre;
+
 
     grafico.data.datasets[1].data =
         puntoSeleccionado;
 
+
     grafico.data.datasets[1].label =
         "Año " + año;
+
 
     grafico.options.scales.y.title.text =
         dataset.unidad;
@@ -1023,13 +1032,6 @@ if (
         )
     );
 
-
-    /*
-       IMPORTANTE:
-       El contenedor está oculto al cargar.
-       Por eso NO se intenta redimensionar
-       como si estuviera visible.
-    */
 
     renderer.setSize(
         1,
@@ -1545,11 +1547,6 @@ if (abrirSimulador) {
             }
 
 
-            /*
-               Se abre SOLO cuando el usuario
-               presiona el botón.
-            */
-
             simuladorPage.classList.remove(
                 "simuladorOculto"
             );
@@ -1642,10 +1639,6 @@ if (cerrarSimulador) {
             }
 
 
-            /*
-               Se vuelve a ocultar completamente.
-            */
-
             simuladorPage.classList.add(
                 "simuladorOculto"
             );
@@ -1663,14 +1656,6 @@ if (cerrarSimulador) {
 // ============================================================
 // ESTADO INICIAL DEL SIMULADOR
 // ============================================================
-
-/*
-   MUY IMPORTANTE:
-
-   No abrimos el simulador aquí.
-
-   Solamente actualizamos sus datos.
-*/
 
 actualizarSimuladorMar();
 
@@ -1858,32 +1843,25 @@ window.addEventListener(
 
 
 // ============================================================
-// IA — RAPANUI FUTURO
+// 🤖 IA — RAPANUI FUTURO
+// ============================================================
+//
+// IMPORTANTE:
+//
+// La API Key NO está aquí.
+//
+// La clave está protegida como secreto
+// dentro del Cloudflare Worker.
+//
+// El navegador solamente se comunica
+// con el Worker.
+//
 // ============================================================
 
-const apiKeyInput =
-    document.getElementById(
-        "apiKeyInput"
-    );
 
-
-const guardarApiKey =
-    document.getElementById(
-        "guardarApiKey"
-    );
-
-
-const borrarApiKey =
-    document.getElementById(
-        "borrarApiKey"
-    );
-
-
-const estadoApiKey =
-    document.getElementById(
-        "estadoApiKey"
-    );
-
+// ============================================================
+// ELEMENTOS DEL CHAT
+// ============================================================
 
 const chatForm =
     document.getElementById(
@@ -1904,170 +1882,131 @@ const chatMensajes =
 
 
 // ============================================================
-// CONFIGURACIÓN IA
+// CLOUDFLARE WORKER
 // ============================================================
 
-const IA_MODEL =
-    "openai/gpt-5.2";
-
-
 const IA_ENDPOINT =
-    "https://openrouter.ai/api/v1/chat/completions";
+    "https://rapa-nui-futuro-ia.renzo-b-s-escorpio.workers.dev";
 
+
+// ============================================================
+// HISTORIAL DE CONVERSACIÓN
+// ============================================================
 
 let historialIA = [];
 
 
 // ============================================================
-// API KEY
+// PERSONALIDAD DE LA IA
 // ============================================================
 
-function obtenerApiKey() {
+const IA_SYSTEM_PROMPT = `
 
-    return localStorage.getItem(
-        "rapanui_futuro_api_key"
-    );
+Eres "Rapa Nui Futuro IA".
 
-}
+Eres una inteligencia artificial educativa
+integrada en la plataforma Rapa Nui Futuro.
 
+Tu especialidad es:
 
-function actualizarEstadoApiKey() {
+- Rapa Nui
+- Isla de Pascua
+- Cambio climático
+- Océano
+- Biodiversidad
+- Contaminación
+- Patrimonio
+- Turismo sostenible
+- Conservación
+- Agua
+- Energías limpias
+- Adaptación climática
+- Educación ambiental
+- Ciencia
 
-    if (!estadoApiKey) {
-        return;
-    }
+Tu objetivo es ayudar a estudiantes,
+visitantes y personas interesadas en Rapa Nui.
 
+Responde siempre en español.
 
-    const clave =
-        obtenerApiKey();
+Utiliza un lenguaje claro,
+educativo, natural y cercano.
 
+Puedes utilizar emojis moderadamente.
 
-    if (clave) {
+IMPORTANTE:
 
-        estadoApiKey.innerHTML =
-            "🟢 IA configurada correctamente";
+Las simulaciones de Rapa Nui Futuro
+son educativas.
 
-        estadoApiKey.style.color =
-            "#2e7d32";
+No debes presentarlas como predicciones
+exactas del futuro.
 
-    } else {
+Si no conoces un dato,
+debes decirlo claramente.
 
-        estadoApiKey.innerHTML =
-            "🔴 IA no configurada";
+No inventes fuentes científicas.
 
-        estadoApiKey.style.color =
-            "#c62828";
+DATOS EDUCATIVOS ACTUALES
+DE LA PLATAFORMA:
 
-    }
+Nivel del mar SSP2-4.5:
 
-}
+2025 = 10 cm
+2050 = 25 cm
+2100 = 66 cm
 
+Nivel del mar SSP5-8.5:
 
-if (apiKeyInput) {
+2025 = 11 cm
+2050 = 32 cm
+2100 = 86 cm
 
-    const claveGuardada =
-        obtenerApiKey();
+Temperatura oceánica de referencia:
 
+2025 = 23.2 °C
+2050 = 24.2 °C
+2100 = 25.6 °C
 
-    if (claveGuardada) {
+CO₂:
 
-        apiKeyInput.value =
-            claveGuardada;
+2025 = 427.35 ppm
 
-    }
+Estos datos pertenecen a las
+visualizaciones educativas
+de la plataforma.
 
-}
+Cuando sea apropiado, recomienda acciones
+para proteger Rapa Nui:
 
+- reducir residuos
+- proteger el océano
+- cuidar el agua
+- proteger la biodiversidad
+- reducir emisiones
+- utilizar energía eficientemente
+- proteger la costa
+- restaurar ecosistemas
+- fomentar turismo sostenible
+- participar en iniciativas comunitarias
 
-actualizarEstadoApiKey();
+Tu identidad es:
 
+"Rapa Nui Futuro IA"
 
-// ============================================================
-// GUARDAR API KEY
-// ============================================================
+No afirmes que eres ChatGPT.
 
-if (guardarApiKey) {
+Si una persona pregunta por algo
+que requiere datos en tiempo real
+que no están disponibles en la página,
+explica que no tienes acceso automático
+a todas las mediciones actuales.
 
-    guardarApiKey.addEventListener(
-        "click",
-        function () {
-
-            if (!apiKeyInput) {
-                return;
-            }
-
-
-            const clave =
-                apiKeyInput.value.trim();
-
-
-            if (!clave) {
-
-                alert(
-                    "Escribe una API Key primero."
-                );
-
-                return;
-
-            }
-
-
-            localStorage.setItem(
-                "rapanui_futuro_api_key",
-                clave
-            );
-
-
-            actualizarEstadoApiKey();
-
-
-            alert(
-                "✅ API Key guardada solamente en este navegador."
-            );
-
-        }
-    );
-
-}
+`;
 
 
 // ============================================================
-// BORRAR API KEY
-// ============================================================
-
-if (borrarApiKey) {
-
-    borrarApiKey.addEventListener(
-        "click",
-        function () {
-
-            localStorage.removeItem(
-                "rapanui_futuro_api_key"
-            );
-
-
-            if (apiKeyInput) {
-
-                apiKeyInput.value = "";
-
-            }
-
-
-            actualizarEstadoApiKey();
-
-
-            alert(
-                "🗑️ API Key eliminada."
-            );
-
-        }
-    );
-
-}
-
-
-// ============================================================
-// MENSAJES DEL CHAT
+// AGREGAR MENSAJE
 // ============================================================
 
 function agregarMensaje(
@@ -2076,7 +2015,7 @@ function agregarMensaje(
 ) {
 
     if (!chatMensajes) {
-        return;
+        return null;
     }
 
 
@@ -2162,8 +2101,8 @@ function agregarMensajeCarga() {
         "mensaje iaMensaje";
 
 
-    mensaje.innerHTML =
-        `
+    mensaje.innerHTML = `
+
         <div class="mensajeNombre">
             🤖 Rapa Nui Futuro IA
         </div>
@@ -2171,7 +2110,8 @@ function agregarMensajeCarga() {
         <div class="mensajeTexto">
             Pensando... 🧠
         </div>
-        `;
+
+    `;
 
 
     chatMensajes.appendChild(
@@ -2189,104 +2129,12 @@ function agregarMensajeCarga() {
 
 
 // ============================================================
-// CONTEXTO DE RAPANUI FUTURO
+// PREGUNTAR A LA IA
 // ============================================================
 
-const IA_SYSTEM_PROMPT = `
-
-Eres "Rapa Nui Futuro IA", un asistente educativo especializado
-en Rapa Nui (Isla de Pascua), cambio climático, océano,
-biodiversidad, contaminación, patrimonio y adaptación ambiental.
-
-Tu función es ayudar a estudiantes y visitantes a comprender
-los contenidos de la plataforma Rapa Nui Futuro.
-
-Debes responder en español, de manera clara, educativa y natural.
-
-Puedes hablar sobre:
-
-- Rapa Nui.
-- Cambio climático.
-- Nivel del mar.
-- Temperatura del océano.
-- Biodiversidad.
-- Contaminación marina.
-- Conservación.
-- Agua.
-- Turismo sostenible.
-- Patrimonio.
-- Energías limpias.
-- Adaptación climática.
-- Educación ambiental.
-- Ciencia.
-
-IMPORTANTE:
-
-Las cifras y simulaciones de la página son educativas.
-No debes presentar las proyecciones de la página como predicciones
-exactas de lo que ocurrirá en Rapa Nui.
-
-Si el usuario pregunta por datos actuales que no aparecen en
-el contexto entregado, debes indicarle que no tienes acceso
-automático a todas las mediciones en tiempo real.
-
-No inventes fuentes científicas.
-
-Si no sabes algo, dilo claramente.
-
-Mantén un tono cercano y educativo.
-
-Puedes utilizar emojis moderadamente.
-
-La página utiliza actualmente:
-
-Nivel del mar SSP2-4.5:
-2025 = 10 cm
-2050 = 25 cm
-2100 = 66 cm
-
-Nivel del mar SSP5-8.5:
-2025 = 11 cm
-2050 = 32 cm
-2100 = 86 cm
-
-Temperatura oceánica de referencia:
-2025 = 23.2 °C
-2050 = 24.2 °C
-2100 = 25.6 °C
-
-CO2:
-2025 = 427.35 ppm
-
-Estos valores forman parte de las visualizaciones educativas
-de la página y deben tratarse como tales.
-
-Si el usuario pregunta qué puede hacer para ayudar a Rapa Nui,
-puedes recomendar acciones como proteger la costa, cuidar el agua,
-reducir residuos, proteger el océano, restaurar suelos,
-usar energía eficientemente y participar en acciones comunitarias.
-
-`
-
-
-// ============================================================
-// LLAMAR A LA IA
-// ============================================================
-
-async function preguntarIA(pregunta) {
-
-    const apiKey =
-        obtenerApiKey();
-
-
-    if (!apiKey) {
-
-        throw new Error(
-            "No hay una API Key configurada."
-        );
-
-    }
-
+async function preguntarIA(
+    pregunta
+) {
 
     historialIA.push({
 
@@ -2298,15 +2146,15 @@ async function preguntarIA(pregunta) {
 
 
     /*
-       Limitamos el historial para evitar
-       enviar una conversación enorme.
+       Solo enviamos las últimas
+       10 intervenciones.
     */
 
     const historialReciente =
         historialIA.slice(-10);
 
 
-    const mensajes = [
+    const messages = [
 
         {
 
@@ -2324,7 +2172,9 @@ async function preguntarIA(pregunta) {
 
     const respuesta =
         await fetch(
+
             IA_ENDPOINT,
+
             {
 
                 method: "POST",
@@ -2332,75 +2182,53 @@ async function preguntarIA(pregunta) {
                 headers: {
 
                     "Content-Type":
-                        "application/json",
-
-                    "Authorization":
-                        "Bearer " + apiKey,
-
-                    "HTTP-Referer":
-                        window.location.href,
-
-                    "X-Title":
-                        "Rapa Nui Futuro"
+                        "application/json"
 
                 },
 
                 body: JSON.stringify({
 
-                    model:
-                        IA_MODEL,
-
                     messages:
-                        mensajes,
-
-                    temperature:
-                        0.7,
-
-                    max_tokens:
-                        700
+                        messages
 
                 })
 
             }
+
         );
+
+
+    let datosRespuesta = null;
+
+
+    try {
+
+        datosRespuesta =
+            await respuesta.json();
+
+    }
+
+    catch {
+
+        datosRespuesta = null;
+
+    }
 
 
     if (!respuesta.ok) {
 
-        let detalle = "";
-
-        try {
-
-            detalle =
-                await respuesta.text();
-
-        }
-
-        catch {
-
-            detalle = "";
-
-        }
-
-
         throw new Error(
-            "Error de la IA (" +
-            respuesta.status +
-            "). " +
-            detalle
+
+            datosRespuesta?.error ||
+            "Error conectando con el servidor de IA."
+
         );
 
     }
 
 
-    const datosRespuesta =
-        await respuesta.json();
-
-
     const contenido =
-        datosRespuesta
-            ?.choices?.[0]
-            ?.message?.content;
+        datosRespuesta?.respuesta;
 
 
     if (!contenido) {
@@ -2433,8 +2261,10 @@ async function preguntarIA(pregunta) {
 if (chatForm) {
 
     chatForm.addEventListener(
+
         "submit",
-        async function (evento) {
+
+        async function(evento) {
 
             evento.preventDefault();
 
@@ -2453,24 +2283,7 @@ if (chatForm) {
             }
 
 
-            const apiKey =
-                obtenerApiKey();
-
-
-            if (!apiKey) {
-
-                agregarMensaje(
-
-                    "Primero debes configurar tu API Key en la sección ⚙️ Configuración de la IA.",
-
-                    "ia"
-
-                );
-
-                return;
-
-            }
-
+            // Mostrar pregunta del usuario
 
             agregarMensaje(
                 pregunta,
@@ -2478,8 +2291,12 @@ if (chatForm) {
             );
 
 
+            // Limpiar campo
+
             chatInput.value = "";
 
+
+            // Desactivar mientras responde
 
             chatInput.disabled =
                 true;
@@ -2501,6 +2318,8 @@ if (chatForm) {
 
             }
 
+
+            // Mostrar carga
 
             const mensajeCarga =
                 agregarMensajeCarga();
@@ -2537,12 +2356,21 @@ if (chatForm) {
 
 
                 /*
-                   Si la solicitud falló,
-                   eliminamos la pregunta del historial
-                   para no contaminar la conversación.
+                   Si falla la petición,
+                   eliminamos la última
+                   pregunta del historial.
                 */
 
-                historialIA.pop();
+                if (
+                    historialIA.length > 0 &&
+                    historialIA[
+                        historialIA.length - 1
+                    ].role === "user"
+                ) {
+
+                    historialIA.pop();
+
+                }
 
 
                 if (mensajeCarga) {
@@ -2553,39 +2381,51 @@ if (chatForm) {
 
 
                 let mensajeError =
-                    "No pude conectarme con la IA.";
+                    "❌ No pude conectarme con Rapa Nui Futuro IA.";
+
+
+                const textoError =
+                    String(
+                        error?.message || ""
+                    );
 
 
                 if (
-                    error.message.includes(
-                        "401"
-                    )
+                    textoError.includes("401")
                 ) {
 
                     mensajeError =
-                        "🔑 La API Key parece ser incorrecta o no está autorizada.";
+                        "🔑 El servidor rechazó la autenticación. " +
+                        "Revisa OPENAI_API_KEY en Cloudflare.";
 
                 }
 
                 else if (
-                    error.message.includes(
-                        "429"
-                    )
+                    textoError.includes("403")
                 ) {
 
                     mensajeError =
-                        "⏳ Se alcanzó un límite de solicitudes. Intenta nuevamente en unos momentos.";
+                        "🚫 La solicitud fue rechazada por el servidor.";
 
                 }
 
                 else if (
-                    error.message.includes(
-                        "403"
-                    )
+                    textoError.includes("429")
                 ) {
 
                     mensajeError =
-                        "🚫 La solicitud fue rechazada. Revisa tu API Key y la configuración de tu cuenta.";
+                        "⏳ Se alcanzó un límite de solicitudes. " +
+                        "Espera unos segundos e inténtalo nuevamente.";
+
+                }
+
+                else if (
+                    textoError.includes("Failed to fetch")
+                ) {
+
+                    mensajeError =
+                        "🌐 No se pudo conectar con el Worker de Cloudflare. " +
+                        "Comprueba que esté desplegado.";
 
                 }
 
@@ -2619,6 +2459,7 @@ if (chatForm) {
             }
 
         }
+
     );
 
 }
@@ -2631,8 +2472,10 @@ if (chatForm) {
 if (chatInput) {
 
     chatInput.addEventListener(
+
         "keydown",
-        function (evento) {
+
+        function(evento) {
 
             if (
                 evento.key === "Enter" &&
@@ -2651,6 +2494,7 @@ if (chatInput) {
             }
 
         }
+
     );
 
 }
@@ -2661,11 +2505,14 @@ if (chatInput) {
 // ============================================================
 
 window.addEventListener(
+
     "load",
-    function () {
+
+    function() {
 
         setTimeout(
-            function () {
+
+            function() {
 
                 if (grafico) {
 
@@ -2677,7 +2524,8 @@ window.addEventListener(
 
 
                 /*
-                   No abrimos el simulador aquí.
+                   No abrir automáticamente
+                   el simulador.
                 */
 
                 if (
@@ -2691,14 +2539,18 @@ window.addEventListener(
                         "simuladorOculto"
                     );
 
+
                     simuladorPage.style.display =
                         "none";
 
                 }
 
             },
+
             300
+
         );
 
     }
+
 );
